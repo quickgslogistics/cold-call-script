@@ -1,0 +1,2557 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>QuickGS Logistics — Cold Call Script</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0A0B0D;
+    --bg2: #111316;
+    --bg3: #18191F;
+    --bg4: #1E2028;
+    --border: #242630;
+    --border2: #2E3040;
+    --text: #EDF0F7;
+    --text2: #8E97AB;
+    --text3: #4E5568;
+    --green: #2ECC8A;
+    --green-bright: #3DEBA0;
+    --green-dim: #0F2E1E;
+    --green-text: #2ECC8A;
+    --purple: #9B8FEF;
+    --purple-dim: #1D1A38;
+    --orange: #F5A623;
+    --orange-bright: #FFB84D;
+    --orange-dim: #2A1E08;
+    --red: #F05C5C;
+    --red-dim: #261212;
+    --blue: #5BA8FF;
+    --blue-dim: #101E33;
+    --yellow: #FBBF24;
+    --yellow-dim: #251D08;
+    --teal: #26C6DA;
+    --teal-dim: #0A2228;
+    --pink: #F472B6;
+    --pink-dim: #291020;
+    --shadow-sm: 0 1px 3px rgba(0,0,0,0.4);
+    --shadow-md: 0 4px 12px rgba(0,0,0,0.5);
+    --shadow-lg: 0 8px 32px rgba(0,0,0,0.6);
+    --radius: 8px;
+    --radius-sm: 5px;
+    --radius-lg: 12px;
+    --glow-green: 0 0 16px rgba(46,204,138,0.2);
+    --glow-blue: 0 0 16px rgba(91,168,255,0.15);
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    font-size: 15px;
+    line-height: 1.6;
+  }
+
+  .app { display: flex; min-height: 100vh; }
+
+  /* ===== SIDEBAR ===== */
+  .sidebar {
+    width: 248px;
+    background: var(--bg2);
+    border-right: 1px solid var(--border);
+    padding: 0;
+    position: fixed;
+    top: 0; left: 0; bottom: 0;
+    overflow-y: auto;
+    z-index: 100;
+    flex-shrink: 0;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .sidebar-logo {
+    padding: 1.25rem 1.25rem 1rem;
+    border-bottom: 1px solid var(--border);
+    background: var(--bg3);
+  }
+  .sidebar-logo .company {
+    font-size: 12px; font-weight: 600; color: var(--green);
+    letter-spacing: 0.1em; text-transform: uppercase;
+    display: flex; align-items: center; gap: 6px;
+  }
+  .sidebar-logo .company::before {
+    content: ''; width: 8px; height: 8px; border-radius: 50%;
+    background: var(--green); box-shadow: var(--glow-green); flex-shrink: 0;
+  }
+  .sidebar-logo .subtitle { font-size: 11px; color: var(--text3); margin-top: 3px; font-family: 'DM Mono', monospace; }
+
+  .sidebar-nav { flex: 1; padding: 0.75rem 0; }
+  .sidebar-section { padding: 0 0.75rem; margin-bottom: 1rem; }
+  .sidebar-section-label {
+    font-size: 9px; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase;
+    color: var(--text3); padding: 0 0.5rem; margin-bottom: 0.4rem;
+    font-family: 'DM Mono', monospace;
+  }
+
+  .nav-item {
+    display: flex; align-items: center; gap: 9px;
+    padding: 6px 9px; border-radius: var(--radius-sm);
+    cursor: pointer; font-size: 12.5px; color: var(--text2);
+    transition: all 0.14s; border: 1px solid transparent; margin-bottom: 1px;
+  }
+  .nav-item:hover { background: var(--bg4); color: var(--text); }
+  .nav-item.active { background: var(--bg4); color: var(--text); border-color: var(--border2); box-shadow: var(--shadow-sm); }
+  .nav-item .num {
+    width: 20px; height: 20px; border-radius: 4px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 10px; font-weight: 500; font-family: 'DM Mono', monospace; flex-shrink: 0;
+  }
+  .nav-item .label { flex: 1; line-height: 1.3; }
+  .nav-item.done .num { background: var(--green-dim); color: var(--green); }
+  .nav-item.active .num { background: var(--green); color: #000; font-weight: 700; }
+  .nav-item:not(.active):not(.done) .num { background: var(--bg); color: var(--text3); border: 1px solid var(--border); }
+
+  /* Progress bar */
+  .progress-wrap { padding: 0.75rem 1.25rem 0.5rem; border-bottom: 1px solid var(--border); }
+  .pb-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 5px; }
+  .pb-label { font-size: 10px; color: var(--text3); font-family: 'DM Mono', monospace; }
+  .pb-pct { font-size: 11px; font-weight: 600; color: var(--green); font-family: 'DM Mono', monospace; }
+  .pb-track { height: 3px; background: var(--border); border-radius: 4px; overflow: hidden; }
+  .pb-fill { height: 100%; background: linear-gradient(90deg, var(--green), var(--green-bright)); border-radius: 4px; transition: width 0.4s cubic-bezier(.4,0,.2,1); }
+
+  /* Call timer */
+  .call-timer-widget {
+    margin: 0.75rem 0.75rem 0.25rem;
+    background: var(--bg3); border: 1px solid var(--border);
+    border-radius: var(--radius); padding: 10px 12px;
+  }
+  .cw-label { font-size: 9px; color: var(--text3); font-family: 'DM Mono', monospace; text-transform: uppercase; letter-spacing: 0.12em; margin-bottom: 5px; display: flex; align-items: center; gap: 5px; }
+  .cw-label::before { content: '⏱'; font-style: normal; }
+  .cw-time { font-size: 24px; font-family: 'DM Mono', monospace; color: var(--text); letter-spacing: 0.08em; margin-bottom: 7px; transition: color 0.3s; }
+  .cw-time.running { color: var(--green); text-shadow: var(--glow-green); }
+  .cw-time.warning { color: var(--orange); }
+  .cw-btns { display: flex; gap: 5px; }
+  .cw-btn {
+    flex: 1; padding: 5px 0; border-radius: 5px; font-size: 10.5px; font-family: 'DM Mono', monospace;
+    cursor: pointer; border: 1px solid var(--border2); background: var(--bg); color: var(--text2);
+    transition: all 0.14s; text-align: center;
+  }
+  .cw-btn:hover { background: var(--bg3); color: var(--text); }
+  .cw-btn.start { color: var(--green); border-color: rgba(46,204,138,0.25); }
+  .cw-btn.start:hover { background: var(--green-dim); }
+  .cw-btn.stop { color: var(--orange); }
+  .cw-btn.reset { color: var(--text3); }
+
+
+  /* ===== MAIN ===== */
+  .main { margin-left: 248px; flex: 1; min-height: 100vh; display: flex; flex-direction: column; }
+
+  .topbar {
+    padding: 0.85rem 2rem; border-bottom: 1px solid var(--border);
+    display: flex; align-items: center; justify-content: space-between;
+    background: rgba(17,19,22,0.96); backdrop-filter: blur(12px);
+    position: sticky; top: 0; z-index: 50;
+  }
+  .topbar-left {}
+  .topbar-title { font-size: 13.5px; font-weight: 600; color: var(--text); letter-spacing: 0.01em; }
+  .topbar-sub { font-size: 11px; color: var(--text3); font-family: 'DM Mono', monospace; margin-top: 1px; }
+  .topbar-actions { display: flex; gap: 6px; align-items: center; }
+  .btn {
+    padding: 6px 13px; border-radius: var(--radius-sm); font-size: 12.5px;
+    font-family: 'DM Sans', sans-serif; cursor: pointer; transition: all 0.14s;
+    border: 1px solid var(--border2); background: var(--bg3); color: var(--text2); font-weight: 400;
+    display: flex; align-items: center; gap: 5px;
+  }
+  .btn:hover { color: var(--text); border-color: var(--text3); background: var(--bg4); }
+  .btn.primary { background: var(--green); color: #000; border-color: var(--green); font-weight: 600; }
+  .btn.primary:hover { background: var(--green-bright); box-shadow: var(--glow-green); }
+  .btn.danger { background: var(--red-dim); color: var(--red); border-color: rgba(240,92,92,0.25); }
+
+
+  /* PROSPECT INFO BAR */
+  .prospect-bar {
+    background: var(--bg3); border-bottom: 1px solid var(--border);
+    padding: 7px 2rem; display: flex; align-items: center; gap: 14px; flex-wrap: wrap;
+  }
+  .pf-label { font-size: 10px; color: var(--text3); font-family: 'DM Mono', monospace; text-transform: uppercase; letter-spacing: 0.08em; flex-shrink: 0; }
+  .pf-field {
+    background: transparent; border: none; border-bottom: 1px solid var(--border2);
+    color: var(--text); font-family: 'DM Sans', sans-serif; font-size: 12px;
+    padding: 2px 5px; outline: none; transition: border-color 0.15s;
+  }
+  .pf-field:focus { border-color: var(--green); }
+  .pf-field::placeholder { color: var(--text3); }
+  .pf-trucks { display: flex; align-items: center; gap: 4px; }
+  .truck-btn {
+    width: 23px; height: 23px; border-radius: 4px; border: 1px solid var(--border2);
+    background: var(--bg); color: var(--text3); font-size: 10px; font-family: 'DM Mono', monospace;
+    cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.13s;
+  }
+  .truck-btn.on { background: var(--green-dim); border-color: rgba(46,204,138,0.4); color: var(--green); }
+
+  /* CONTENT */
+  .content { padding: 2rem; flex: 1; max-width: 880px; }
+
+  /* EDIT BADGE */
+  .edit-badge {
+    display: none; align-items: center; gap: 5px; font-size: 10px; color: var(--blue);
+    font-family: 'DM Mono', monospace; padding: 4px 9px; background: var(--blue-dim);
+    border-radius: 4px; border: 1px solid rgba(91,168,255,0.2);
+  }
+  body.edit-mode .edit-badge { display: flex; }
+
+  /* STAGE HEADER */
+  .stage-header {
+    display: flex; align-items: flex-start; gap: 14px;
+    margin-bottom: 1.75rem; padding-bottom: 1.25rem; border-bottom: 1px solid var(--border);
+  }
+  .stage-badge {
+    width: 42px; height: 42px; border-radius: 10px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 14px; font-weight: 700; flex-shrink: 0;
+    font-family: 'DM Mono', monospace;
+  }
+  .stage-info h2 { font-size: 19px; font-weight: 600; color: var(--text); margin-bottom: 4px; letter-spacing: -0.01em; }
+  .stage-info .goal { font-size: 13px; color: var(--text2); line-height: 1.65; max-width: 620px; }
+  .stage-info .tonality-pill {
+    display: inline-flex; align-items: center; gap: 5px; margin-top: 8px;
+    padding: 3px 9px; border-radius: 20px; font-size: 10.5px; font-weight: 500;
+    font-family: 'DM Mono', monospace; background: var(--bg4);
+    border: 1px solid var(--border2); color: var(--text3);
+  }
+  .tonality-pill span { width: 6px; height: 6px; border-radius: 50%; flex-shrink: 0; }
+
+  /* TURN */
+  .turn { margin-bottom: 1.1rem; }
+  .turn-role {
+    font-size: 10.5px; font-weight: 600; letter-spacing: 0.09em; text-transform: uppercase;
+    font-family: 'DM Mono', monospace; margin-bottom: 4px;
+    display: flex; align-items: center; gap: 7px;
+  }
+  .turn-role .role-dot { width: 5px; height: 5px; border-radius: 50%; flex-shrink: 0; }
+
+  .speech {
+    padding: 13px 17px; border-radius: 0 var(--radius) var(--radius) 0;
+    font-size: 13.5px; line-height: 1.8; border-left: 3px solid transparent; position: relative;
+  }
+  .speech.you { background: var(--bg2); border-left-color: var(--green); }
+  .speech.them { background: var(--bg); border: 1px solid var(--border); border-left: 3px solid var(--purple); }
+  .speech.system { background: var(--bg3); border: 1px solid var(--border); border-left: 3px solid var(--orange); font-style: italic; color: var(--text2); font-size: 13px; }
+  .speech.sms-preview { background: var(--blue-dim); border: 1px solid rgba(91,168,255,0.2); border-left: 3px solid var(--blue); font-size: 13px; }
+
+
+  .speech-copy-btn {
+    position: absolute; top: 8px; right: 8px;
+    opacity: 0; transition: opacity 0.15s;
+    padding: 3px 8px; border-radius: 4px;
+    border: 1px solid var(--border2);
+    background: var(--bg3); color: var(--text3);
+    font-size: 10px; cursor: pointer; font-family: 'DM Mono', monospace;
+  }
+  .speech:hover .speech-copy-btn { opacity: 1; }
+  .speech-copy-btn:hover { color: var(--text); border-color: var(--text3); }
+
+  .speech[contenteditable="true"] { outline: none; cursor: text; }
+  .speech[contenteditable="true"]:focus { border-left-color: var(--blue) !important; background: var(--bg3); box-shadow: 0 0 0 1px rgba(91,168,255,0.15); }
+  .speech[contenteditable="true"]:hover:not(:focus) { border-left-color: var(--text3) !important; }
+
+  .hl { background: rgba(245,166,35,0.14); color: var(--orange-bright); padding: 1px 5px; border-radius: 3px; font-size: 13px; }
+  .hl-g { background: rgba(46,204,138,0.12); color: var(--green); padding: 1px 5px; border-radius: 3px; font-size: 13px; }
+  .hl-p { background: rgba(155,143,239,0.14); color: var(--purple); padding: 1px 5px; border-radius: 3px; font-size: 13px; }
+  .hl-b { background: rgba(91,168,255,0.13); color: var(--blue); padding: 1px 5px; border-radius: 3px; font-size: 13px; }
+
+  .tip {
+    font-size: 11.5px; color: var(--text3); margin-top: 5px;
+    padding-left: 3px; font-style: italic; display: flex; align-items: flex-start; gap: 6px;
+  }
+  .tip::before { content: '↳'; font-style: normal; flex-shrink: 0; color: var(--text3); margin-top: 1px; }
+
+  .section-label {
+    font-size: 9.5px; font-weight: 600; letter-spacing: 0.11em; text-transform: uppercase;
+    color: var(--text3); font-family: 'DM Mono', monospace;
+    margin: 1.5rem 0 0.65rem; padding-bottom: 0.4rem; border-bottom: 1px solid var(--border);
+  }
+
+  /* ===== SCENARIO BUTTONS ===== */
+  .scenario-group { margin: 0.9rem 0 1.25rem; }
+  .scenario-group-label {
+    font-size: 9.5px; font-weight: 600; letter-spacing: 0.11em; text-transform: uppercase;
+    color: var(--text3); font-family: 'DM Mono', monospace; margin-bottom: 8px;
+    display: flex; align-items: center; gap: 7px;
+  }
+  .scenario-group-label::before { content: '◈'; font-style: normal; color: var(--border2); font-size: 11px; }
+  .scenario-btns { display: flex; flex-wrap: wrap; gap: 7px; }
+  .scenario-btn {
+    padding: 6px 13px; border-radius: var(--radius-sm); border: 1px solid var(--border2);
+    background: var(--bg3); color: var(--text2); font-size: 12px; font-family: 'DM Sans', sans-serif;
+    cursor: pointer; transition: all 0.13s; display: flex; align-items: center; gap: 6px;
+  }
+  .scenario-btn:hover { border-color: var(--text3); color: var(--text); background: var(--bg4); }
+  .scenario-btn.active { background: var(--green-dim); border-color: rgba(46,204,138,0.35); color: var(--green); }
+  .scenario-btn .s-dot { width: 5px; height: 5px; border-radius: 50%; background: var(--border2); flex-shrink: 0; transition: background 0.13s; }
+  .scenario-btn.active .s-dot { background: var(--green); }
+  .scenario-btn.alt { }
+  .scenario-btn.alt.active { background: var(--orange-dim); border-color: rgba(245,166,35,0.3); color: var(--orange); }
+  .scenario-btn.alt.active .s-dot { background: var(--orange); }
+
+  /* Scenario panels */
+  .scenario-panel { display: none; animation: fadeSlide 0.18s ease; }
+  .scenario-panel.active { display: block; }
+  @keyframes fadeSlide { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
+
+  /* ===== OBJECTION CARD ===== */
+  .obj-card { background: var(--bg2); border: 1px solid var(--border); border-radius: var(--radius); padding: 1rem 1.2rem; margin-bottom: 0.75rem; transition: border-color 0.14s; }
+  .obj-card:hover { border-color: var(--border2); }
+  .obj-q { font-size: 13px; font-weight: 500; color: var(--orange); margin-bottom: 10px; display: flex; align-items: center; gap: 7px; }
+  .obj-q::before { content: '"'; font-size: 20px; line-height: 1; color: var(--border2); }
+  .obj-layers { display: flex; flex-direction: column; gap: 7px; }
+  .obj-layer { display: flex; gap: 9px; align-items: flex-start; }
+  .layer-num {
+    width: 20px; height: 20px; border-radius: 4px; background: var(--bg3);
+    border: 1px solid var(--border2); font-size: 10px; font-family: 'DM Mono', monospace;
+    color: var(--text3); display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0; margin-top: 2px;
+  }
+  .layer-text {
+    font-size: 13px; line-height: 1.7; color: var(--text2); background: var(--bg3);
+    padding: 8px 12px; border-radius: var(--radius-sm); flex: 1; border-left: 2px solid var(--green-dim);
+  }
+  .layer-text[contenteditable="true"]:focus { outline: 1px solid var(--blue); border-left-color: var(--blue); }
+  .layer-note { font-size: 11px; color: var(--text3); font-style: italic; margin-top: 3px; padding-left: 2px; }
+
+  /* TONALITY PANEL */
+  .tonality-panel { background: var(--bg2); border: 1px solid var(--border); border-radius: var(--radius); padding: 1.2rem; margin-bottom: 1rem; }
+  .tp-title { font-size: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.11em; color: var(--text3); font-family: 'DM Mono', monospace; margin-bottom: 1rem; }
+  .tp-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0.65rem; }
+  .tp-item { background: var(--bg3); border-radius: var(--radius-sm); padding: 10px 12px; border: 1px solid var(--border); }
+  .tp-stage { font-size: 10px; color: var(--text3); font-family: 'DM Mono', monospace; margin-bottom: 3px; }
+  .tp-tone { font-size: 13px; color: var(--text); font-weight: 600; margin-bottom: 3px; }
+  .tp-desc { font-size: 12px; color: var(--text2); line-height: 1.5; }
+  .tp-meter { display: flex; gap: 3px; margin-top: 6px; }
+  .tp-dot { width: 8px; height: 3px; border-radius: 2px; background: var(--border2); }
+  .tp-dot.on { background: var(--green); }
+
+  /* WARM-UP BADGE */
+  .warmup-ref {
+    background: var(--green-dim); border: 1px solid rgba(46,204,138,0.18);
+    border-radius: var(--radius-sm); padding: 9px 13px; font-size: 12.5px; color: var(--green-text);
+    margin-bottom: 1.4rem; display: flex; align-items: center; gap: 8px;
+  }
+
+
+  /* INFO CARD / CALLOUT */
+  .info-callout {
+    background: var(--teal-dim); border: 1px solid rgba(38,198,218,0.2);
+    border-radius: var(--radius-sm); padding: 10px 14px; font-size: 12.5px;
+    color: var(--teal); margin-bottom: 1rem; display: flex; align-items: flex-start; gap: 8px;
+    line-height: 1.6;
+  }
+  .info-callout.warning { background: var(--orange-dim); border-color: rgba(245,166,35,0.2); color: var(--orange); }
+  .info-callout.red { background: var(--red-dim); border-color: rgba(240,92,92,0.2); color: var(--red); }
+
+  /* NAV FOOTER */
+  .nav-footer {
+    padding: 0.85rem 2rem;
+    border-top: 1px solid var(--border); background: var(--bg2);
+    display: flex; align-items: center; justify-content: space-between;
+    position: sticky; bottom: 0;
+    /* iPhone home indicator fix */
+    padding-bottom: max(1rem, env(safe-area-inset-bottom, 1rem));
+  }
+  .nav-footer .stage-info-mini { font-size: 11px; color: var(--text3); font-family: 'DM Mono', monospace; }
+
+
+  .timer-topbar-badge {
+    display: none; align-items: center; gap: 5px;
+    font-size: 11px; font-weight: 500; color: var(--green);
+    font-family: 'DM Mono', monospace; padding: 3px 9px;
+    background: var(--green-dim); border-radius: 4px;
+    border: 1px solid rgba(46,204,138,0.2);
+  }
+  .timer-topbar-badge.visible { display: flex; }
+  .timer-topbar-badge.warning { color: var(--orange); background: var(--orange-dim); border-color: rgba(245,166,35,0.2); }
+
+  /* STAGE VISIBILITY */
+  .stage { display: none; }
+  .stage.active { display: block; }
+  @keyframes stageFadeIn { from { opacity: 0; transform: translateY(3px); } to { opacity: 1; transform: translateY(0); } }
+  .stage.active { animation: stageFadeIn 0.18s ease; }
+
+
+  /* EDIT MODE */
+  body.edit-mode .speech.you { border-left-style: dashed; }
+  body.edit-mode .layer-text { cursor: text; }
+
+  /* ===== CALL NOTES PANEL ===== */
+  .notes-panel {
+    display: none; position: fixed;
+    right: 0; top: 0; bottom: 0; width: 330px;
+    background: var(--bg2); border-left: 1px solid var(--border);
+    z-index: 200; flex-direction: column; animation: slideInRight 0.2s ease;
+    box-shadow: -8px 0 32px rgba(0,0,0,0.5);
+  }
+  .notes-panel.open { display: flex; }
+  @keyframes slideInRight { from { transform: translateX(40px); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
+  .notes-header { padding: 1rem 1.25rem; border-bottom: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; }
+  .notes-title { font-size: 13px; font-weight: 600; color: var(--text); }
+  .notes-close { background: none; border: none; color: var(--text3); cursor: pointer; font-size: 18px; line-height: 1; padding: 2px 6px; border-radius: 4px; }
+  .notes-close:hover { color: var(--text); background: var(--bg3); }
+  .notes-body { flex: 1; display: flex; flex-direction: column; padding: 1rem; gap: 11px; overflow-y: auto; }
+  .notes-textarea {
+    flex: 1; min-height: 180px; background: var(--bg3); border: 1px solid var(--border2);
+    border-radius: var(--radius-sm); padding: 11px; color: var(--text); font-family: 'DM Sans', sans-serif;
+    font-size: 13px; line-height: 1.6; resize: none;
+  }
+  .notes-textarea:focus { outline: none; border-color: var(--blue); }
+  .notes-textarea::placeholder { color: var(--text3); }
+  .notes-fields { display: flex; flex-direction: column; gap: 8px; }
+  .notes-field { display: flex; flex-direction: column; gap: 3px; }
+  .notes-field label { font-size: 9.5px; color: var(--text3); font-family: 'DM Mono', monospace; text-transform: uppercase; letter-spacing: 0.09em; }
+  .notes-field input, .notes-field select {
+    background: var(--bg3); border: 1px solid var(--border2); border-radius: var(--radius-sm);
+    padding: 7px 10px; color: var(--text); font-family: 'DM Sans', sans-serif; font-size: 13px;
+  }
+  .notes-field input:focus, .notes-field select:focus { outline: none; border-color: var(--blue); }
+  .notes-field select option { background: var(--bg3); }
+  .outcome-btns { display: flex; gap: 5px; flex-wrap: wrap; }
+  .outcome-btn {
+    flex: 1; min-width: 75px; padding: 6px 8px; border-radius: var(--radius-sm);
+    border: 1px solid var(--border2); background: var(--bg3); color: var(--text2);
+    font-size: 11.5px; cursor: pointer; text-align: center; transition: all 0.13s;
+  }
+  .outcome-btn:hover { color: var(--text); }
+  .outcome-btn.sel-booked { background: var(--green-dim); border-color: rgba(46,204,138,0.35); color: var(--green); }
+  .outcome-btn.sel-callback { background: var(--blue-dim); border-color: rgba(91,168,255,0.25); color: var(--blue); }
+  .outcome-btn.sel-noanswer { background: var(--bg3); border-color: var(--border2); color: var(--text3); }
+  .outcome-btn.sel-notinterested { background: var(--red-dim); border-color: rgba(240,92,92,0.25); color: var(--red); }
+  .notes-footer { padding: 1rem; border-top: 1px solid var(--border); display: flex; gap: 7px; }
+  .notes-save-btn { flex: 1; padding: 8px; border-radius: var(--radius-sm); border: none; background: var(--green); color: #000; font-weight: 600; font-size: 13px; cursor: pointer; transition: all 0.13s; }
+  .notes-save-btn:hover { background: var(--green-bright); box-shadow: var(--glow-green); }
+  .notes-clear-btn { padding: 8px 13px; border-radius: var(--radius-sm); border: 1px solid var(--border2); background: var(--bg3); color: var(--text3); font-size: 13px; cursor: pointer; }
+  .notes-clear-btn:hover { color: var(--red); border-color: rgba(240,92,92,0.25); }
+
+  /* ===== QUICK PHRASES PANEL ===== */
+  .phrases-panel {
+    display: none; position: fixed; bottom: 64px; right: 24px;
+    width: 310px; max-height: 420px; overflow-y: auto;
+    background: var(--bg2); border: 1px solid var(--border2);
+    border-radius: var(--radius-lg); box-shadow: var(--shadow-lg); z-index: 300;
+    animation: fadeUp 0.14s ease;
+  }
+  .phrases-panel.open { display: block; }
+  @keyframes fadeUp { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+  .phrases-header { padding: 11px 15px 8px; border-bottom: 1px solid var(--border); }
+  .phrases-title { font-size: 11.5px; font-weight: 600; color: var(--text); font-family: 'DM Mono', monospace; }
+  .phrases-list { padding: 7px; }
+  .phrase-item {
+    padding: 7px 9px; border-radius: var(--radius-sm); cursor: pointer;
+    font-size: 12px; color: var(--text2); line-height: 1.5;
+    transition: all 0.1s; margin-bottom: 2px; border: 1px solid transparent;
+  }
+  .phrase-item:hover { background: var(--bg3); color: var(--text); border-color: var(--border); }
+  .phrase-item .phrase-tag { font-size: 9.5px; color: var(--text3); font-family: 'DM Mono', monospace; margin-bottom: 2px; }
+  .phrase-copy-toast {
+    position: fixed; bottom: 80px; left: 50%; transform: translateX(-50%);
+    background: var(--green); color: #000; font-size: 12px; font-weight: 600;
+    padding: 6px 16px; border-radius: 20px; z-index: 9999;
+    animation: toastFade 1.8s ease forwards; pointer-events: none; box-shadow: var(--glow-green);
+  }
+  @keyframes toastFade { 0%{opacity:0;transform:translateX(-50%) translateY(6px)} 15%{opacity:1;transform:translateX(-50%) translateY(0)} 75%{opacity:1} 100%{opacity:0} }
+
+
+
+  .scenario-btns .scenario-btn.alt:first-of-type {
+    position: relative;
+  }
+  .alt-divider {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin: 4px 0 2px;
+  }
+  .alt-divider::before, .alt-divider::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--border);
+  }
+  .alt-divider-label {
+    font-size: 9px;
+    color: var(--text3);
+    font-family: 'DM Mono', monospace;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    white-space: nowrap;
+  }
+  .scenario-btn.alt {
+    border-style: dashed;
+    opacity: 0.85;
+  }
+  .scenario-btn.alt:hover {
+    opacity: 1;
+    border-style: solid;
+  }
+  .scenario-btn.alt.active {
+    border-style: solid;
+    opacity: 1;
+  }
+
+
+  body.tips-hidden .tip { display: none; }
+
+  /* PRINT */
+  @media print {
+    .sidebar, .topbar, .nav-footer, .prospect-bar, .notes-panel, .phrases-panel { display: none !important; }
+    .main { margin-left: 0; }
+    .content { padding: 1rem; max-width: 100%; }
+    .stage { display: block !important; }
+    .stage-header { page-break-after: avoid; }
+    .turn { page-break-inside: avoid; }
+  }
+
+
+  .hamburger-btn {
+    display: none; background: none; border: 1px solid var(--border2);
+    border-radius: var(--radius-sm); padding: 5px 8px; cursor: pointer;
+    color: var(--text2); font-size: 16px; line-height: 1;
+  }
+  .hamburger-btn:hover { color: var(--text); background: var(--bg3); }
+  .sidebar-overlay {
+    display: none; position: fixed; inset: 0;
+    background: rgba(0,0,0,0.6); z-index: 99; backdrop-filter: blur(2px);
+  }
+  .sidebar-overlay.open { display: block; }
+  @media (max-width: 768px) {
+    .hamburger-btn { display: flex; align-items: center; }
+    .sidebar { transform: translateX(-100%); transition: transform 0.22s ease; }
+    .sidebar.mobile-open { transform: translateX(0); box-shadow: 4px 0 24px rgba(0,0,0,0.5); }
+  }
+
+  @media (max-width: 768px) {
+    .sidebar { display: none; }
+    .main { margin-left: 0; }
+    .tp-grid { grid-template-columns: 1fr; }
+    .content { padding: 1rem; padding-bottom: calc(1rem + env(safe-area-inset-bottom, 0px)); }
+    .prospect-bar { padding: 7px 1rem; gap: 8px; }
+    .topbar { padding: 0.7rem 1rem; }
+    .topbar-actions { gap: 5px; }
+    .btn { padding: 5px 9px; font-size: 12px; }
+  }
+
+  ::-webkit-scrollbar { width: 5px; height: 5px; }
+  ::-webkit-scrollbar-track { background: transparent; }
+  ::-webkit-scrollbar-thumb { background: var(--border2); border-radius: 4px; }
+  ::-webkit-scrollbar-thumb:hover { background: var(--text3); }
+</style>
+</head>
+<body>
+<div class="app">
+
+<!-- SIDEBAR -->
+<aside class="sidebar">
+  <div class="sidebar-logo">
+    <div class="company">QuickGS Logistics</div>
+    <div class="subtitle">Cold Call Script v3.0</div>
+  </div>
+
+  <div class="progress-wrap">
+    <div class="pb-header">
+      <span class="pb-label">Progress</span>
+      <span class="pb-pct" id="progressPct">0%</span>
+    </div>
+    <div class="pb-track"><div class="pb-fill" id="pbFill" style="width:0%"></div></div>
+  </div>
+
+  <!-- CALL TIMER -->
+  <div class="call-timer-widget">
+    <div class="cw-label">Call Timer</div>
+    <div class="cw-time" id="timerDisplay">00:00</div>
+    <div class="cw-btns">
+      <button class="cw-btn start" id="timerStartBtn" onclick="timerControl('start')">▶ Start</button>
+      <button class="cw-btn stop" id="timerStopBtn" onclick="timerControl('pause')" style="display:none">⏸ Pause</button>
+      <button class="cw-btn reset" onclick="timerControl('reset')">↺ Reset</button>
+    </div>
+  </div>
+
+  <div class="sidebar-nav">
+    <div class="sidebar-section">
+      <div class="sidebar-section-label">Warm-Up</div>
+      <div class="nav-item" id="nav-10" onclick="goTo(10)">
+        <div class="num">0</div>
+        <div class="label">Cold Open</div>
+      </div>
+    </div>
+
+    <div class="sidebar-section">
+      <div class="sidebar-section-label">Discovery & Close</div>
+      <div class="nav-item active" id="nav-0" onclick="goTo(0)">
+        <div class="num">1</div>
+        <div class="label">Connection</div>
+      </div>
+      <div class="nav-item" id="nav-1" onclick="goTo(1)">
+        <div class="num">2</div>
+        <div class="label">Situation</div>
+      </div>
+      <div class="nav-item" id="nav-2" onclick="goTo(2)">
+        <div class="num">3</div>
+        <div class="label">Problem Awareness</div>
+      </div>
+      <div class="nav-item" id="nav-3" onclick="goTo(3)">
+        <div class="num">4</div>
+        <div class="label">Solution Awareness</div>
+      </div>
+      <div class="nav-item" id="nav-4" onclick="goTo(4)">
+        <div class="num">5</div>
+        <div class="label">Consequence</div>
+      </div>
+      <div class="nav-item" id="nav-5" onclick="goTo(5)">
+        <div class="num">6</div>
+        <div class="label">Commitment</div>
+      </div>
+      <div class="nav-item" id="nav-6" onclick="goTo(6)">
+        <div class="num">7</div>
+        <div class="label">Presentation</div>
+      </div>
+    </div>
+
+    <div class="sidebar-section">
+      <div class="sidebar-section-label">Objections</div>
+      <div class="nav-item" id="nav-7" onclick="goTo(7)">
+        <div class="num">8</div>
+        <div class="label">Objection Loops</div>
+      </div>
+    </div>
+
+    <div class="sidebar-section">
+      <div class="sidebar-section-label">Close</div>
+      <div class="nav-item" id="nav-8" onclick="goTo(8)">
+        <div class="num">9</div>
+        <div class="label">Commitment Close + SMS</div>
+      </div>
+    </div>
+
+    <div class="sidebar-section">
+      <div class="sidebar-section-label">Reference</div>
+      <div class="nav-item" id="nav-9" onclick="goTo(9)">
+        <div class="num">T</div>
+        <div class="label">Tonality Guide</div>
+      </div>
+    </div>
+  </div>
+</aside>
+
+<!-- MAIN -->
+<div class="main">
+
+  <!-- TOPBAR -->
+  <div class="topbar">
+    <div class="topbar-left">
+      <div class="topbar-title" id="topTitle">Stage 1 — Connection</div>
+      <div class="topbar-sub">NEPQ™ Framework · Jeremy Miner Method</div>
+    </div>
+    <button class="hamburger-btn" onclick="toggleMobileSidebar()" aria-label="Menu">☰</button>
+    <div id="timerTopbarBadge" class="timer-topbar-badge"><span>⏱</span><span id="timerTopbarTime">00:00</span></div>
+    <div class="topbar-actions">
+      <div class="edit-badge" id="editBadge">● EDIT MODE &nbsp;<button onclick="revertEdits()" style="background:var(--red-dim);border:1px solid rgba(240,92,92,0.3);color:var(--red);border-radius:3px;padding:2px 8px;font-size:10px;cursor:pointer;font-family:'DM Mono',monospace;">↩ Revert</button></div>
+      <button class="btn" onclick="togglePhrases()" id="phrasesBtn" title="Quick phrases">💬 Phrases</button>
+      <button class="btn" onclick="toggleNotes()" id="notesBtn">📋 Notes</button>
+      <button class="btn" onclick="toggleTips()" id="tipsBtn" title="Toggle tips (T)">💡 Tips</button>
+        <button class="btn" onclick="toggleEdit()" id="editBtn">✏️ Edit Script</button>
+      <button class="btn" onclick="window.print()">🖨️</button>
+    </div>
+  </div>
+
+  <!-- PROSPECT INFO BAR -->
+  <div class="prospect-bar">
+    <span class="pf-label">Prospect:</span>
+    <input class="pf-field" id="pfName" placeholder="Name" style="width:115px">
+    <input class="pf-field" id="pfCompany" placeholder="Company" style="width:135px">
+    <input class="pf-field" id="pfPhone" placeholder="Phone" style="width:115px">
+    <span class="pf-label" style="margin-left:4px">Trucks:</span>
+    <div class="pf-trucks" id="truckBtns">
+      <button class="truck-btn" onclick="setTrucks(1)">1</button>
+      <button class="truck-btn" onclick="setTrucks(2)">2</button>
+      <button class="truck-btn" onclick="setTrucks(3)">3</button>
+      <button class="truck-btn" onclick="setTrucks(4)">4</button>
+      <button class="truck-btn" onclick="setTrucks(5)">5+</button>
+    </div>
+    <input class="pf-field" id="pfBoard" placeholder="Load board" style="width:130px">
+    <input class="pf-field" id="pfState" placeholder="State/Region" style="width:110px">
+  </div>
+
+  <!-- CONTENT -->
+  <div class="content" id="mainContent">
+
+    <!-- ===================== STAGE 0: CONNECTION ===================== -->
+    <div class="stage active" id="stage-0">
+      <div class="stage-header">
+        <div class="stage-badge" style="background:var(--green-dim);color:var(--green)">01</div>
+        <div class="stage-info">
+          <h2>Connection</h2>
+          <p class="goal">Make them feel safe. Get permission to ask questions. Transition from curiosity to trust. They must feel you are different from every other salesperson.</p>
+          <div class="tonality-pill"><span style="background:var(--green)"></span> TONE: Warm · Slow · Slightly confused · No urgency</div>
+        </div>
+      </div>
+
+      <div class="warmup-ref">
+        ✅ Picking up right after the warm-up opener — prospect just said: "No I'm not opposed, what do you got?" or "Go ahead."
+      </div>
+
+      <div class="turn">
+        <div class="turn-role" style="color:var(--green)"><span class="role-dot" style="background:var(--green)"></span>You</div>
+        <div class="speech you" contenteditable="false">"Yeah… and honestly, <span class="hl">before I get into anything</span> — I want to make sure I'm even talking to the right person, and that what we do would actually make sense for your situation. Would you be okay if I just asked you a couple quick questions first?"</div>
+        <div class="tip">This signals you're not in pitch mode. Asking permission is disarming — almost nobody says no to this.</div>
+      </div>
+
+      <!-- SCENARIO BUTTONS -->
+      <div class="scenario-group">
+        <div class="scenario-group-label">Their response — pick the scenario</div>
+        <div class="scenario-btns">
+          <button class="scenario-btn active" onclick="switchScenario('conn', 'yes', this)"><span class="s-dot"></span>Yeah sure, go ahead</button>
+          <button class="scenario-btn" onclick="switchScenario('conn', 'rush', this)"><span class="s-dot"></span>Make it quick</button>
+          <button class="scenario-btn" onclick="switchScenario('conn', 'who', this)"><span class="s-dot"></span>Who is this again?</button>
+          <button class="scenario-btn alt" onclick="switchScenario('conn', 'wrongperson', this)"><span class="s-dot"></span>Wrong person / Not me</button>
+          <button class="scenario-btn alt" onclick="switchScenario('conn', 'callbackreq', this)"><span class="s-dot"></span>Call me back later</button>
+          <button class="scenario-btn alt" onclick="switchScenario('conn', 'suspicious', this)"><span class="s-dot"></span>Is this a sales call?</button>
+        </div>
+      </div>
+
+      <div class="scenario-panel active" id="conn-yes">
+        <div class="turn">
+          <div class="turn-role" style="color:var(--purple)"><span class="role-dot" style="background:var(--purple)"></span>Prospect</div>
+          <div class="speech them">"Yeah sure, go ahead."</div>
+        </div>
+        <div class="turn">
+          <div class="turn-role" style="color:var(--green)"><span class="role-dot" style="background:var(--green)"></span>You</div>
+          <div class="speech you" contenteditable="false">"I appreciate that. And just so you know — <span class="hl">I'm not here to sell you anything today</span>. If after we talk it doesn't make sense for you, I'll be the first one to say it. Sound fair?"</div>
+          <div class="tip">"I'm not here to sell you anything" — the brain releases oxytocin instead of cortisol. Guard drops completely. This sentence is worth memorizing.</div>
+        </div>
+        <div class="turn">
+          <div class="turn-role" style="color:var(--purple)"><span class="role-dot" style="background:var(--purple)"></span>Prospect</div>
+          <div class="speech them">"Yeah, that's fair."</div>
+        </div>
+      </div>
+
+      <div class="scenario-panel" id="conn-rush">
+        <div class="turn">
+          <div class="turn-role" style="color:var(--purple)"><span class="role-dot" style="background:var(--purple)"></span>Prospect</div>
+          <div class="speech them">"I'm kind of busy right now — make it quick."</div>
+        </div>
+        <div class="turn">
+          <div class="turn-role" style="color:var(--green)"><span class="role-dot" style="background:var(--green)"></span>You</div>
+          <div class="speech you" contenteditable="false">"Totally — I won't take much of your time. Honestly I just need about 2 minutes to see if what we do even makes sense for your setup. And if it doesn't, I'll let you go right there. Is that fair?"</div>
+          <div class="tip">Don't rush your pace. Ironically, slowing down when they say "make it quick" communicates calm confidence and makes them relax.</div>
+        </div>
+      </div>
+
+      <div class="scenario-panel" id="conn-who">
+        <div class="turn">
+          <div class="turn-role" style="color:var(--purple)"><span class="role-dot" style="background:var(--purple)"></span>Prospect</div>
+          <div class="speech them">"Wait — who exactly is this? Where did you get my number?"</div>
+        </div>
+        <div class="turn">
+          <div class="turn-role" style="color:var(--green)"><span class="role-dot" style="background:var(--green)"></span>You</div>
+          <div class="speech you" contenteditable="false">"That's totally fair to ask — I'm [Name] from QuickGS Logistics, we work with owner-operators in your area. I got your info from [FMCSA / referral / load board]. I'm not trying to waste your time at all — would you be okay if I just asked you one quick question to see if this even applies to you?"</div>
+          <div class="tip">Be direct and transparent. Hiding how you got the number creates distrust. Name the source calmly and pivot back to permission.</div>
+        </div>
+      </div>
+
+      <!-- NEW: Wrong Person Scenario -->
+      <div class="scenario-panel" id="conn-wrongperson">
+        <div class="info-callout warning">
+          ⚠️ They're telling you they're NOT the decision-maker. Your goal: transfer to the right person OR leave a voicemail and send an SMS so the right person can reach you.
+        </div>
+        <div class="turn">
+          <div class="turn-role" style="color:var(--purple)"><span class="role-dot" style="background:var(--purple)"></span>Prospect</div>
+          <div class="speech them">"Oh, that's not me — you want to talk to [Name / the owner / my boss]."</div>
+        </div>
+        <div class="turn">
+          <div class="turn-role" style="color:var(--green)"><span class="role-dot" style="background:var(--green)"></span>You</div>
+          <div class="speech you" contenteditable="false">"Oh got it — thanks for letting me know. Hey, before I let you go — <span class="hl">do you think you could transfer me over to them?</span> And if they're not available, I'm totally fine leaving a voicemail so they can reach me back when it's a better time."</div>
+          <div class="tip">Always ask for the transfer first. If they can't transfer, voicemail + SMS is your fallback. Never just hang up — you lose the lead entirely.</div>
+        </div>
+        <div class="turn">
+          <div class="turn-role" style="color:var(--purple)"><span class="role-dot" style="background:var(--purple)"></span>Prospect</div>
+          <div class="speech them">"Sure, let me see if they're available / Yeah I can transfer you / They're not in right now."</div>
+        </div>
+
+        <div class="section-label">If transferred — restart with the owner</div>
+        <div class="turn">
+          <div class="turn-role" style="color:var(--green)"><span class="role-dot" style="background:var(--green)"></span>You (when transferred)</div>
+          <div class="speech you" contenteditable="false">"Hey [Name]… yeah it's uh… [Your Name] from QuickGS Logistics… I was just talking to [their colleague] and they mentioned you'd be the right person to speak with… I'm not even sure if what we do applies to you at all, but I was hoping maybe you could just point me in the right direction?"</div>
+          <div class="tip">Fresh start with the owner. Mention the colleague's name for instant social proof. Then go right back into the warm-up script.</div>
+        </div>
+
+        <div class="section-label">If they're NOT available — Voicemail script</div>
+        <div class="turn">
+          <div class="turn-role" style="color:var(--green)"><span class="role-dot" style="background:var(--green)"></span>You (Voicemail)</div>
+          <div class="speech you" contenteditable="false">"Hey [Owner Name]… it's uh… [Your Name] from QuickGS Logistics… I uh… spoke with [colleague name] and they suggested I reach out to you directly… I'm not sure if what we do makes sense for your situation, but we help owner-operators with dispatching — finding loads, negotiating rates with brokers, handling the paperwork — and I just wanted to see if any of that was something you were dealing with… uh… my number is [your number]. Feel free to call or text anytime. No pressure."</div>
+          <div class="tip">Keep voicemails under 30 seconds. Confused, low-energy tone. "No pressure" at the end is crucial — it separates you from every other voicemail they get.</div>
+        </div>
+
+      </div>
+
+      <!-- NEW: Call back later -->
+      <div class="scenario-panel" id="conn-callbackreq">
+        <div class="turn">
+          <div class="turn-role" style="color:var(--purple)"><span class="role-dot" style="background:var(--purple)"></span>Prospect</div>
+          <div class="speech them">"Can you call me back? Now's not a great time."</div>
+        </div>
+        <div class="turn">
+          <div class="turn-role" style="color:var(--green)"><span class="role-dot" style="background:var(--green)"></span>You</div>
+          <div class="speech you" contenteditable="false">"Of course — I completely understand. Would <span class="hl">later today or tomorrow morning</span> work better for you?"</div>
+          <div class="tip">Binary choice. Never "whenever you're free." Lock in a specific time block so you're not chasing indefinitely.</div>
+        </div>
+        <div class="turn">
+          <div class="turn-role" style="color:var(--purple)"><span class="role-dot" style="background:var(--purple)"></span>Prospect</div>
+          <div class="speech them">"Tomorrow morning works."</div>
+        </div>
+        <div class="turn">
+          <div class="turn-role" style="color:var(--green)"><span class="role-dot" style="background:var(--green)"></span>You</div>
+          <div class="speech you" contenteditable="false">"Perfect — I'll reach out around [time]. And just so you have it in the meantime, I'll send you a quick text with our info — no pressure at all. Have a good one!"</div>
+          <div class="tip">Always send the SMS even before the callback. They may research you before you call back. This primes them and dramatically increases pickup rate.</div>
+        </div>
+      </div>
+
+      <!-- NEW: Is this a sales call? -->
+      <div class="scenario-panel" id="conn-suspicious">
+        <div class="turn">
+          <div class="turn-role" style="color:var(--purple)"><span class="role-dot" style="background:var(--purple)"></span>Prospect</div>
+          <div class="speech them">"Wait — is this a sales call? Because I'm not interested."</div>
+        </div>
+        <div class="turn">
+          <div class="turn-role" style="color:var(--green)"><span class="role-dot" style="background:var(--green)"></span>You</div>
+          <div class="speech you" contenteditable="false">"Hah… I mean… kind of, yeah. But <span class="hl">I haven't even told you what it's about yet</span>… so I'm not sure if it applies to you or not. I was just hoping you could answer one quick question and if it doesn't fit I'll let you go right there. Would you be opposed to that?"</div>
+          <div class="tip">Honesty combined with humor disarms the reflex. You're not denying it — you're reframing it. "I haven't told you what it's about yet" resets them.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===================== STAGE 1: SITUATION ===================== -->
+    <div class="stage" id="stage-1">
+      <div class="stage-header">
+        <div class="stage-badge" style="background:var(--bg3);color:var(--text2)">02</div>
+        <div class="stage-info">
+          <h2>Situation Questions</h2>
+          <p class="goal">Map their current setup with neutral curiosity. Trucks, dispatching method, load boards, hours spent. No judgment. Every answer is ammo for the consequence stage.</p>
+          <div class="tonality-pill"><span style="background:var(--blue)"></span> TONE: Genuinely curious · Casual · Conversational</div>
+        </div>
+      </div>
+
+      <div class="turn">
+        <div class="turn-role" style="color:var(--green)"><span class="role-dot" style="background:var(--green)"></span>You</div>
+        <div class="speech you" contenteditable="false">"So just to get a better picture — <span class="hl">how many trucks are you running right now?</span>"</div>
+      </div>
+
+      <div class="scenario-group">
+        <div class="scenario-group-label">Their fleet size — pick the scenario</div>
+        <div class="scenario-btns">
+          <button class="scenario-btn active" onclick="switchScenario('sit', '3truck', this)"><span class="s-dot"></span>1–3 trucks</button>
+          <button class="scenario-btn" onclick="switchScenario('sit', '5truck', this)"><span class="s-dot"></span>4–6 trucks</button>
+          <button class="scenario-btn" onclick="switchScenario('sit', 'solo', this)"><span class="s-dot"></span>Solo / just me</button>
+          <button class="scenario-btn" onclick="switchScenario('sit', 'nodispatch', this)"><span class="s-dot"></span>No dispatcher</button>
+          <button class="scenario-btn alt" onclick="switchScenario('sit', 'newcarrier', this)"><span class="s-dot"></span>New carrier / just started</button>
+          <button class="scenario-btn alt" onclick="switchScenario('sit', 'bigfleet', this)"><span class="s-dot"></span>7+ trucks / small fleet</button>
+        </div>
+      </div>
+
+      <div class="scenario-panel active" id="sit-3truck">
+        <div class="turn">
+          <div class="turn-role" style="color:var(--purple)"><span class="role-dot" style="background:var(--purple)"></span>Prospect</div>
+          <div class="speech them">"Right now I've got three. Working on getting a fourth."</div>
+        </div>
+        <div class="turn">
+          <div class="turn-role" style="color:var(--green)"><span class="role-dot" style="background:var(--green)"></span>You</div>
+          <div class="speech you" contenteditable="false">"Got it. And how are you currently handling your dispatching — are you doing it all yourself, or do you have someone helping with that?"</div>
+          <div class="tip">Don't assume. Let them describe it. The more they explain, the more invested they become in the conversation.</div>
+        </div>
+        <div class="turn">
+          <div class="turn-role" style="color:var(--purple)"><span class="role-dot" style="background:var(--purple)"></span>Prospect</div>
+          <div class="speech them">"Mostly myself. Sometimes my wife helps when it gets busy."</div>
+        </div>
+        <div class="turn">
+          <div class="turn-role" style="color:var(--green)"><span class="role-dot" style="background:var(--green)"></span>You</div>
+          <div class="speech you" contenteditable="false">"Okay. And for finding loads — are you mainly using the load boards yourself, working through brokers, or a mix of both?"</div>
+        </div>
+        <div class="turn">
+          <div class="turn-role" style="color:var(--purple)"><span class="role-dot" style="background:var(--purple)"></span>Prospect</div>
+          <div class="speech them">"Load boards mostly. DAT, Truckstop. I call brokers too when the boards are slow."</div>
+        </div>
+        <div class="turn">
+          <div class="turn-role" style="color:var(--green)"><span class="role-dot" style="background:var(--green)"></span>You</div>
+          <div class="speech you" contenteditable="false">"Makes sense. And roughly <span class="hl">how many hours a week</span> would you say you're spending on all of that — finding loads, calling brokers, handling paperwork?"</div>
+          <div class="tip">Critical setup question. Their answer will feed Stage 5 (Consequence). Pause after asking — let them do the math out loud.</div>
+        </div>
+      </div>
+
+      <div class="scenario-panel" id="sit-5truck">
+        <div class="turn">
+          <div class="turn-role" style="color:var(--purple)"><span class="role-dot" style="background:var(--purple)"></span>Prospect</div>
+          <div class="speech them">"We've got five trucks on the road right now."</div>
+        </div>
+        <div class="turn">
+          <div class="turn-role" style="color:var(--green)"><span class="role-dot" style="background:var(--green)"></span>You</div>
+          <div class="speech you" contenteditable="false">"Nice, solid operation. And with five trucks — are you managing dispatch yourself or do you have a dedicated person on that?"</div>
+        </div>
+        <div class="turn">
+          <div class="turn-role" style="color:var(--purple)"><span class="role-dot" style="background:var(--purple)"></span>Prospect</div>
+          <div class="speech them">"I have one person helping but honestly they're stretched thin. I still end up handling a lot of it."</div>
+        </div>
+        <div class="turn">
+          <div class="turn-role" style="color:var(--green)"><span class="role-dot" style="background:var(--green)"></span>You</div>
+          <div class="speech you" contenteditable="false">"Yep that's super common when you're at that size. And in terms of the load mix — are you mainly on load boards, direct shippers, or a combination?"</div>
+          <div class="tip">At 4–6 trucks they're at the inflection point. The pain of managing growth is real. Lean into that in Stage 3.</div>
+        </div>
+      </div>
+
+      <div class="scenario-panel" id="sit-solo">
+        <div class="turn">
+          <div class="turn-role" style="color:var(--purple)"><span class="role-dot" style="background:var(--purple)"></span>Prospect</div>
+          <div class="speech them">"Just me. One truck. I'm an owner-operator."</div>
+        </div>
+        <div class="turn">
+          <div class="turn-role" style="color:var(--green)"><span class="role-dot" style="background:var(--green)"></span>You</div>
+          <div class="speech you" contenteditable="false">"Got it. So you're doing everything — driving, finding loads, paperwork, calling brokers — all on your own?"</div>
+        </div>
+        <div class="turn">
+          <div class="turn-role" style="color:var(--purple)"><span class="role-dot" style="background:var(--purple)"></span>Prospect</div>
+          <div class="speech them">"Yeah pretty much. It's a lot."</div>
+        </div>
+        <div class="turn">
+          <div class="turn-role" style="color:var(--green)"><span class="role-dot" style="background:var(--green)"></span>You</div>
+          <div class="speech you" contenteditable="false">"I bet. And when you're on the road — are you able to be actively looking for loads at the same time, or does one always take a backseat to the other?"</div>
+          <div class="tip">For solo operators the time/driving conflict is their core pain. That's your entire Stage 3 angle.</div>
+        </div>
+      </div>
+
+      <div class="scenario-panel" id="sit-nodispatch">
+        <div class="turn">
+          <div class="turn-role" style="color:var(--purple)"><span class="role-dot" style="background:var(--purple)"></span>Prospect</div>
+          <div class="speech them">"I've got two trucks and I handle everything myself. No dispatcher."</div>
+        </div>
+        <div class="turn">
+          <div class="turn-role" style="color:var(--green)"><span class="role-dot" style="background:var(--green)"></span>You</div>
+          <div class="speech you" contenteditable="false">"Makes sense — a lot of guys at your stage are in the same spot. And when it comes to load boards — do you feel like you're getting good visibility on the right lanes, or does it feel like you're kind of fishing in the dark sometimes?"</div>
+          <div class="tip">Validate the no-dispatcher setup before probing. Never make them feel wrong for how they're operating.</div>
+        </div>
+      </div>
+
+      <!-- NEW: New carrier -->
+      <div class="scenario-panel" id="sit-newcarrier">
+        <div class="turn">
+          <div class="turn-role" style="color:var(--purple)"><span class="role-dot" style="background:var(--purple)"></span>Prospect</div>
+          <div class="speech them">"I just got my authority about two months ago. Still figuring everything out."</div>
+        </div>
+        <div class="turn">
+          <div class="turn-role" style="color:var(--green)"><span class="role-dot" style="background:var(--green)"></span>You</div>
+          <div class="speech you" contenteditable="false">"Nice — congrats on that. Starting out is a lot. And right now, how are you finding your loads — mainly load boards, or have you started building broker relationships yet?"</div>
+          <div class="tip">New carriers are extremely open to help — they don't have bad habits yet and they're actively looking for guidance. This is high-quality opportunity. Go slower, be extra consultative.</div>
+        </div>
+        <div class="turn">
+          <div class="turn-role" style="color:var(--purple)"><span class="role-dot" style="background:var(--purple)"></span>Prospect</div>
+          <div class="speech them">"Mostly load boards. I've been trying to call brokers but it's tough to get them to take me seriously with no track record."</div>
+        </div>
+        <div class="turn">
+          <div class="turn-role" style="color:var(--green)"><span class="role-dot" style="background:var(--green)"></span>You</div>
+          <div class="speech you" contenteditable="false">"Yeah that's the classic new carrier problem. And how's the rate negotiation side going — are you getting close to what you think the lanes should actually pay, or do you feel like you're kind of taking whatever they offer?"</div>
+        </div>
+      </div>
+
+      <!-- NEW: Big fleet -->
+      <div class="scenario-panel" id="sit-bigfleet">
+        <div class="turn">
+          <div class="turn-role" style="color:var(--purple)"><span class="role-dot" style="background:var(--purple)"></span>Prospect</div>
+          <div class="speech them">"We're running eight trucks right now, plus I've got two more coming off the lot next month."</div>
+        </div>
+        <div class="turn">
+          <div class="turn-role" style="color:var(--green)"><span class="role-dot" style="background:var(--green)"></span>You</div>
+          <div class="speech you" contenteditable="false">"That's a solid operation. And with ten trucks inbound — how's your dispatching team set up? Do you have dedicated dispatchers for each truck or are they covering multiple?"</div>
+          <div class="tip">At this size the conversation shifts to operational efficiency and dispatcher quality, not just doing it yourself. Their pain is management overhead, not time.</div>
+        </div>
+        <div class="turn">
+          <div class="turn-role" style="color:var(--purple)"><span class="role-dot" style="background:var(--purple)"></span>Prospect</div>
+          <div class="speech them">"One dispatcher covering all of them. It's getting pretty hectic."</div>
+        </div>
+        <div class="turn">
+          <div class="turn-role" style="color:var(--green)"><span class="role-dot" style="background:var(--green)"></span>You</div>
+          <div class="speech you" contenteditable="false">"Yeah, one dispatcher for eight trucks is a lot. And when they're stretched like that — <span class="hl">where does the quality start slipping first?</span> Is it the rates, the turnaround time on finding loads, or something else?"</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===================== STAGE 2: PROBLEM AWARENESS ===================== -->
+    <div class="stage" id="stage-2">
+      <div class="stage-header">
+        <div class="stage-badge" style="background:var(--orange-dim);color:var(--orange)">03</div>
+        <div class="stage-info">
+          <h2>Problem Awareness</h2>
+          <p class="goal">You don't tell them they have a problem — they discover it through your questions. Use "how's that been working for you" style questions. Never lead with a negative assumption.</p>
+          <div class="tonality-pill"><span style="background:var(--orange)"></span> TONE: Empathetic · Slightly slower · Head-nodding energy</div>
+        </div>
+      </div>
+
+      <div class="turn">
+        <div class="turn-role" style="color:var(--green)"><span class="role-dot" style="background:var(--green)"></span>You</div>
+        <div class="speech you" contenteditable="false">"And with all that time you're putting in — <span class="hl">how's that been working for you overall?</span> Like are you getting the rates you want, or does it feel like you're leaving some money on the table sometimes?"</div>
+        <div class="tip">"How's that been working for you" is the most powerful NEPQ opener. It sounds conversational but opens the floodgates.</div>
+      </div>
+
+      <div class="scenario-group">
+        <div class="scenario-group-label">Their pain level — pick the scenario</div>
+        <div class="scenario-btns">
+          <button class="scenario-btn active" onclick="switchScenario('prob', 'hitormiss', this)"><span class="s-dot"></span>Hit or miss</button>
+          <button class="scenario-btn" onclick="switchScenario('prob', 'okay', this)"><span class="s-dot"></span>Doing okay actually</button>
+          <button class="scenario-btn" onclick="switchScenario('prob', 'struggle', this)"><span class="s-dot"></span>Struggling bad</button>
+          <button class="scenario-btn alt" onclick="switchScenario('prob', 'payproblem', this)"><span class="s-dot"></span>Getting paid late</button>
+          <button class="scenario-btn alt" onclick="switchScenario('prob', 'deadhead', this)"><span class="s-dot"></span>Too much deadhead</button>
+        </div>
+      </div>
+
+      <div class="scenario-panel active" id="prob-hitormiss">
+        <div class="turn">
+          <div class="turn-role" style="color:var(--purple)"><span class="role-dot" style="background:var(--purple)"></span>Prospect</div>
+          <div class="speech them">"Honestly it's hit or miss. Some weeks are great, other weeks the rates are garbage and I'm just trying to keep the truck moving."</div>
+        </div>
+        <div class="turn">
+          <div class="turn-role" style="color:var(--green)"><span class="role-dot" style="background:var(--green)"></span>You</div>
+          <div class="speech you" contenteditable="false">"Yeah, I hear that. When the rates are low like that — <span class="hl">what do you usually end up doing?</span> Do you take the load anyway just to keep rolling, or do you sit and wait?"</div>
+        </div>
+        <div class="turn">
+          <div class="turn-role" style="color:var(--purple)"><span class="role-dot" style="background:var(--purple)"></span>Prospect</div>
+          <div class="speech them">"I usually take it. Can't afford to sit. But sometimes I feel like I'm just covering fuel."</div>
+        </div>
+        <div class="turn">
+          <div class="turn-role" style="color:var(--green)"><span class="role-dot" style="background:var(--green)"></span>You</div>
+          <div class="speech you" contenteditable="false">"Got it. And when you're dealing with brokers — <span class="hl">how often do you feel like you're getting the rate you actually wanted</span> versus having to settle for whatever they offer?"</div>
+        </div>
+        <div class="turn">
+          <div class="turn-role" style="color:var(--purple)"><span class="role-dot" style="background:var(--purple)"></span>Prospect</div>
+          <div class="speech them">"Maybe half the time. Brokers know how to lowball. And it takes forever to negotiate."</div>
+        </div>
+        <div class="turn">
+          <div class="turn-role" style="color:var(--green)"><span class="role-dot" style="background:var(--green)"></span>You</div>
+          <div class="speech you" contenteditable="false">"And what about the paperwork side — BOLs, invoices, following up on payments — <span class="hl">how's that running?</span> Is it pretty smooth or does that eat up a chunk of your time too?"</div>
+        </div>
+        <div class="turn">
+          <div class="turn-role" style="color:var(--purple)"><span class="role-dot" style="background:var(--purple)"></span>Prospect</div>
+          <div class="speech them">"That's probably the worst part. I've had brokers take 60, 90 days to pay. I hate chasing that stuff."</div>
+        </div>
+      </div>
+
+      <div class="scenario-panel" id="prob-okay">
+        <div class="turn">
+          <div class="turn-role" style="color:var(--purple)"><span class="role-dot" style="background:var(--purple)"></span>Prospect</div>
+          <div class="speech them">"Honestly it's been okay. I can't complain too much."</div>
+        </div>
+        <div class="turn">
+          <div class="turn-role" style="color:var(--green)"><span class="role-dot" style="background:var(--green)"></span>You</div>
+          <div class="speech you" contenteditable="false">"Good to hear. And when you say okay — like are you hitting the revenue targets you set for yourself, or is it more like 'okay for now, but I know there's more out there'?"</div>
+          <div class="tip">Never accept "okay" as the final answer. There's almost always a gap between "okay" and "what I actually want." This question finds it without creating friction.</div>
+        </div>
+        <div class="turn">
+          <div class="turn-role" style="color:var(--purple)"><span class="role-dot" style="background:var(--purple)"></span>Prospect</div>
+          <div class="speech them">"The second one. I know there's room to grow but I just don't have the bandwidth right now."</div>
+        </div>
+        <div class="turn">
+          <div class="turn-role" style="color:var(--green)"><span class="role-dot" style="background:var(--green)"></span>You</div>
+          <div class="speech you" contenteditable="false">"Yeah — that bandwidth thing. <span class="hl">What's eating up most of your time</span> right now that you feel like is keeping you from getting to that next level?"</div>
+        </div>
+      </div>
+
+      <div class="scenario-panel" id="prob-struggle">
+        <div class="turn">
+          <div class="turn-role" style="color:var(--purple)"><span class="role-dot" style="background:var(--purple)"></span>Prospect</div>
+          <div class="speech them">"Man, it's been rough. Rates are terrible, brokers are lowballing everybody, I'm barely breaking even some weeks."</div>
+        </div>
+        <div class="turn">
+          <div class="turn-role" style="color:var(--green)"><span class="role-dot" style="background:var(--green)"></span>You</div>
+          <div class="speech you" contenteditable="false">"I hear that — and honestly that's more common right now than people talk about. Can I ask — <span class="hl">is it more the rate side</span>, or is it also time — like the hours you're spending just trying to find decent loads?"</div>
+          <div class="tip">When they're in pain, go slower. Lower your voice slightly. Let the weight of their situation sit before jumping in. Don't rush to solutions.</div>
+        </div>
+        <div class="turn">
+          <div class="turn-role" style="color:var(--purple)"><span class="role-dot" style="background:var(--purple)"></span>Prospect</div>
+          <div class="speech them">"Both. I spend hours on DAT just to get lowballed anyway. It's exhausting."</div>
+        </div>
+        <div class="turn">
+          <div class="turn-role" style="color:var(--green)"><span class="role-dot" style="background:var(--green)"></span>You</div>
+          <div class="speech you" contenteditable="false">"Yeah. And when you're putting in all those hours — <span class="hl">how much of that time is actual driving</span> versus admin, phone calls, and chasing brokers?"</div>
+        </div>
+      </div>
+
+      <!-- NEW: Late payments -->
+      <div class="scenario-panel" id="prob-payproblem">
+        <div class="turn">
+          <div class="turn-role" style="color:var(--purple)"><span class="role-dot" style="background:var(--purple)"></span>Prospect</div>
+          <div class="speech them">"The biggest thing killing me is the payments. Brokers take forever to pay. I've got money tied up for months."</div>
+        </div>
+        <div class="turn">
+          <div class="turn-role" style="color:var(--green)"><span class="role-dot" style="background:var(--green)"></span>You</div>
+          <div class="speech you" contenteditable="false">"That's a real cash flow killer. And when you say forever — are we talking 30 days, 60 days, or even longer? What's the worst one you've dealt with?"</div>
+          <div class="tip">Get them to quantify the pain. The bigger the number, the easier the ROI conversation in Stage 6.</div>
+        </div>
+        <div class="turn">
+          <div class="turn-role" style="color:var(--purple)"><span class="role-dot" style="background:var(--purple)"></span>Prospect</div>
+          <div class="speech them">"Had one go 90 days last year. I almost couldn't make payroll."</div>
+        </div>
+        <div class="turn">
+          <div class="turn-role" style="color:var(--green)"><span class="role-dot" style="background:var(--green)"></span>You</div>
+          <div class="speech you" contenteditable="false">"Wow. And has that changed anything about how you pick which brokers you work with — or do you still kind of have to take whatever's available?"</div>
+        </div>
+      </div>
+
+      <!-- NEW: Too much deadhead -->
+      <div class="scenario-panel" id="prob-deadhead">
+        <div class="turn">
+          <div class="turn-role" style="color:var(--purple)"><span class="role-dot" style="background:var(--purple)"></span>Prospect</div>
+          <div class="speech them">"My biggest problem is deadhead. I'm running too many empty miles positioning for loads."</div>
+        </div>
+        <div class="turn">
+          <div class="turn-role" style="color:var(--green)"><span class="role-dot" style="background:var(--green)"></span>You</div>
+          <div class="speech you" contenteditable="false">"That's eating into your margins bad. And when you're repositioning — is that usually because you couldn't find a backhaul, or because the backhauls available were just not worth the rate?"</div>
+          <div class="tip">Deadhead pain leads directly into the value of a dispatcher who specializes in lane optimization. Stay in curiosity mode.</div>
+        </div>
+        <div class="turn">
+          <div class="turn-role" style="color:var(--purple)"><span class="role-dot" style="background:var(--purple)"></span>Prospect</div>
+          <div class="speech them">"Both. The boards in certain regions are just dead and I end up driving home empty."</div>
+        </div>
+        <div class="turn">
+          <div class="turn-role" style="color:var(--green)"><span class="role-dot" style="background:var(--green)"></span>You</div>
+          <div class="speech you" contenteditable="false">"Yeah that's rough. And <span class="hl">if you had to put a rough number on it</span> — what would you say you're losing per month in empty miles alone?"</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===================== STAGE 3: SOLUTION AWARENESS ===================== -->
+    <div class="stage" id="stage-3">
+      <div class="stage-header">
+        <div class="stage-badge" style="background:var(--purple-dim);color:var(--purple)">04</div>
+        <div class="stage-info">
+          <h2>Solution Awareness</h2>
+          <p class="goal">Get them to describe the ideal solution in their own words. When they articulate what they want, they are selling themselves. You are just holding the mirror.</p>
+          <div class="tonality-pill"><span style="background:var(--purple)"></span> TONE: Reflective · Open · Let silence breathe after questions</div>
+        </div>
+      </div>
+
+      <div class="turn">
+        <div class="turn-role" style="color:var(--green)"><span class="role-dot" style="background:var(--green)"></span>You</div>
+        <div class="speech you" contenteditable="false">"So let me ask you something — <span class="hl">what would it look like for you</span> if all of that was just… handled? The load finding, the broker calls, the paperwork, the invoicing — if someone was doing all of that for you — what changes for you day to day?"</div>
+        <div class="tip">This is the pivot question of the entire call. Pause after you say it. Give them space. Their answer will be more powerful than any pitch you could deliver.</div>
+      </div>
+
+      <div class="scenario-group">
+        <div class="scenario-group-label">Their vision — pick the scenario</div>
+        <div class="scenario-btns">
+          <button class="scenario-btn active" onclick="switchScenario('sol', 'drive', this)"><span class="s-dot"></span>"I'd just drive"</button>
+          <button class="scenario-btn" onclick="switchScenario('sol', 'grow', this)"><span class="s-dot"></span>"I'd grow the fleet"</button>
+          <button class="scenario-btn" onclick="switchScenario('sol', 'unsure', this)"><span class="s-dot"></span>Not sure / vague</button>
+          <button class="scenario-btn alt" onclick="switchScenario('sol', 'family', this)"><span class="s-dot"></span>"I'd have more family time"</button>
+          <button class="scenario-btn alt" onclick="switchScenario('sol', 'income', this)"><span class="s-dot"></span>"I'd make more money"</button>
+        </div>
+      </div>
+
+      <div class="scenario-panel active" id="sol-drive">
+        <div class="turn">
+          <div class="turn-role" style="color:var(--purple)"><span class="role-dot" style="background:var(--purple)"></span>Prospect</div>
+          <div class="speech them">"Man… I'd just drive. That's what I want to do. I'm good at driving, not at being on the phone all day."</div>
+        </div>
+        <div class="turn">
+          <div class="turn-role" style="color:var(--green)"><span class="role-dot" style="background:var(--green)"></span>You</div>
+          <div class="speech you" contenteditable="false">"That makes total sense. And if you had someone actually negotiating rates on your behalf — someone who knows what every lane is worth and pushes back on brokers — <span class="hl">do you think that would make a meaningful difference on your revenue</span> every week?"</div>
+        </div>
+        <div class="turn">
+          <div class="turn-role" style="color:var(--purple)"><span class="role-dot" style="background:var(--purple)"></span>Prospect</div>
+          <div class="speech them">"Yeah for sure. I know I'm leaving money out there. I just don't have the time to fight for it."</div>
+        </div>
+        <div class="turn">
+          <div class="turn-role" style="color:var(--green)"><span class="role-dot" style="background:var(--green)"></span>You</div>
+          <div class="speech you" contenteditable="false">"And what about your time — if you got back, say, 15 to 20 hours a week that you're currently spending on dispatching and admin — <span class="hl">what would you do with that time?</span>"</div>
+          <div class="tip">Opportunity cost question. Shifts their thinking from "savings" to "growth."</div>
+        </div>
+        <div class="turn">
+          <div class="turn-role" style="color:var(--purple)"><span class="role-dot" style="background:var(--purple)"></span>Prospect</div>
+          <div class="speech them">"Probably get that fourth truck going sooner. That's been my goal for a year now."</div>
+        </div>
+      </div>
+
+      <div class="scenario-panel" id="sol-grow">
+        <div class="turn">
+          <div class="turn-role" style="color:var(--purple)"><span class="role-dot" style="background:var(--purple)"></span>Prospect</div>
+          <div class="speech them">"Honestly I'd probably hire another driver and add a truck. That's the goal."</div>
+        </div>
+        <div class="turn">
+          <div class="turn-role" style="color:var(--green)"><span class="role-dot" style="background:var(--green)"></span>You</div>
+          <div class="speech you" contenteditable="false">"That's a real goal. And what's the main thing standing between you and pulling that trigger right now — is it capital, or more that you're just too stretched managing what you have?"</div>
+        </div>
+        <div class="turn">
+          <div class="turn-role" style="color:var(--purple)"><span class="role-dot" style="background:var(--purple)"></span>Prospect</div>
+          <div class="speech them">"Mostly the second one. I can barely manage three trucks efficiently right now. Adding another feels overwhelming."</div>
+        </div>
+        <div class="turn">
+          <div class="turn-role" style="color:var(--green)"><span class="role-dot" style="background:var(--green)"></span>You</div>
+          <div class="speech you" contenteditable="false">"And <span class="hl">if the operational side was handled</span> — dispatch, rates, paperwork — do you think you'd feel ready to scale up?"</div>
+        </div>
+      </div>
+
+      <div class="scenario-panel" id="sol-unsure">
+        <div class="turn">
+          <div class="turn-role" style="color:var(--purple)"><span class="role-dot" style="background:var(--purple)"></span>Prospect</div>
+          <div class="speech them">"I mean… I'm not sure. Just less stress I guess?"</div>
+        </div>
+        <div class="turn">
+          <div class="turn-role" style="color:var(--green)"><span class="role-dot" style="background:var(--green)"></span>You</div>
+          <div class="speech you" contenteditable="false">"Less stress — that actually says a lot. Where's most of the stress coming from right now? Like if you had to point to one thing, what is it?"</div>
+          <div class="tip">Vague answers mean they haven't fully felt the pain yet. Help them locate it specifically. Don't move to Stage 4 until you have a concrete problem they've named themselves.</div>
+        </div>
+        <div class="turn">
+          <div class="turn-role" style="color:var(--purple)"><span class="role-dot" style="background:var(--purple)"></span>Prospect</div>
+          <div class="speech them">"Probably not knowing where my next load is coming from. The inconsistency kills me."</div>
+        </div>
+        <div class="turn">
+          <div class="turn-role" style="color:var(--green)"><span class="role-dot" style="background:var(--green)"></span>You</div>
+          <div class="speech you" contenteditable="false">"Yeah that inconsistency is the real killer. And if you had consistent, well-priced loads lined up every week — <span class="hl">what would that change for you</span> practically?"</div>
+        </div>
+      </div>
+
+      <!-- NEW: Family time -->
+      <div class="scenario-panel" id="sol-family">
+        <div class="turn">
+          <div class="turn-role" style="color:var(--purple)"><span class="role-dot" style="background:var(--purple)"></span>Prospect</div>
+          <div class="speech them">"Honestly I'd just get some time back with my family. I feel like I'm always working."</div>
+        </div>
+        <div class="turn">
+          <div class="turn-role" style="color:var(--green)"><span class="role-dot" style="background:var(--green)"></span>You</div>
+          <div class="speech you" contenteditable="false">"That's real. And when you say always working — is it the driving itself, or is it more the admin stuff that bleeds into your personal time?"</div>
+          <div class="tip">Personal pain is actually more powerful than business pain. Don't redirect to business logic — stay in this emotional territory. It converts higher.</div>
+        </div>
+        <div class="turn">
+          <div class="turn-role" style="color:var(--purple)"><span class="role-dot" style="background:var(--purple)"></span>Prospect</div>
+          <div class="speech them">"The admin stuff mostly. I'm doing broker calls at 9pm after my kids go to bed."</div>
+        </div>
+        <div class="turn">
+          <div class="turn-role" style="color:var(--green)"><span class="role-dot" style="background:var(--green)"></span>You</div>
+          <div class="speech you" contenteditable="false">"Yeah… and <span class="hl">how long has that been the situation</span>? Like is this a recent thing or has it been like that for a while?"</div>
+        </div>
+      </div>
+
+      <!-- NEW: More income -->
+      <div class="scenario-panel" id="sol-income">
+        <div class="turn">
+          <div class="turn-role" style="color:var(--purple)"><span class="role-dot" style="background:var(--purple)"></span>Prospect</div>
+          <div class="speech them">"Honestly I just want to make more money. I feel like I'm working too hard for what I'm bringing in."</div>
+        </div>
+        <div class="turn">
+          <div class="turn-role" style="color:var(--green)"><span class="role-dot" style="background:var(--green)"></span>You</div>
+          <div class="speech you" contenteditable="false">"That's fair. And when you say more money — is it more about getting better rates per load, running more miles, or more about not having to give so much of the margin away to brokers?"</div>
+        </div>
+        <div class="turn">
+          <div class="turn-role" style="color:var(--purple)"><span class="role-dot" style="background:var(--purple)"></span>Prospect</div>
+          <div class="speech them">"All three honestly. But yeah, the broker margins are brutal."</div>
+        </div>
+        <div class="turn">
+          <div class="turn-role" style="color:var(--green)"><span class="role-dot" style="background:var(--green)"></span>You</div>
+          <div class="speech you" contenteditable="false">"Yeah. And <span class="hl">if you had someone pushing back hard on those brokers every load</span> — knowing what every lane actually pays — do you think that would move the needle on your per-mile rate meaningfully?"</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===================== STAGE 4: CONSEQUENCE ===================== -->
+    <div class="stage" id="stage-4">
+      <div class="stage-header">
+        <div class="stage-badge" style="background:var(--red-dim);color:var(--red)">05</div>
+        <div class="stage-info">
+          <h2>Consequence</h2>
+          <p class="goal">Help them feel the cost of staying where they are. Not fear tactics — just honest future-pacing. The goal is for them to say "I don't want to stay here." They say it. You don't.</p>
+          <div class="tonality-pill"><span style="background:var(--red)"></span> TONE: Slower · Measured · Heavy pauses · Let it land</div>
+        </div>
+      </div>
+
+      <div class="turn">
+        <div class="turn-role" style="color:var(--green)"><span class="role-dot" style="background:var(--green)"></span>You</div>
+        <div class="speech you" contenteditable="false">"So you've been wanting that fourth truck for about a year now… <span class="hl">what do you think has been getting in the way</span> of making that happen?"</div>
+        <div class="tip">Don't fill this in for them. Pause. Let them arrive at the answer on their own. The silence is intentional.</div>
+      </div>
+      <div class="turn">
+        <div class="turn-role" style="color:var(--purple)"><span class="role-dot" style="background:var(--purple)"></span>Prospect</div>
+        <div class="speech them">"Time and money, honestly. I'm so busy keeping these three running I never have a clear enough picture to make the move."</div>
+      </div>
+      <div class="turn">
+        <div class="turn-role" style="color:var(--green)"><span class="role-dot" style="background:var(--green)"></span>You</div>
+        <div class="speech you" contenteditable="false">"Yeah that makes sense. And just thinking about the last few months — <span class="hl">if you had to put a rough number on it</span> — how much do you think you've lost in underpriced loads, deadhead miles, and slow-paying brokers? Just a ballpark."</div>
+        <div class="tip">Don't give them a number. Make them calculate it. Their number will always be more credible and more emotionally real than yours.</div>
+      </div>
+      <div class="turn">
+        <div class="turn-role" style="color:var(--purple)"><span class="role-dot" style="background:var(--purple)"></span>Prospect</div>
+        <div class="speech them">"Ugh… honestly it could be several thousand a month. I don't even want to think about it."</div>
+      </div>
+      <div class="turn">
+        <div class="turn-role" style="color:var(--green)"><span class="role-dot" style="background:var(--green)"></span>You</div>
+        <div class="speech you" contenteditable="false">"I get it. And if nothing changes — <span class="hl">where do you see yourself with the business in the next 12 months?</span> Still at three trucks, or…?"</div>
+        <div class="tip">Future-pacing. The "or…" trailing off gives them space to complete it.</div>
+      </div>
+      <div class="turn">
+        <div class="turn-role" style="color:var(--purple)"><span class="role-dot" style="background:var(--purple)"></span>Prospect</div>
+        <div class="speech them">"Honestly, probably same spot. That's what I'm trying to avoid."</div>
+      </div>
+      <div class="turn">
+        <div class="turn-role" style="color:var(--green)"><span class="role-dot" style="background:var(--green)"></span>You</div>
+        <div class="speech you" contenteditable="false">"Right. And is that something you're okay with… or is <span class="hl">changing that actually important to you?</span>"</div>
+        <div class="tip">The commitment seed. Forces them to take a verbal position.</div>
+      </div>
+    </div>
+
+    <!-- ===================== STAGE 5: COMMITMENT ===================== -->
+    <div class="stage" id="stage-5">
+      <div class="stage-header">
+        <div class="stage-badge" style="background:var(--green-dim);color:var(--green)">06</div>
+        <div class="stage-info">
+          <h2>Commitment</h2>
+          <p class="goal">Verbal buy-in before the pitch. Summarize what they told you and let them confirm it. They earn their way to the presentation. If they're not committed here, don't pitch.</p>
+          <div class="tonality-pill"><span style="background:var(--green)"></span> TONE: Calm · Confident · Measured · No rush</div>
+        </div>
+      </div>
+
+      <div class="turn">
+        <div class="turn-role" style="color:var(--green)"><span class="role-dot" style="background:var(--green)"></span>You</div>
+        <div class="speech you" contenteditable="false">"So based on everything you just shared — the time you're spending, the rates you're missing, the slow payments, the fourth truck being on hold for a year — <span class="hl">would you say solving this is actually a priority for you right now</span>, or more of a 'someday when I get around to it' thing?"</div>
+        <div class="tip">"Priority vs someday" — makes them self-categorize. If they say someday, gracefully disqualify and move on. Don't chase maybes.</div>
+      </div>
+
+      <div class="scenario-group">
+        <div class="scenario-group-label">Their commitment level — pick the scenario</div>
+        <div class="scenario-btns">
+          <button class="scenario-btn active" onclick="switchScenario('comm', 'yes', this)"><span class="s-dot"></span>Yes, it's a priority</button>
+          <button class="scenario-btn" onclick="switchScenario('comm', 'maybe', this)"><span class="s-dot"></span>Maybe / someday</button>
+          <button class="scenario-btn" onclick="switchScenario('comm', 'nobudget', this)"><span class="s-dot"></span>Budget concern</button>
+        </div>
+      </div>
+
+      <div class="scenario-panel active" id="comm-yes">
+        <div class="turn">
+          <div class="turn-role" style="color:var(--purple)"><span class="role-dot" style="background:var(--purple)"></span>Prospect</div>
+          <div class="speech them">"No, it's a priority. I'm tired of spinning my wheels."</div>
+        </div>
+        <div class="turn">
+          <div class="turn-role" style="color:var(--green)"><span class="role-dot" style="background:var(--green)"></span>You</div>
+          <div class="speech you" contenteditable="false">"I appreciate you being straight with me. <span class="hl-g">Let me show you exactly what we do</span> — and you just tell me honestly if you think it fits your situation. Sound good?"</div>
+          <div class="tip">Only now do you earn the pitch. You've built full trust. The guard is down. This is the green light.</div>
+        </div>
+      </div>
+
+      <div class="scenario-panel" id="comm-maybe">
+        <div class="turn">
+          <div class="turn-role" style="color:var(--purple)"><span class="role-dot" style="background:var(--purple)"></span>Prospect</div>
+          <div class="speech them">"I mean… it's something I've been thinking about but I'm not sure the timing is right."</div>
+        </div>
+        <div class="turn">
+          <div class="turn-role" style="color:var(--green)"><span class="role-dot" style="background:var(--green)"></span>You</div>
+          <div class="speech you" contenteditable="false">"That's fair. And just so I understand — <span class="hl">what would have to change</span> for the timing to feel right? Is it a money thing, a bandwidth thing, or something else?"</div>
+          <div class="tip">Never push a "maybe." Instead, get them to define what "right timing" looks like. If they can't define it, it's usually fear of change. Name that gently.</div>
+        </div>
+        <div class="turn">
+          <div class="turn-role" style="color:var(--green)"><span class="role-dot" style="background:var(--green)"></span>You (if they still stall)</div>
+          <div class="speech you" contenteditable="false">"No worries at all. Would it be worth getting on a 15-minute call in a couple weeks when you've had a chance to think it over? No pressure — just so I can answer any questions you have."</div>
+          <div class="tip">Graceful re-schedule. Never burn a bridge on a "maybe." Follow up in 2–3 weeks.</div>
+        </div>
+      </div>
+
+      <div class="scenario-panel" id="comm-nobudget">
+        <div class="turn">
+          <div class="turn-role" style="color:var(--purple)"><span class="role-dot" style="background:var(--purple)"></span>Prospect</div>
+          <div class="speech them">"It sounds good but honestly I'm not sure I can swing it right now financially."</div>
+        </div>
+        <div class="turn">
+          <div class="turn-role" style="color:var(--green)"><span class="role-dot" style="background:var(--green)"></span>You</div>
+          <div class="speech you" contenteditable="false">"That's a real concern. Can I ask — is it more that you're not sure you'd make back what you spend, or is it genuinely a cash flow issue right now?"</div>
+          <div class="tip">Separate value doubt from cash flow. They're different problems. Value doubt can be addressed now. Cash flow might need a different structure (trial load, deferred payment).</div>
+        </div>
+        <div class="turn">
+          <div class="turn-role" style="color:var(--green)"><span class="role-dot" style="background:var(--green)"></span>You (ROI reframe)</div>
+          <div class="speech you" contenteditable="false">"You mentioned losing several thousand a month in underpriced loads. If what we charge ends up being less than that — and most carriers see it pay for itself in the first 2 weeks — <span class="hl">would that change how you're thinking about it?</span>"</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===================== STAGE 6: PRESENTATION ===================== -->
+    <div class="stage" id="stage-6">
+      <div class="stage-header">
+        <div class="stage-badge" style="background:var(--green-dim);color:var(--green)">07</div>
+        <div class="stage-info">
+          <h2>Presentation — "Present by not presenting"</h2>
+          <p class="goal">Frame your services as the answer to what THEY described in their words. No feature dumping. Tie every point back to something they said. Check in every 2–3 sentences.</p>
+          <div class="tonality-pill"><span style="background:var(--green)"></span> TONE: Confident · Steady · Conversational · Not a monologue</div>
+        </div>
+      </div>
+
+      <div class="turn">
+        <div class="turn-role" style="color:var(--green)"><span class="role-dot" style="background:var(--green)"></span>You</div>
+        <div class="speech you" contenteditable="false">"So what we do at QuickGS is pretty simple. You said you want to just drive — <span class="hl-g">that's exactly the idea</span>. We take everything off your plate: finding loads, negotiating rates with brokers, handling BOLs, invoicing, and following up on payments. You focus on the road, we handle the business side."</div>
+        <div class="tip">Use their exact words back at them. "You said you want to just drive" — that's a mirror technique. They feel deeply understood.</div>
+      </div>
+
+      <div class="turn">
+        <div class="turn-role" style="color:var(--green)"><span class="role-dot" style="background:var(--green)"></span>You</div>
+        <div class="speech you" contenteditable="false">"You mentioned getting lowballed on rates — <span class="hl-g">our dispatchers negotiate full-time, that's all we do</span>. We know what every lane is worth and we don't settle. Most of our carriers see their per-mile rate go up in the first two to three weeks."</div>
+      </div>
+
+      <div class="turn">
+        <div class="turn-role" style="color:var(--green)"><span class="role-dot" style="background:var(--green)"></span>You</div>
+        <div class="speech you" contenteditable="false">"And on the payment side — <span class="hl-g">we stay on brokers so you're not chasing invoices</span> at 60 or 90 days. We keep your cash flow moving so you can think about that fourth truck instead of wondering when you're getting paid."</div>
+      </div>
+
+      <div class="turn">
+        <div class="turn-role" style="color:var(--green)"><span class="role-dot" style="background:var(--green)"></span>You — Check-in</div>
+        <div class="speech you" contenteditable="false">"Does that sound like <span class="hl">it actually addresses what you were describing</span> — or is there something specific you'd want to know more about?"</div>
+        <div class="tip">Check-in question every 2–3 points. If you monologue, you become every other salesperson. Stay in dialogue mode the entire time.</div>
+      </div>
+
+      <div class="scenario-group">
+        <div class="scenario-group-label">Their reaction — pick the scenario</div>
+        <div class="scenario-btns">
+          <button class="scenario-btn active" onclick="switchScenario('pres', 'positive', this)"><span class="s-dot"></span>Sounds good</button>
+          <button class="scenario-btn" onclick="switchScenario('pres', 'question', this)"><span class="s-dot"></span>Has a question</button>
+          <button class="scenario-btn" onclick="switchScenario('pres', 'skeptical', this)"><span class="s-dot"></span>Skeptical</button>
+          <button class="scenario-btn alt" onclick="switchScenario('pres', 'howmuch', this)"><span class="s-dot"></span>How much do you charge?</button>
+          <button class="scenario-btn alt" onclick="switchScenario('pres', 'howfast', this)"><span class="s-dot"></span>How fast can you start?</button>
+        </div>
+      </div>
+
+      <div class="scenario-panel active" id="pres-positive">
+        <div class="turn">
+          <div class="turn-role" style="color:var(--purple)"><span class="role-dot" style="background:var(--purple)"></span>Prospect</div>
+          <div class="speech them">"Yeah, that actually sounds pretty solid. How does it work exactly?"</div>
+        </div>
+        <div class="turn">
+          <div class="turn-role" style="color:var(--green)"><span class="role-dot" style="background:var(--green)"></span>You</div>
+          <div class="speech you" contenteditable="false">"Simple setup — we assign you a dedicated dispatcher. They learn your lanes, your preferences, and handle everything from load search to broker negotiation to paperwork. You just drive and approve loads. We handle the rest."</div>
+        </div>
+      </div>
+
+      <div class="scenario-panel" id="pres-question">
+        <div class="turn">
+          <div class="turn-role" style="color:var(--purple)"><span class="role-dot" style="background:var(--purple)"></span>Prospect</div>
+          <div class="speech them">"What kind of lanes do you cover? I'm mainly running the Midwest."</div>
+        </div>
+        <div class="turn">
+          <div class="turn-role" style="color:var(--green)"><span class="role-dot" style="background:var(--green)"></span>You</div>
+          <div class="speech you" contenteditable="false">"We cover all 48 states, but your dispatcher would focus specifically on your preferred lanes. So if you're running Midwest corridors — Chicago, Detroit, St. Louis, Kansas City — we know exactly what those lanes should pay and we push for it. <span class="hl">Is Midwest mainly where your trucks run, or do you go further out sometimes?</span>"</div>
+          <div class="tip">Answer the question directly, then bounce back with a question. Keeps the dialogue going and shows you actually know the market.</div>
+        </div>
+      </div>
+
+      <div class="scenario-panel" id="pres-skeptical">
+        <div class="turn">
+          <div class="turn-role" style="color:var(--purple)"><span class="role-dot" style="background:var(--purple)"></span>Prospect</div>
+          <div class="speech them">"I've heard this pitch before. Everyone says the same stuff."</div>
+        </div>
+        <div class="turn">
+          <div class="turn-role" style="color:var(--green)"><span class="role-dot" style="background:var(--green)"></span>You</div>
+          <div class="speech you" contenteditable="false">"That's fair — and I get it. I'm not going to tell you we're different, because everyone says that too. What I will say is — the best way to find out is to let us run one load for you. You see the rate we get, how we handle the broker, the paperwork. If it's not better than what you'd do yourself, we shake hands and go our separate ways. <span class="hl">Would you be opposed to trying that?</span>"</div>
+          <div class="tip">Don't argue with skepticism. Agree with it, then remove the risk entirely with a trial. "Would you be opposed" closes the loop.</div>
+        </div>
+      </div>
+
+      <!-- NEW: How much -->
+      <div class="scenario-panel" id="pres-howmuch">
+        <div class="turn">
+          <div class="turn-role" style="color:var(--purple)"><span class="role-dot" style="background:var(--purple)"></span>Prospect</div>
+          <div class="speech them">"Okay but before we go further — how much does this cost?"</div>
+        </div>
+        <div class="turn">
+          <div class="turn-role" style="color:var(--green)"><span class="role-dot" style="background:var(--green)"></span>You</div>
+          <div class="speech you" contenteditable="false">"Happy to get into that. We charge [X%] per load — so we only make money when you make money. No upfront fees, no monthly retainer. And based on what you said about the rates you're currently getting — most carriers find the better rates alone more than cover what we charge. <span class="hl">Does that feel like it would pencil out for your situation?</span>"</div>
+          <div class="tip">Tie the fee directly to the pain they described. "We only make money when you make money" is alignment — not a sales line. Say it and mean it.</div>
+        </div>
+      </div>
+
+      <!-- NEW: How fast -->
+      <div class="scenario-panel" id="pres-howfast">
+        <div class="turn">
+          <div class="turn-role" style="color:var(--purple)"><span class="role-dot" style="background:var(--purple)"></span>Prospect</div>
+          <div class="speech them">"If I decided to move forward — how fast could we get started?"</div>
+        </div>
+        <div class="turn">
+          <div class="turn-role" style="color:var(--green)"><span class="role-dot" style="background:var(--green)"></span>You</div>
+          <div class="speech you" contenteditable="false">"Fast — honestly we can have a dispatcher assigned to you within 24 to 48 hours of your onboarding form being submitted. The whole setup is done digitally. By the time your truck is ready to move again, we can already have loads lined up. <span class="hl">Would you want to at least get the process started this week?</span>"</div>
+          <div class="tip">Momentum close. They asked about speed — use that energy. The onboarding form ask is natural here.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===================== STAGE 7: OBJECTIONS ===================== -->
+    <div class="stage" id="stage-7">
+      <div class="stage-header">
+        <div class="stage-badge" style="background:var(--orange-dim);color:var(--orange)">08</div>
+        <div class="stage-info">
+          <h2>Objection Handling — 3-Layer NEPQ Loop</h2>
+          <p class="goal">Never argue. Never counter-pitch. Use 3 layers: (1) Validate + clarify, (2) Question back, (3) Reframe. Each layer is a question. They talk themselves out of their own objection.</p>
+          <div class="tonality-pill"><span style="background:var(--orange)"></span> TONE: Calm · Curious · Never defensive · Pause before Layer 2</div>
+        </div>
+      </div>
+
+      <div class="scenario-group">
+        <div class="scenario-group-label">Which objection are they throwing? — click to jump</div>
+        <div class="scenario-btns" style="flex-wrap:wrap;">
+          <button class="scenario-btn active" onclick="switchScenario('obj', '1', this)"><span class="s-dot"></span>Already have dispatcher</button>
+          <button class="scenario-btn" onclick="switchScenario('obj', '2', this)"><span class="s-dot"></span>What's your %?</button>
+          <button class="scenario-btn" onclick="switchScenario('obj', '3', this)"><span class="s-dot"></span>Let me think about it</button>
+          <button class="scenario-btn" onclick="switchScenario('obj', '4', this)"><span class="s-dot"></span>Bad experience before</button>
+          <button class="scenario-btn" onclick="switchScenario('obj', '5', this)"><span class="s-dot"></span>Can't afford it</button>
+          <button class="scenario-btn" onclick="switchScenario('obj', '6', this)"><span class="s-dot"></span>Need to ask partner</button>
+          <button class="scenario-btn alt" onclick="switchScenario('obj', '7', this)"><span class="s-dot"></span>Send me something first</button>
+          <button class="scenario-btn alt" onclick="switchScenario('obj', '8', this)"><span class="s-dot"></span>I do my own dispatch</button>
+          <button class="scenario-btn alt" onclick="switchScenario('obj', '9', this)"><span class="s-dot"></span>I know brokers already</button>
+        </div>
+      </div>
+
+      <div class="scenario-panel active" id="obj-1">
+        <div class="section-label">Objection 1 — "I already have a dispatcher / I'm good right now"</div>
+        <div class="obj-card">
+          <div class="obj-q">I already have a dispatcher — I'm good right now.</div>
+          <div class="obj-layers">
+            <div class="obj-layer"><div class="layer-num">L1</div><div><div class="layer-text" contenteditable="false">"Oh totally, I wasn't assuming you didn't. And I'm genuinely not here to replace something that's working well. Can I ask — just out of curiosity — how long have you been working with them?"</div><div class="layer-note">↳ Validate + gather info. Never challenge their current situation.</div></div></div>
+            <div class="obj-layer"><div class="layer-num">L2</div><div><div class="layer-text" contenteditable="false">"And in terms of rates — do you feel like they're consistently getting you what the lane is actually worth, or is there still some room there?"</div><div class="layer-note">↳ Specific gap question. Plant the seed without attacking.</div></div></div>
+            <div class="obj-layer"><div class="layer-num">L3</div><div><div class="layer-text" contenteditable="false">"What would have to be different about what you have now for you to feel like it was working at the level you actually want?"</div><div class="layer-note">↳ Let them define the gap. If they describe it, they own it.</div></div></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="scenario-panel" id="obj-2">
+        <div class="section-label">Objection 2 — "What's your percentage / How much do you charge?"</div>
+        <div class="obj-card">
+          <div class="obj-q">What's your percentage? How much do you charge?</div>
+          <div class="obj-layers">
+            <div class="obj-layer"><div class="layer-num">L1</div><div><div class="layer-text" contenteditable="false">"That's a fair question and I'll absolutely get into that. Before I do — I just want to make sure what we do even makes sense for your setup first."</div><div class="layer-note">↳ Defer price without dodging. Keeps context before numbers.</div></div></div>
+            <div class="obj-layer"><div class="layer-num">L2</div><div><div class="layer-text" contenteditable="false">"If the numbers ended up working out — and most of our carriers find it pays for itself in the first couple weeks through better rates — would pricing still be the main thing holding you back?"</div><div class="layer-note">↳ Conditional close. Isolate whether price is actually the issue.</div></div></div>
+            <div class="obj-layer"><div class="layer-num">L3</div><div><div class="layer-text" contenteditable="false">"We charge [X%] per load. Given everything you said about what you're currently losing in underpriced loads and slow payments — does that feel like it would actually be a net positive for you?"</div><div class="layer-note">↳ Now reveal price — framed against their stated losses. ROI becomes obvious.</div></div></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="scenario-panel" id="obj-3">
+        <div class="section-label">Objection 3 — "Let me think about it / Send me some info"</div>
+        <div class="obj-card">
+          <div class="obj-q">Let me think about it… can you send me some info?</div>
+          <div class="obj-layers">
+            <div class="obj-layer"><div class="layer-num">L1</div><div><div class="layer-text" contenteditable="false">"Of course, and I want you to feel comfortable. I'll send that over."</div><div class="layer-note">↳ Agree first. Never resist "think about it" — it creates pressure.</div></div></div>
+            <div class="obj-layer"><div class="layer-num">L2</div><div><div class="layer-text" contenteditable="false">"Can I ask though — when you say think about it, is there something specific that's making you hesitate, or is it more just not wanting to make a quick decision?"</div><div class="layer-note">↳ Uncover the real objection. "Think about it" is almost never about thinking.</div></div></div>
+            <div class="obj-layer"><div class="layer-num">L3</div><div><div class="layer-text" contenteditable="false">"I totally get that. What if we did this — let me set you up with one trial load, no commitment. You see exactly how we work, what rate we get you, and how we handle the paperwork. If it's not better than what you're doing now, we part ways with no hard feelings. Would you be opposed to that?"</div><div class="layer-note">↳ The trial offer removes all risk. "Opposed" framing closes the loop.</div></div></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="scenario-panel" id="obj-4">
+        <div class="section-label">Objection 4 — "I've had bad experiences with dispatchers before"</div>
+        <div class="obj-card">
+          <div class="obj-q">I've had bad experiences with dispatchers before.</div>
+          <div class="obj-layers">
+            <div class="obj-layer"><div class="layer-num">L1</div><div><div class="layer-text" contenteditable="false">"I hear that — and honestly that's more common than it should be in this industry. I'm sorry that happened."</div><div class="layer-note">↳ Full validation. Don't be defensive. Don't say "we're different" yet.</div></div></div>
+            <div class="obj-layer"><div class="layer-num">L2</div><div><div class="layer-text" contenteditable="false">"What happened with them, if you don't mind me asking? I want to understand what went wrong — because if we have the same problem, I'd rather know now than waste your time."</div><div class="layer-note">↳ Makes them articulate the specific failure. Now you know exactly what to address.</div></div></div>
+            <div class="obj-layer"><div class="layer-num">L3</div><div><div class="layer-text" contenteditable="false">"So what would have to be true for you to feel confident enough to give it another shot — what does that look like for you?"</div><div class="layer-note">↳ They define what "trustworthy dispatcher" means. Now just confirm you match their criteria.</div></div></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="scenario-panel" id="obj-5">
+        <div class="section-label">Objection 5 — "I can't afford it right now"</div>
+        <div class="obj-card">
+          <div class="obj-q">I don't know if I can afford it right now.</div>
+          <div class="obj-layers">
+            <div class="obj-layer"><div class="layer-num">L1</div><div><div class="layer-text" contenteditable="false">"That's a real concern and I respect that. Can I ask — is it more of a cash flow issue right now, or is it more that you're not sure the value would be there?"</div><div class="layer-note">↳ Separate cash flow from value doubt.</div></div></div>
+            <div class="obj-layer"><div class="layer-num">L2</div><div><div class="layer-text" contenteditable="false">"You mentioned losing several thousand a month in underpriced loads and slow payments. If what we charge you ended up being less than that — would cost still be the issue?"</div><div class="layer-note">↳ ROI reframe using their own number from the consequence stage.</div></div></div>
+            <div class="obj-layer"><div class="layer-num">L3</div><div><div class="layer-text" contenteditable="false">"What if we started with just one truck on a trial basis, zero upfront — you only pay once we get you a load? That way there's no risk and you can see the value before committing anything."</div><div class="layer-note">↳ Reduce the perceived risk to near-zero. Start small, prove value, expand naturally.</div></div></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="scenario-panel" id="obj-6">
+        <div class="section-label">Objection 6 — "I need to talk to my partner / spouse first"</div>
+        <div class="obj-card">
+          <div class="obj-q">I need to talk to my partner / wife first.</div>
+          <div class="obj-layers">
+            <div class="obj-layer"><div class="layer-num">L1</div><div><div class="layer-text" contenteditable="false">"Absolutely, that makes total sense — especially if they're involved in the business. I'd expect nothing less."</div><div class="layer-note">↳ Validate completely. Never make them feel judged for involving a partner.</div></div></div>
+            <div class="obj-layer"><div class="layer-num">L2</div><div><div class="layer-text" contenteditable="false">"From your own perspective though — based on what we've talked about — does this feel like something that makes sense for where you want to take the business?"</div><div class="layer-note">↳ Separate their personal conviction from the approval process.</div></div></div>
+            <div class="obj-layer"><div class="layer-num">L3</div><div><div class="layer-text" contenteditable="false">"Would it help if I jumped on a quick call with both of you — even 15 minutes — so I can answer any questions they might have directly? That way you're not playing phone tag trying to explain it."</div><div class="layer-note">↳ Offer the 3-way call. Gets you in the room with the real decision-maker.</div></div></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- NEW: Send me something first -->
+      <div class="scenario-panel" id="obj-7">
+        <div class="section-label">Objection 7 — "Just send me something and I'll look at it"</div>
+        <div class="obj-card">
+          <div class="obj-q">Can you just send me something and I'll take a look?</div>
+          <div class="obj-layers">
+            <div class="obj-layer"><div class="layer-num">L1</div><div><div class="layer-text" contenteditable="false">"Absolutely, I'll send you everything right now via text — website, booking link, onboarding form, all of it. What's the best number?"</div><div class="layer-note">↳ Agree and USE it as an opportunity to get their number and send the SMS close. This is actually a win.</div></div></div>
+            <div class="obj-layer"><div class="layer-num">L2</div><div><div class="layer-text" contenteditable="false">"And just so I send you the right stuff — what specifically were you curious about? Is it more about pricing, how the process works, or something else?"</div><div class="layer-note">↳ Qualify what they actually want before sending. Personalize the SMS around their concern.</div></div></div>
+            <div class="obj-layer"><div class="layer-num">L3</div><div><div class="layer-text" contenteditable="false">"Great — I'll send it right now. And just so we're not playing phone tag — if after you look it over it seems like a fit, would you be okay if I followed up in a day or two?"</div><div class="layer-note">↳ Pre-close the follow-up. Get a verbal yes before you hang up.</div></div></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- NEW: I do my own dispatch -->
+      <div class="scenario-panel" id="obj-8">
+        <div class="section-label">Objection 8 — "I do my own dispatching — I prefer it that way"</div>
+        <div class="obj-card">
+          <div class="obj-q">I do my own dispatching — I like having control over it.</div>
+          <div class="obj-layers">
+            <div class="obj-layer"><div class="layer-num">L1</div><div><div class="layer-text" contenteditable="false">"That actually makes a lot of sense — and honestly the guys who do their own dispatch understand the business better than most. Can I ask — what part of it do you enjoy most? Like is it the negotiating, the routing, or just knowing exactly where your loads are coming from?"</div><div class="layer-note">↳ Honor the control preference. Find the part they like — that's not the part you're replacing.</div></div></div>
+            <div class="obj-layer"><div class="layer-num">L2</div><div><div class="layer-text" contenteditable="false">"And the parts that feel more like work than anything else — the paperwork, the payment follow-up, the low-value calls — would you say those take as much of your time as the parts you actually enjoy?"</div><div class="layer-note">↳ Separate what they like from what they tolerate. The pain is in the tolerated parts.</div></div></div>
+            <div class="obj-layer"><div class="layer-num">L3</div><div><div class="layer-text" contenteditable="false">"What if you kept the control but handed off the stuff that was costing you time and not money? Like — you approve every load, you set the minimum rates — we just go execute it. Would that feel like something worth exploring?"</div><div class="layer-note">↳ Hybrid model positioning. They keep control, you handle execution. Addresses the real fear.</div></div></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- NEW: I know brokers already -->
+      <div class="scenario-panel" id="obj-9">
+        <div class="section-label">Objection 9 — "I already have my broker relationships"</div>
+        <div class="obj-card">
+          <div class="obj-q">I've got my brokers already — I've been working with them for years.</div>
+          <div class="obj-layers">
+            <div class="obj-layer"><div class="layer-num">L1</div><div><div class="layer-text" contenteditable="false">"That's actually a huge asset — long-term broker relationships are gold in this business. I'm not here to replace any of that."</div><div class="layer-note">↳ Validate the relationship. This is not a threat to what they have.</div></div></div>
+            <div class="obj-layer"><div class="layer-num">L2</div><div><div class="layer-text" contenteditable="false">"With those brokers — do you feel like the relationship means they're giving you better rates than what's posted, or do you still kind of end up negotiating every load the same way?"</div><div class="layer-note">↳ Gently probe whether the relationship actually translates to better rates.</div></div></div>
+            <div class="obj-layer"><div class="layer-num">L3</div><div><div class="layer-text" contenteditable="false">"What if we worked alongside your existing broker relationships and handled the open market loads — the ones where you don't have a go-to relationship? That way you're not replacing anything, just adding capacity."</div><div class="layer-note">↳ Additive positioning. You're filling the gaps, not replacing what works.</div></div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===================== STAGE 8: CLOSE + SMS ===================== -->
+    <div class="stage" id="stage-8">
+      <div class="stage-header">
+        <div class="stage-badge" style="background:var(--green-dim);color:var(--green)">09</div>
+        <div class="stage-info">
+          <h2>Commitment Close + SMS Follow-Up</h2>
+          <p class="goal">Never push — pull. Let them close themselves. Then regardless of outcome, end every call with an SMS containing all your contact info + booking link. The SMS is non-negotiable.</p>
+          <div class="tonality-pill"><span style="background:var(--green)"></span> TONE: Calm · Confident · Unhurried · Zero desperation</div>
+        </div>
+      </div>
+
+      <div class="turn">
+        <div class="turn-role" style="color:var(--green)"><span class="role-dot" style="background:var(--green)"></span>You — Emotional Check</div>
+        <div class="speech you" contenteditable="false">"So based on everything we've talked about — <span class="hl">does this feel like something</span> that could actually move the needle for you?"</div>
+        <div class="tip">"Feel like" = emotional language. Not "do you want to sign up." Let them respond emotionally first before you ask for a commitment.</div>
+      </div>
+
+      <div class="scenario-group">
+        <div class="scenario-group-label">Where are they? — pick the scenario</div>
+        <div class="scenario-btns">
+          <button class="scenario-btn active" onclick="switchScenario('close', 'ready', this)"><span class="s-dot"></span>Ready to move forward</button>
+          <button class="scenario-btn" onclick="switchScenario('close', 'trial', this)"><span class="s-dot"></span>Trial load close</button>
+          <button class="scenario-btn" onclick="switchScenario('close', 'notready', this)"><span class="s-dot"></span>Not ready / graceful exit</button>
+          <button class="scenario-btn alt" onclick="switchScenario('close', 'sendinfo', this)"><span class="s-dot"></span>Just send info</button>
+          <button class="scenario-btn alt" onclick="switchScenario('close', 'callback', this)"><span class="s-dot"></span>Call me back</button>
+        </div>
+      </div>
+
+      <div class="scenario-panel active" id="close-ready">
+        <div class="turn">
+          <div class="turn-role" style="color:var(--purple)"><span class="role-dot" style="background:var(--purple)"></span>Prospect</div>
+          <div class="speech them">"Yeah, honestly it sounds pretty good."</div>
+        </div>
+        <div class="turn">
+          <div class="turn-role" style="color:var(--green)"><span class="role-dot" style="background:var(--green)"></span>You — Define Their Next Step</div>
+          <div class="speech you" contenteditable="false">"I appreciate that. And just so I'm clear — <span class="hl">what would have to happen</span> for you to feel comfortable moving forward? What does that look like on your end?"</div>
+          <div class="tip">Let them define the close. Whatever they say becomes the roadmap. You're not pushing — you're asking what they need to feel safe.</div>
+        </div>
+        <div class="turn">
+          <div class="turn-role" style="color:var(--green)"><span class="role-dot" style="background:var(--green)"></span>You — Binary Choice Close</div>
+          <div class="speech you" contenteditable="false">"Perfect. What I'll do right now is <span class="hl-b">send you a quick text</span> with our booking link, the onboarding form, and all our contact info — so you have everything in one place. What's the best number to reach you?"</div>
+          <div class="tip">Always close with the SMS. Even when they're ready — confirm their number, send the text, and let the digital trail do the follow-up work.</div>
+        </div>
+
+      </div>
+
+      <div class="scenario-panel" id="close-trial">
+        <div class="turn">
+          <div class="turn-role" style="color:var(--purple)"><span class="role-dot" style="background:var(--purple)"></span>Prospect</div>
+          <div class="speech them">"I'm interested but I want to see how it works first before committing."</div>
+        </div>
+        <div class="turn">
+          <div class="turn-role" style="color:var(--green)"><span class="role-dot" style="background:var(--green)"></span>You — Trial Close</div>
+          <div class="speech you" contenteditable="false">"Here's what I'd suggest — let's get you set up with a <span class="hl-g">no-risk trial load</span>. We find you a load, negotiate the rate, handle all the paperwork, and you see exactly what it looks like in practice. If it goes well, we talk about working together on a regular basis. If not, no hard feelings — you owe us nothing. <span class="hl">Would you be opposed to trying that?</span>"</div>
+          <div class="tip">"Would you be opposed" — closes the loop using their instinct to say no. The trial eliminates every risk objection in one sentence.</div>
+        </div>
+        <div class="turn">
+          <div class="turn-role" style="color:var(--green)"><span class="role-dot" style="background:var(--green)"></span>You</div>
+          <div class="speech you" contenteditable="false">"Perfect — let me send you a quick text right now with the onboarding form and all our contact details. What's the best number for you?"</div>
+        </div>
+      </div>
+
+      <!-- NEW: Just send info -->
+      <div class="scenario-panel" id="close-sendinfo">
+        <div class="turn">
+          <div class="turn-role" style="color:var(--purple)"><span class="role-dot" style="background:var(--purple)"></span>Prospect</div>
+          <div class="speech them">"Yeah just shoot me a text with the info and I'll check it out."</div>
+        </div>
+        <div class="turn">
+          <div class="turn-role" style="color:var(--green)"><span class="role-dot" style="background:var(--green)"></span>You</div>
+          <div class="speech you" contenteditable="false">"Perfect — sending it right now. And I'll include the onboarding form in there — it takes about 5 minutes and that's actually what kicks off the whole process. <span class="hl">Would it be okay if I followed up in a day or two</span> to make sure you got it and answer any questions?"</div>
+          <div class="tip">The "send info" ask is actually a mini-yes. Use it. Include the onboarding form in the SMS — frame it as "what kicks off the process" not as commitment.</div>
+        </div>
+      </div>
+
+      <!-- NEW: Call me back scenario -->
+      <div class="scenario-panel" id="close-callback">
+        <div class="turn">
+          <div class="turn-role" style="color:var(--purple)"><span class="role-dot" style="background:var(--purple)"></span>Prospect</div>
+          <div class="speech them">"Can you call me back next week? I want to run the numbers first."</div>
+        </div>
+        <div class="turn">
+          <div class="turn-role" style="color:var(--green)"><span class="role-dot" style="background:var(--green)"></span>You</div>
+          <div class="speech you" contenteditable="false">"Absolutely. <span class="hl">Would Tuesday or Wednesday work better</span> for you? And what's a good time — morning or afternoon?"</div>
+          <div class="tip">Binary day + time. Never "call you next week sometime." Lock it in now or it won't happen.</div>
+        </div>
+        <div class="turn">
+          <div class="turn-role" style="color:var(--green)"><span class="role-dot" style="background:var(--green)"></span>You</div>
+          <div class="speech you" contenteditable="false">"Perfect — I'll reach out [day] at [time]. And I'll send you a quick text right now with everything so you have the numbers to look at before our call."</div>
+        </div>
+      </div>
+
+      <!-- close-notready panel -->
+      <div class="scenario-panel" id="close-notready">
+        <div class="turn">
+          <div class="turn-role" style="color:var(--purple)"><span class="role-dot" style="background:var(--purple)"></span>Prospect</div>
+          <div class="speech them">"I appreciate it but I'm just not there yet."</div>
+        </div>
+        <div class="turn">
+          <div class="turn-role" style="color:var(--green)"><span class="role-dot" style="background:var(--green)"></span>You — Graceful Disqualify</div>
+          <div class="speech you" contenteditable="false">"No worries at all — I appreciate you taking the time to talk. Just out of curiosity, <span class=\"hl\">is there a point in the future</span> where you see yourself wanting to revisit this, or is it just not the right fit right now?"</div>
+          <div class="tip">Graceful exit. Never burn a bridge. "Not the right fit" gives them an easy out while keeping the door open. Follow up in 30–60 days.</div>
+        </div>
+        <div class="turn">
+          <div class="turn-role" style="color:var(--green)"><span class="role-dot" style="background:var(--green)"></span>You</div>
+          <div class="speech you" contenteditable="false">"Either way — let me send you a quick text with our info so you have it when the timing is better. No pressure. What's the best number?"</div>
+          <div class="tip">Always get the number and send the SMS — even on a graceful exit. Most late conversions come from this exact moment.</div>
+        </div>
+      </div>
+
+      <!-- ===== SMS CLOSE — always send at end of every call ===== -->
+      <div class="section-label" style="margin-top:2rem">📱 End of every call — send this SMS</div>
+      <div class="speech sms-preview" style="margin-bottom:0.5rem">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;">
+          <span style="font-size:10px;color:var(--blue);font-family:'DM Mono',monospace;text-transform:uppercase;letter-spacing:0.1em;">SMS Template</span>
+          <button onclick="copySmsTemplate()" id="smsCopyBtn" style="font-size:11px;padding:4px 10px;border-radius:4px;border:1px solid rgba(91,168,255,0.3);background:var(--blue-dim);color:var(--blue);cursor:pointer;font-family:'DM Sans',sans-serif;transition:all 0.13s;">📋 Copy</button>
+        </div>
+        Hi, I'm Walter from QuickGS 🚛<br><br>
+        Great talking with you! Here's everything:<br><br>
+        🌐 Website: <strong>https://quickgslogistics.com</strong><br>
+        📅 Book a call: <strong>https://quickgslogistics.com/bookings</strong><br>
+        📞 Phone: <strong>+1307-509-5759</strong><br>
+        💬 For SMS: <strong>+1800-483-1253</strong><br>
+        💬 Telegram: <strong>https://t.me/quickgslogistics</strong><br>
+        ✉️ Email: <strong>contact@quickgslogistics.com</strong><br><br>
+        READY TO START? HERE IS THE FORM:<br>
+        📋 Onboarding: <strong>https://quickgslogistics.com/carrier-dispatching-package/</strong><br><br>
+        Reach out anytime we're here when you're ready! 🙎
+      </div>
+      <div class="tip" style="margin-bottom:2rem">Send within 60 seconds of hanging up. Every call ends with this — booked, trial, or graceful exit. The SMS keeps you alive in their contacts and converts most late follow-ups.</div>
+
+    </div><!-- end stage-8 -->
+
+    <!-- ===================== STAGE 9: TONALITY ===================== -->
+    <div class="stage" id="stage-9">
+      <div class="stage-header">
+        <div class="stage-badge" style="background:var(--blue-dim);color:var(--blue)">T</div>
+        <div class="stage-info">
+          <h2>Tonality Guide</h2>
+          <p class="goal">Jeremy Miner says tonality accounts for 50% of results. The words are 50% — how you say them is the other 50%. This guide covers every stage of the call.</p>
+          <div class="tonality-pill"><span style="background:var(--blue)"></span> REFERENCE — Not a stage, a cheat sheet</div>
+        </div>
+      </div>
+
+      <div class="tonality-panel">
+        <div class="tp-title">Tone by Stage</div>
+        <div class="tp-grid">
+          <div class="tp-item">
+            <div class="tp-stage">COLD OPENER (Warm-Up)</div>
+            <div class="tp-tone">Confused · Relaxed · Slightly unsure</div>
+            <div class="tp-desc">Low energy. Natural pauses. "Um…" and "uh…" are intentional. You are not sharp or energetic. You sound like you almost called the wrong number.</div>
+            <div class="tp-meter"><div class="tp-dot on"></div><div class="tp-dot on"></div><div class="tp-dot"></div><div class="tp-dot"></div><div class="tp-dot"></div></div>
+          </div>
+          <div class="tp-item">
+            <div class="tp-stage">CONNECTION (Stage 1)</div>
+            <div class="tp-tone">Warm · Genuine · Unhurried</div>
+            <div class="tp-desc">Friendly but not salesy. Slow down 20%. Think of a trusted advisor, not a rep. "I appreciate that" — say it and mean it.</div>
+            <div class="tp-meter"><div class="tp-dot on"></div><div class="tp-dot on"></div><div class="tp-dot on"></div><div class="tp-dot"></div><div class="tp-dot"></div></div>
+          </div>
+          <div class="tp-item">
+            <div class="tp-stage">SITUATION (Stage 2)</div>
+            <div class="tp-tone">Curious · Neutral · Like a journalist</div>
+            <div class="tp-desc">You are genuinely learning, not fishing for angles. Head slightly tilted. "Got it… and…" — acknowledge, then move to the next question without pressure.</div>
+            <div class="tp-meter"><div class="tp-dot on"></div><div class="tp-dot on"></div><div class="tp-dot on"></div><div class="tp-dot"></div><div class="tp-dot"></div></div>
+          </div>
+          <div class="tp-item">
+            <div class="tp-stage">PROBLEM AWARENESS (Stage 3)</div>
+            <div class="tp-tone">Empathetic · Slightly slower · Head-nodding</div>
+            <div class="tp-desc">"I hear that a lot…" said slowly builds enormous rapport. When they share pain, pause for 2–3 seconds before responding. That silence communicates that you actually heard them.</div>
+            <div class="tp-meter"><div class="tp-dot on"></div><div class="tp-dot on"></div><div class="tp-dot on"></div><div class="tp-dot on"></div><div class="tp-dot"></div></div>
+          </div>
+          <div class="tp-item">
+            <div class="tp-stage">SOLUTION AWARENESS (Stage 4)</div>
+            <div class="tp-tone">Reflective · Open · Inviting</div>
+            <div class="tp-desc">After "what would it look like for you if…" — go completely silent. Let them paint the picture. Do not fill the silence. This pause is where they sell themselves.</div>
+            <div class="tp-meter"><div class="tp-dot on"></div><div class="tp-dot on"></div><div class="tp-dot on"></div><div class="tp-dot"></div><div class="tp-dot"></div></div>
+          </div>
+          <div class="tp-item">
+            <div class="tp-stage">CONSEQUENCE (Stage 5)</div>
+            <div class="tp-tone">Heavier · Slower · Let it land</div>
+            <div class="tp-desc">Drop your voice slightly. Slow down noticeably. After "where do you see yourself in 12 months?" pause for 3–4 seconds. The weight of the question should settle before they answer.</div>
+            <div class="tp-meter"><div class="tp-dot on"></div><div class="tp-dot on"></div><div class="tp-dot on"></div><div class="tp-dot on"></div><div class="tp-dot on"></div></div>
+          </div>
+          <div class="tp-item">
+            <div class="tp-stage">COMMITMENT (Stage 6)</div>
+            <div class="tp-tone">Calm · Steady · No urgency</div>
+            <div class="tp-desc">You are not excited. You are settled. This communicates that you don't need the sale. Zero desperation. The energy of someone who has plenty of other clients and is genuinely checking fit.</div>
+            <div class="tp-meter"><div class="tp-dot on"></div><div class="tp-dot on"></div><div class="tp-dot on"></div><div class="tp-dot"></div><div class="tp-dot"></div></div>
+          </div>
+          <div class="tp-item">
+            <div class="tp-stage">PRESENTATION (Stage 7)</div>
+            <div class="tp-tone">Confident · Conversational · Not a pitch</div>
+            <div class="tp-desc">You're sharing information, not presenting. "We do X" not "Our patented solution delivers." Mirror their vocabulary back at them. Short sentences. Check in constantly.</div>
+            <div class="tp-meter"><div class="tp-dot on"></div><div class="tp-dot on"></div><div class="tp-dot on"></div><div class="tp-dot on"></div><div class="tp-dot"></div></div>
+          </div>
+          <div class="tp-item">
+            <div class="tp-stage">OBJECTIONS (Stage 8)</div>
+            <div class="tp-tone">Calm · Curious · Zero defensiveness</div>
+            <div class="tp-desc">Objections are questions in disguise. Slow down MORE when they push back. Defensiveness = pitch mode. Curiosity = NEPQ mode. You want to understand, not counter.</div>
+            <div class="tp-meter"><div class="tp-dot on"></div><div class="tp-dot on"></div><div class="tp-dot on"></div><div class="tp-dot on"></div><div class="tp-dot"></div></div>
+          </div>
+          <div class="tp-item">
+            <div class="tp-stage">CLOSE + SMS (Stage 9)</div>
+            <div class="tp-tone">Light · Easy · No pressure</div>
+            <div class="tp-desc">The close should feel like a natural next step, not a moment of tension. "I'll send you a text right now" removes all friction. The SMS does the heavy lifting after the call.</div>
+            <div class="tp-meter"><div class="tp-dot on"></div><div class="tp-dot on"></div><div class="tp-dot on"></div><div class="tp-dot"></div><div class="tp-dot"></div></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="scenario-panel" id="open-calledback">
+        <div class="turn">
+          <div class="turn-role" style="color:var(--purple)"><span class="role-dot" style="background:var(--purple)"></span>Prospect</div>
+          <div class="speech them">"Hey I got a missed call from this number — did you call me?"</div>
+        </div>
+        <div class="turn">
+          <div class="turn-role" style="color:var(--green)"><span class="role-dot" style="background:var(--green)"></span>You</div>
+          <div class="speech you" contenteditable="false">"Oh yeah — yeah I did try to reach you… uh… this is [Name] from QuickGS Logistics… and uh… I'm glad you called back actually. I was wondering if you could help me out for a moment — I'm not sure if you're the right person I should be speaking with, but I was looking into dispatching-related stuff for owner-operators in your area… uh… are you the one running the trucking side?"</div>
+          <div class="tip">Returned call = much warmer than a cold call. They called YOU back. Stay slightly uncertain but you can be more direct. Their calling back is an implicit signal of curiosity.</div>
+        </div>
+      </div>
+
+      <div class="section-label">Key Principles — Jeremy Miner</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.75rem;margin-bottom:1rem;">
+        <div class="obj-card">
+          <div class="obj-q" style="color:var(--red)">❌ What triggers the guard</div>
+          <div style="font-size:13px;color:var(--text2);line-height:2.1;">
+            "Hi my name is… I'm with…"<br>
+            Sharp, excited tone<br>
+            Talking about your solution first<br>
+            "Can I take 2 minutes of your time?"<br>
+            "The reason why I called was…"<br>
+            Sounding like everyone else
+          </div>
+        </div>
+        <div class="obj-card">
+          <div class="obj-q" style="color:var(--green)">✅ What lowers the guard</div>
+          <div style="font-size:13px;color:var(--text2);line-height:2.1;">
+            Confused, low-energy tone<br>
+            "just" + "possibly" + "um…" + "uh…"<br>
+            "Not sure if you're the right person"<br>
+            <em>Possible</em> hidden gap + consequence<br>
+            "Who should I be talking to?"<br>
+            "Would you be opposed to…"
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===================== STAGE 10: COLD OPEN ===================== -->
+    <div class="stage" id="stage-10">
+      <div class="stage-header">
+        <div class="stage-badge" style="background:var(--yellow-dim);color:var(--yellow)">00</div>
+        <div class="stage-info">
+          <h2>Cold Open (Warm-Up)</h2>
+          <p class="goal">Before any selling — you need to get past the fight-or-flight reflex. Your opener has ONE job: make them lower their guard long enough to hear one question. Confused + low-energy wins every time.</p>
+          <div class="tonality-pill"><span style="background:var(--yellow)"></span> TONE: Confused · Low energy · Almost like wrong number · No agenda</div>
+        </div>
+      </div>
+
+      <div class="section-label">Step 1 — The Confused Opener</div>
+
+      <div class="turn">
+        <div class="turn-role" style="color:var(--green)"><span class="role-dot" style="background:var(--green)"></span>You</div>
+        <div class="speech you" contenteditable="false">"Yeah… is this uh… is this <span class="hl">[Owner's Name]</span>?"</div>
+        <div class="tip">Upward inflection — like you're not sure you have the right person. This alone stops the "not interested" reflex before it starts.</div>
+      </div>
+
+      <div class="turn">
+        <div class="turn-role" style="color:var(--purple)"><span class="role-dot" style="background:var(--purple)"></span>Prospect</div>
+        <div class="speech them">"Yeah, who's this?"</div>
+      </div>
+
+      <div class="turn">
+        <div class="turn-role" style="color:var(--green)"><span class="role-dot" style="background:var(--green)"></span>You</div>
+        <div class="speech you" contenteditable="false">"Oh hey… yeah it's just uh… <span class="hl">[Your Name]</span>… I was wondering if you could possibly um… help me out for a moment."</div>
+        <div class="tip">The word <strong>"just"</strong> is intentional — it downplays you. On a cold call you have zero credibility already. "Just" signals it's not a big deal → they lower their guard. "Help me out" triggers human instinct to assist.</div>
+      </div>
+
+      <div class="turn">
+        <div class="turn-role" style="color:var(--purple)"><span class="role-dot" style="background:var(--purple)"></span>Prospect</div>
+        <div class="speech them">"Uh… sure, how can I help you?"</div>
+      </div>
+
+      <div class="section-label">Step 2 — "Not sure if you're the right person" + Hidden Gap + Consequence</div>
+
+      <div class="turn">
+        <div class="turn-role" style="color:var(--green)"><span class="role-dot" style="background:var(--green)"></span>You</div>
+        <div class="speech you" contenteditable="false">"Well… and I'm not sure if you're the right person I should be talking to… but I called to see who would be responsible for… overseeing any <span class="hl">possible hidden gaps</span> in like your dispatching — like finding loads and negotiating rates with brokers — that could be causing you guys to <span class="hl">keep leaving money on the table</span> every month… uh… who should I be talking to about that?"</div>
+        <div class="tip"><strong>"Possible"</strong> = neutral word — they can't say "we don't have that" because you said possible. <strong>"Could be"</strong> = neutral, not "is." <strong>"Who should I be talking to"</strong> = if they ARE the owner, they can't say "that's not me" without looking bad. They say "that's me."</div>
+      </div>
+
+      <div class="scenario-group">
+        <div class="scenario-group-label">Their reaction — pick the scenario</div>
+        <div class="scenario-btns">
+          <button class="scenario-btn active" onclick="switchScenario('open', 'thatsme', this)"><span class="s-dot"></span>"That's me"</button>
+          <button class="scenario-btn" onclick="switchScenario('open', 'whatgaps', this)"><span class="s-dot"></span>"What do you mean hidden gaps?"</button>
+          <button class="scenario-btn" onclick="switchScenario('open', 'notinterested', this)"><span class="s-dot"></span>"Not interested"</button>
+          <button class="scenario-btn" onclick="switchScenario('open', 'busy', this)"><span class="s-dot"></span>"I'm busy"</button>
+          <button class="scenario-btn alt" onclick="switchScenario('open', 'wrongperson2', this)"><span class="s-dot"></span>"You want [Name]"</button>
+          <button class="scenario-btn alt" onclick="switchScenario('open', 'calledback', this)"><span class="s-dot"></span>"You called me back?"</button>
+        </div>
+      </div>
+
+      <div class="scenario-panel active" id="open-thatsme">
+        <div class="turn">
+          <div class="turn-role" style="color:var(--purple)"><span class="role-dot" style="background:var(--purple)"></span>Prospect</div>
+          <div class="speech them">"That's me — what's this about?"</div>
+        </div>
+        <div class="turn">
+          <div class="turn-role" style="color:var(--green)"><span class="role-dot" style="background:var(--green)"></span>You</div>
+          <div class="speech you" contenteditable="false">"Oh good… yeah so um… we work with owner-operators on the dispatching side — finding loads, negotiating rates, handling the paperwork… uh… I'm not even sure if what we do would make sense for your situation or if you've already got that covered… would you be opposed to me asking you just a couple questions to find out?"</div>
+          <div class="tip">"I'm not even sure if what we do would make sense" = push them away → they pull you back. "Would you be opposed" = uses their instinct to say no in your favor. → Move to Stage 1: Connection.</div>
+        </div>
+      </div>
+
+      <div class="scenario-panel" id="open-whatgaps">
+        <div class="turn">
+          <div class="turn-role" style="color:var(--purple)"><span class="role-dot" style="background:var(--purple)"></span>Prospect</div>
+          <div class="speech them">"What do you mean by hidden gaps?"</div>
+        </div>
+        <div class="turn">
+          <div class="turn-role" style="color:var(--green)"><span class="role-dot" style="background:var(--green)"></span>You</div>
+          <div class="speech you" contenteditable="false">"Yeah good question… so what I mean is like… most owner-operators I talk to are spending a lot of hours every week finding loads on DAT or Truckstop, negotiating with brokers, chasing invoices… and they don't always realize how much that's costing them in rates they're not getting and time they're not driving… uh… is any of that something you're dealing with?"</div>
+          <div class="tip">Curiosity triggered ✅ — they asked YOU a question. Now describe their problem in their language. End with a yes/no question to confirm fit. → Move to Stage 1.</div>
+        </div>
+      </div>
+
+      <div class="scenario-panel" id="open-notinterested">
+        <div class="turn">
+          <div class="turn-role" style="color:var(--purple)"><span class="role-dot" style="background:var(--purple)"></span>Prospect</div>
+          <div class="speech them">"Not interested."</div>
+        </div>
+        <div class="turn">
+          <div class="turn-role" style="color:var(--green)"><span class="role-dot" style="background:var(--green)"></span>You</div>
+          <div class="speech you" contenteditable="false">"Oh yeah… no that's fair… uh… I haven't even really told you what it's about yet honestly… I'm just trying to figure out if it even applies to your situation… would you be opposed to me asking you just one quick question? And if it doesn't fit I'll let you go right there."</div>
+          <div class="tip">"I haven't even told you what it's about yet" — said lightly, not defensive. They fired before hearing anything. This resets the conversation to neutral. One question is all you need.</div>
+        </div>
+      </div>
+
+      <div class="scenario-panel" id="open-busy">
+        <div class="turn">
+          <div class="turn-role" style="color:var(--purple)"><span class="role-dot" style="background:var(--purple)"></span>Prospect</div>
+          <div class="speech them">"I'm kind of busy right now."</div>
+        </div>
+        <div class="turn">
+          <div class="turn-role" style="color:var(--green)"><span class="role-dot" style="background:var(--green)"></span>You</div>
+          <div class="speech you" contenteditable="false">"Oh no, totally… uh… when would be a better time to reach you — is later today okay or is tomorrow better for you?"</div>
+          <div class="tip">Binary callback — never "I'll try you another time." Two options, both move forward. Most people pick one. Note the time immediately.</div>
+        </div>
+      </div>
+
+      <!-- NEW: Wrong person in cold open -->
+      <div class="scenario-panel" id="open-wrongperson2">
+        <div class="turn">
+          <div class="turn-role" style="color:var(--purple)"><span class="role-dot" style="background:var(--purple)"></span>Prospect</div>
+          <div class="speech them">"Oh — you want [Name]. I'm just the driver / dispatcher / office person."</div>
+        </div>
+        <div class="turn">
+          <div class="turn-role" style="color:var(--green)"><span class="role-dot" style="background:var(--green)"></span>You</div>
+          <div class="speech you" contenteditable="false">"Oh got it — thanks for letting me know. Is there any chance you could put me through to them? Or if they're not available, I can leave a voicemail and they can reach me when it's a good time."</div>
+          <div class="tip">Always try for the transfer first. The person answering may actually have more influence than you think — be respectful and professional with them.</div>
+        </div>
+        <div class="turn">
+          <div class="turn-role" style="color:var(--green)"><span class="role-dot" style="background:var(--green)"></span>You (if they transfer)</div>
+          <div class="speech you" contenteditable="false">"Hey [Owner Name]… yeah it's uh… [Your Name] from QuickGS… [first name] mentioned you'd be the right person… uh, I was just wondering if you could possibly help me out for a moment…"</div>
+          <div class="tip">When transferred, use the gatekeeper's first name immediately. It creates instant credibility — you're not a random cold caller, you're someone they were connected to.</div>
+        </div>
+      </div>
+
+      <div class="section-label">Key Principles from Jeremy Miner</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.75rem;margin-bottom:1rem;">
+        <div class="obj-card">
+          <div class="obj-q" style="color:var(--red)">❌ What triggers the guard</div>
+          <div style="font-size:13px;color:var(--text2);line-height:2.1;">
+            "Hi my name is… I'm with…"<br>
+            Sharp, excited tone<br>
+            Talking about your solution first<br>
+            "Can I take 2 minutes of your time?"<br>
+            "The reason why I called was…"<br>
+            Sounding like everyone else
+          </div>
+        </div>
+        <div class="obj-card">
+          <div class="obj-q" style="color:var(--green)">✅ What lowers the guard</div>
+          <div style="font-size:13px;color:var(--text2);line-height:2.1;">
+            Confused, low-energy tone<br>
+            "just" + "possibly" + "um…" + "uh…"<br>
+            "Not sure if you're the right person"<br>
+            <em>Possible</em> hidden gap + consequence<br>
+            "Who should I be talking to?"<br>
+            "Would you be opposed to…"
+          </div>
+        </div>
+    </div><!-- end stage-10 -->
+
+  </div><!-- end .content -->
+
+  <!-- NAV FOOTER -->
+  <div class="nav-footer">
+    <button class="btn" id="prevBtn" onclick="changeStage(-1)" disabled>← Previous</button>
+    <div class="stage-info-mini" id="stageMini">Stage 1 / 11</div>
+    <button class="btn primary" id="nextBtn" onclick="changeStage(1)">Next →</button>
+  </div>
+
+</div><!-- end .main -->
+</div><!-- end .app -->
+
+<div class="sidebar-overlay" id="sidebarOverlay" onclick="toggleMobileSidebar()"></div>
+
+<!-- CALL NOTES PANEL -->
+<div class="notes-panel" id="notesPanel">
+  <div class="notes-header">
+    <div class="notes-title">📋 Call Notes</div>
+    <button class="notes-close" onclick="toggleNotes()">×</button>
+  </div>
+  <div class="notes-body">
+    <div class="notes-fields">
+      <div class="notes-field">
+        <label>Call Outcome</label>
+        <div class="outcome-btns">
+          <button class="outcome-btn" id="ob-booked" onclick="setOutcome('booked')">✅ Booked</button>
+          <button class="outcome-btn" id="ob-callback" onclick="setOutcome('callback')">📞 Callback</button>
+          <button class="outcome-btn" id="ob-noanswer" onclick="setOutcome('noanswer')">— No Answer</button>
+          <button class="outcome-btn" id="ob-notinterested" onclick="setOutcome('notinterested')">✗ Not Int.</button>
+        </div>
+      </div>
+      <div class="notes-field">
+        <label>SMS Sent?</label>
+        <select id="smsSentField" style="color:var(--text2);background:var(--bg3);border:1px solid var(--border2);border-radius:5px;padding:7px 10px;font-size:13px;font-family:inherit;outline:none;width:100%">
+          <option value="">— Select</option>
+          <option value="yes">✅ Yes — sent</option>
+          <option value="no">⬜ Not yet</option>
+          <option value="na">N/A</option>
+        </select>
+      </div>
+      <div class="notes-field">
+        <label>Follow-up Date</label>
+        <input type="date" id="followupDate" style="color:var(--text2);background:var(--bg3);border:1px solid var(--border2);border-radius:5px;padding:7px 10px;font-size:13px;font-family:inherit;outline:none;width:100%">
+      </div>
+      <div class="notes-field">
+        <label>Call Duration</label>
+        <input type="text" id="callDurField" placeholder="e.g. 8 min" style="color:var(--text2);background:var(--bg3);border:1px solid var(--border2);border-radius:5px;padding:7px 10px;font-size:13px;font-family:inherit;outline:none;width:100%" readonly>
+      </div>
+      <div class="notes-field">
+        <label>Pain Point(s)</label>
+        <select id="painField" style="color:var(--text2);background:var(--bg3);border:1px solid var(--border2);border-radius:5px;padding:7px 10px;font-size:13px;font-family:inherit;outline:none;width:100%">
+          <option value="">— Select main pain</option>
+          <option>Rates too low / lowballing</option>
+          <option>Too much time on admin</option>
+          <option>Late payments / cash flow</option>
+          <option>Too much deadhead</option>
+          <option>Wants to scale fleet</option>
+          <option>Doing everything alone</option>
+          <option>Bad dispatcher experience</option>
+          <option>Inconsistent loads</option>
+        </select>
+      </div>
+    </div>
+
+      <!-- Call History -->
+      <div class="notes-field">
+        <label style="display:flex;align-items:center;justify-content:space-between;">
+          <span>Call History</span>
+          <span id="historyToggle" onclick="toggleHistory()" style="cursor:pointer;color:var(--blue);font-size:9px;letter-spacing:0.08em;text-transform:none;font-weight:500;">show ▾</span>
+        </label>
+        <div id="historyList" style="display:none;max-height:200px;overflow-y:auto;display:none;flex-direction:column;gap:4px;margin-top:4px;"></div>
+      </div>
+
+    <textarea class="notes-textarea" id="callNotes" placeholder="Notes about this call — objections, fleet info, pain points, follow-up topics…"></textarea>
+  </div>
+  <div class="notes-footer">
+    <button class="notes-save-btn" onclick="saveNotes()">Save Notes</button>
+    <button class="notes-clear-btn" onclick="clearNotes()">Clear</button>
+  </div>
+</div>
+
+<!-- QUICK PHRASES PANEL -->
+<div class="phrases-panel" id="phrasesPanel">
+  <div class="phrases-header">
+    <div class="phrases-title">💬 POWER PHRASES — click to copy</div>
+  </div>
+  <div class="phrases-list" id="phrasesList"></div>
+</div>
+
+
+<script>
+  const stageIds = ['stage-0','stage-1','stage-2','stage-3','stage-4','stage-5','stage-6','stage-7','stage-8','stage-9','stage-10'];
+  const stageTitles = [
+    'Stage 1 — Connection',
+    'Stage 2 — Situation Questions',
+    'Stage 3 — Problem Awareness',
+    'Stage 4 — Solution Awareness',
+    'Stage 5 — Consequence',
+    'Stage 6 — Commitment',
+    'Stage 7 — Presentation',
+    'Stage 8 — Objection Handling',
+    'Stage 9 — Commitment Close + SMS',
+    'Tonality Guide — Reference',
+    'Stage 0 — Cold Open (Warm-Up)'
+  ];
+
+  let current = 0;
+  let editMode = false;
+
+  function goTo(idx) {
+    if (idx === null || idx === undefined) return;
+    document.getElementById(stageIds[current]).classList.remove('active');
+    document.getElementById('nav-' + current).classList.remove('active');
+    for (let i = 0; i < idx; i++) {
+      document.getElementById('nav-' + i).classList.add('done');
+      document.getElementById('nav-' + i).classList.remove('active');
+    }
+    current = idx;
+    document.getElementById(stageIds[current]).classList.add('active');
+    document.getElementById('nav-' + current).classList.add('active');
+    document.getElementById('nav-' + current).classList.remove('done');
+    updateUI();
+    window.scrollTo(0, 0);
+    addSpeechCopyButtons();
+  }
+
+  function changeStage(dir) {
+    const next = current + dir;
+    if (next < 0 || next >= stageIds.length) return;
+    goTo(next);
+  }
+
+  function updateUI() {
+    document.getElementById('topTitle').textContent = stageTitles[current];
+    const stageLabel = current === 10 ? 'Stage 0 — Warm-Up' : 'Stage ' + (current + 1) + ' / ' + stageIds.length;
+    document.getElementById('stageMini').textContent = stageLabel;
+    document.getElementById('prevBtn').disabled = current === 0;
+    document.getElementById('nextBtn').disabled = current === stageIds.length - 1;
+    document.getElementById('nextBtn').textContent = current === stageIds.length - 2 ? 'Close ✓' : 'Next →';
+    const pct = Math.round((current / (stageIds.length - 1)) * 100);
+    document.getElementById('pbFill').style.width = pct + '%';
+    document.getElementById('progressPct').textContent = pct + '%';
+  }
+
+const originalTexts = new Map(); // key = element, value = original innerHTML
+
+  function toggleEdit() {
+    editMode = !editMode;
+    document.body.classList.toggle('edit-mode', editMode);
+    document.getElementById('editBtn').textContent = editMode ? '💾 Save Changes' : '✏️ Edit Script';
+    document.getElementById('editBadge').style.display = editMode ? 'flex' : 'none';
+    const speechBlocks = document.querySelectorAll('.speech.you, .layer-text');
+    speechBlocks.forEach(el => {
+      if (editMode) {
+        if (!originalTexts.has(el)) originalTexts.set(el, el.innerHTML);
+        el.contentEditable = 'true';
+      } else {
+        el.contentEditable = 'false';
+      }
+    });
+    if (!editMode) {
+      const btn = document.getElementById('editBtn');
+      btn.textContent = '✅ Saved';
+      setTimeout(() => { btn.textContent = '✏️ Edit Script'; }, 1500);
+    }
+  }
+
+  function revertEdits() {
+    originalTexts.forEach((html, el) => { el.innerHTML = html; });
+    originalTexts.clear();
+    if (editMode) toggleEdit();
+    showToast('↩ Reverted to original');
+  }
+
+  // ===== SCENARIO SYSTEM =====
+  const scenarioState = {}; // persists active scenario per group across stage visits
+
+  function switchScenario(group, id, btn) {
+    scenarioState[group] = id;
+    const container = btn.closest('.scenario-btns');
+    container.querySelectorAll('.scenario-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    const stage = document.getElementById(stageIds[current]);
+    const panels = stage.querySelectorAll('.scenario-panel');
+    panels.forEach(p => {
+      if (p.id.startsWith(group + '-')) p.classList.remove('active');
+    });
+    const target = stage.querySelector('#' + group + '-' + id);
+    if (target) target.classList.add('active');
+  }
+
+  // ===== CALL TIMER =====
+  let timerSeconds = 0;
+  let timerInterval = null;
+  let timerRunning = false;
+
+  function timerControl(action) {
+    if (action === 'start') {
+      if (timerRunning) return;
+      timerRunning = true;
+      timerInterval = setInterval(() => {
+        timerSeconds++;
+        updateTimerDisplay();
+      }, 1000);
+      document.getElementById('timerStartBtn').style.display = 'none';
+      document.getElementById('timerStopBtn').style.display = 'block';
+      document.getElementById('timerTopbarBadge').classList.add('visible');
+    } else if (action === 'pause') {
+      clearInterval(timerInterval);
+      timerRunning = false;
+      document.getElementById('timerStartBtn').style.display = 'block';
+      document.getElementById('timerStopBtn').style.display = 'none';
+      document.getElementById('callDurField').value = formatTime(timerSeconds);
+      document.getElementById('timerTopbarBadge').classList.remove('visible', 'warning');
+    } else if (action === 'reset') {
+      clearInterval(timerInterval);
+      timerRunning = false;
+      timerSeconds = 0;
+      updateTimerDisplay();
+      document.getElementById('timerStartBtn').style.display = 'block';
+      document.getElementById('timerStopBtn').style.display = 'none';
+    }
+  }
+
+  function updateTimerDisplay() {
+    const el = document.getElementById('timerDisplay');
+    el.textContent = formatTime(timerSeconds);
+    el.className = 'cw-time';
+    if (timerRunning) {
+      if (timerSeconds >= 600) el.classList.add('warning');
+      else el.classList.add('running');
+    }
+    const badge = document.getElementById('timerTopbarBadge');
+    if (badge) {
+      badge.querySelector('#timerTopbarTime').textContent = formatTime(timerSeconds);
+      badge.classList.toggle('warning', timerSeconds >= 600);
+    }
+  }
+
+  function formatTime(s) {
+    const m = Math.floor(s / 60).toString().padStart(2, '0');
+    const sec = (s % 60).toString().padStart(2, '0');
+    return m + ':' + sec;
+  }
+
+  // ===== TRUCK SELECTOR =====
+  let selectedTrucks = null;
+  function setTrucks(n) {
+    selectedTrucks = n;
+    document.querySelectorAll('.truck-btn').forEach((b, i) => {
+      b.classList.toggle('on', i === (n === '5+' ? 4 : n - 1));
+    });
+    // Auto-select matching fleet scenario in Stage 2 if visible
+    const fleetMap = { 1: 'solo', 2: 'nodispatch', 3: '3truck', 4: '5truck', '5+': 'bigfleet' };
+    const targetScenario = fleetMap[n];
+    if (targetScenario) {
+      const targetBtn = document.querySelector(`#stage-1 .scenario-btn[onclick*="'${targetScenario}'"]`);
+      if (targetBtn) {
+        const container = targetBtn.closest('.scenario-btns');
+        container.querySelectorAll('.scenario-btn').forEach(b => b.classList.remove('active'));
+        targetBtn.classList.add('active');
+        const panels = document.querySelectorAll('#stage-1 .scenario-panel');
+        panels.forEach(p => p.classList.remove('active'));
+        const target = document.querySelector('#stage-1 #sit-' + targetScenario);
+        if (target) target.classList.add('active');
+        scenarioState['sit'] = targetScenario;
+      }
+    }
+  }
+
+  // ===== CALL NOTES PANEL =====
+
+  function toggleHistory() {
+    const list = document.getElementById('historyList');
+    const toggle = document.getElementById('historyToggle');
+    const isHidden = list.style.display === 'none' || list.style.display === '';
+    if (isHidden) {
+      loadHistory();
+      list.style.display = 'flex';
+      toggle.textContent = 'hide ▴';
+    } else {
+      list.style.display = 'none';
+      toggle.textContent = 'show ▾';
+    }
+  }
+
+  function loadHistory() {
+    const list = document.getElementById('historyList');
+    list.innerHTML = '';
+    const keys = Object.keys(localStorage).filter(k => k.startsWith('quickgs_call_')).sort().reverse().slice(0, 8);
+    if (keys.length === 0) {
+      list.innerHTML = '<div style="font-size:11px;color:var(--text3);padding:6px 0;font-style:italic;">No calls saved yet.</div>';
+      return;
+    }
+    keys.forEach(k => {
+      try {
+        const d = JSON.parse(localStorage.getItem(k));
+        const outcomeColor = {booked:'var(--green)',callback:'var(--blue)',noanswer:'var(--text3)',notinterested:'var(--red)',none:'var(--text3)'}[d.outcome] || 'var(--text3)';
+        const outcomeLabel = {booked:'Booked',callback:'Callback',noanswer:'No ans.',notinterested:'Not int.',none:'—'}[d.outcome] || '—';
+        const item = document.createElement('div');
+        item.style.cssText = 'background:var(--bg3);border:1px solid var(--border);border-radius:5px;padding:6px 9px;font-size:11px;cursor:pointer;';
+        item.innerHTML = `<div style="display:flex;justify-content:space-between;align-items:center;"><span style="font-weight:500;color:var(--text)">${d.name}${d.company ? ' — '+d.company : ''}</span><span style="color:${outcomeColor};font-family:'DM Mono',monospace;font-size:10px;">${outcomeLabel}</span></div><div style="color:var(--text3);margin-top:2px;font-size:10px;">${d.savedAt} · ${d.dur || '—'}</div>`;
+        item.onclick = () => {
+          document.getElementById('pfName').value = d.name || '';
+          document.getElementById('pfCompany').value = d.company || '';
+          document.getElementById('callNotes').value = d.notes || '';
+          if (d.outcome) setOutcome(d.outcome);
+        };
+        list.appendChild(item);
+      } catch(e) {}
+    });
+  }
+
+
+  function toggleMobileSidebar() {
+    document.querySelector('.sidebar').classList.toggle('mobile-open');
+    document.getElementById('sidebarOverlay').classList.toggle('open');
+  }
+  // Close sidebar when nav item clicked on mobile
+  document.querySelectorAll('.nav-item').forEach(item => {
+    item.addEventListener('click', () => {
+      if (window.innerWidth <= 768) {
+        document.querySelector('.sidebar').classList.remove('mobile-open');
+        document.getElementById('sidebarOverlay').classList.remove('open');
+      }
+    });
+  });
+
+
+  let tipsVisible = true;
+  function toggleTips() {
+    tipsVisible = !tipsVisible;
+    document.body.classList.toggle('tips-hidden', !tipsVisible);
+    document.getElementById('tipsBtn').textContent = tipsVisible ? '💡 Tips' : '💡 Tips off';
+    document.getElementById('tipsBtn').style.opacity = tipsVisible ? '1' : '0.5';
+  }
+
+  function toggleNotes() {
+    document.getElementById('notesPanel').classList.toggle('open');
+  }
+
+  let currentOutcome = null;
+  function setOutcome(type) {
+    currentOutcome = type;
+    ['booked','callback','noanswer','notinterested'].forEach(t => {
+      const btn = document.getElementById('ob-' + t);
+      btn.className = 'outcome-btn' + (t === type ? ' sel-' + t : '');
+    });
+  }
+
+  function saveNotes() {
+    const notes = document.getElementById('callNotes').value;
+    const name = document.getElementById('pfName').value || 'Unknown';
+    const company = document.getElementById('pfCompany').value || '';
+    const phone = document.getElementById('pfPhone').value || '';
+    const state = document.getElementById('pfState').value || '';
+    const followup = document.getElementById('followupDate').value;
+    const dur = document.getElementById('callDurField').value || formatTime(timerSeconds);
+    const outcome = currentOutcome || 'none';
+    const smsSent = document.getElementById('smsSentField').value;
+    const pain = document.getElementById('painField').value;
+    const data = { name, company, phone, state, outcome, smsSent, pain, followup, dur, notes, savedAt: new Date().toLocaleString() };
+    const key = 'quickgs_call_' + Date.now();
+    let saved = false;
+    try { localStorage.setItem(key, JSON.stringify(data)); saved = true; } catch(e) { saved = false; }
+    const btn = document.querySelector('.notes-save-btn');
+    if (saved) {
+      btn.textContent = '✅ Saved!';
+      btn.style.background = '#1a7a4a';
+    } else {
+      btn.textContent = '⚠️ Storage full';
+      btn.style.background = '#7a1a1a';
+    }
+    setTimeout(() => { btn.textContent = 'Save Notes'; btn.style.background = ''; }, 1800);
+    if (!saved) return;
+
+  }
+
+  function clearNotes() {
+    document.getElementById('callNotes').value = '';
+    document.getElementById('followupDate').value = '';
+    document.getElementById('smsSentField').value = '';
+    document.getElementById('painField').value = '';
+    currentOutcome = null;
+    ['booked','callback','noanswer','notinterested'].forEach(t => {
+      document.getElementById('ob-' + t).className = 'outcome-btn';
+    });
+  }
+
+  // ===== QUICK PHRASES =====
+  const phrases = [
+    { tag: 'Permission', text: "Would you be okay if I just asked you a couple quick questions first?" },
+    { tag: 'Disarm', text: "I'm not here to sell you anything today." },
+    { tag: 'Opener', text: "How's that been working for you overall?" },
+    { tag: 'Pain', text: "When the rates are low like that — what do you usually end up doing?" },
+    { tag: 'Time cost', text: "How many hours a week would you say you're spending on all of that?" },
+    { tag: 'Vision', text: "What would it look like for you if all of that was just… handled?" },
+    { tag: 'Opportunity cost', text: "What would you do with that time?" },
+    { tag: 'Consequence', text: "If nothing changes — where do you see yourself with the business in the next 12 months?" },
+    { tag: 'Commitment seed', text: "Is that something you're okay with… or is changing that actually important to you?" },
+    { tag: 'Priority check', text: "Would you say solving this is actually a priority for you right now, or more of a someday thing?" },
+    { tag: 'Check-in', text: "Does that sound like it actually addresses what you were describing?" },
+    { tag: 'Trial close', text: "Would you be opposed to trying that?" },
+    { tag: 'Binary close', text: "What works better for you — Wednesday or Thursday?" },
+    { tag: 'Objection – validate', text: "Oh totally — I wasn't assuming you didn't." },
+    { tag: 'Objection – gap', text: "What would have to be different for you to feel like it was working at the level you actually want?" },
+    { tag: 'SMS close', text: "Let me send you a quick text right now with our info — what's the best number?" },
+    { tag: 'Transfer ask', text: "Do you think you could transfer me over to them? If not, I can leave a voicemail." },
+    { tag: 'Graceful exit', text: "Is there a point in the future where you see yourself wanting to revisit this?" },
+    { tag: 'Wrong person', text: "Thanks for letting me know — is there any chance you could put me through to them?" },
+    { tag: 'Callback binary', text: "Would later today or tomorrow morning work better for you?" },
+  ];
+
+  function buildPhrasesList() {
+    const list = document.getElementById('phrasesList');
+    list.innerHTML = '';
+    phrases.forEach(p => {
+      const div = document.createElement('div');
+      div.className = 'phrase-item';
+      div.innerHTML = `<div class="phrase-tag">${p.tag}</div><div>"${p.text}"</div>`;
+      div.onclick = () => copyPhrase(p.text);
+      list.appendChild(div);
+    });
+  }
+
+  function copyPhrase(text) {
+    copyText('"' + text + '"');
+  }
+
+  function copyText(text) {
+    navigator.clipboard.writeText(text).then(() => {
+      showToast('✓ Copied!');
+    }).catch(() => {
+      const ta = document.createElement('textarea');
+      ta.value = text;
+      document.body.appendChild(ta);
+      ta.select();
+      document.execCommand('copy');
+      ta.remove();
+      showToast('✓ Copied!');
+    });
+  }
+
+  function showToast(msg) {
+    const toast = document.createElement('div');
+    toast.className = 'phrase-copy-toast';
+    toast.textContent = msg;
+    document.body.appendChild(toast);
+    setTimeout(() => toast.remove(), 1900);
+  }
+
+  function togglePhrases() {
+    const panel = document.getElementById('phrasesPanel');
+    panel.classList.toggle('open');
+  }
+
+
+  // Close panels on outside click
+  document.addEventListener('click', (e) => {
+    const phrasesPanel = document.getElementById('phrasesPanel');
+    const phrasesBtn = document.getElementById('phrasesBtn');
+    if (phrasesPanel.classList.contains('open') && !phrasesPanel.contains(e.target) && e.target !== phrasesBtn) {
+      phrasesPanel.classList.remove('open');
+    }
+  });
+
+  // Keyboard navigation
+  document.addEventListener('keydown', (e) => {
+    if (editMode) return;
+    if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA' || e.target.tagName === 'SELECT') return;
+    if (e.key === 'ArrowRight' || e.key === 'ArrowDown') changeStage(1);
+    if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') changeStage(-1);
+    if (e.key === 'Escape') {
+      document.getElementById('phrasesPanel').classList.remove('open');
+      document.getElementById('notesPanel').classList.remove('open');
+    }
+  });
+
+
+  // Add visual dividers before first alt button in each scenario-btns group
+  function addAltDividers() {
+    document.querySelectorAll('.scenario-btns').forEach(container => {
+      const alts = container.querySelectorAll('.scenario-btn.alt');
+      if (alts.length === 0) return;
+      const firstAlt = alts[0];
+      const divider = document.createElement('div');
+      divider.className = 'alt-divider';
+      divider.innerHTML = '<span class="alt-divider-label">less common</span>';
+      container.insertBefore(divider, firstAlt);
+    });
+  }
+
+
+
+  // UX1: Add copy buttons to all .speech.you elements
+  function addSpeechCopyButtons() {
+    document.querySelectorAll('.speech.you').forEach(el => {
+      if (el.querySelector('.speech-copy-btn')) return;
+      const btn = document.createElement('button');
+      btn.className = 'speech-copy-btn';
+      btn.textContent = 'copy';
+      btn.onclick = (e) => {
+        e.stopPropagation();
+        const text = el.innerText.replace('copy', '').trim();
+        copyText(text);
+        btn.textContent = '✓';
+        setTimeout(() => { btn.textContent = 'copy'; }, 1500);
+      };
+      el.appendChild(btn);
+    });
+  }
+
+  function copySmsTemplate() {
+    const template = `Hi, I'm Walter from QuickGS 🚛
+Great talking with you! Here's everything:
+
+🌐 Website: https://quickgslogistics.com
+📅 Book a call: https://quickgslogistics.com/bookings
+📞 Phone: +1307-509-5759
+💬 For SMS: +1800-483-1253
+💬 Telegram: https://t.me/quickgslogistics
+✉️ Email: contact@quickgslogistics.com
+
+READY TO START? HERE IS THE FORM:
+📋 Onboarding: https://quickgslogistics.com/carrier-dispatching-package/
+
+Reach out anytime we're here when you're ready! 🙎`;
+    copyText(template);
+    const btn = document.getElementById('smsCopyBtn');
+    if (btn) { btn.textContent = '✅ Copied!'; setTimeout(() => { btn.textContent = '📋 Copy'; }, 2000); }
+  }
+
+  buildPhrasesList();
+  addAltDividers();
+  addSpeechCopyButtons();
+  updateUI();
+</script>
+</body>
+</html>
