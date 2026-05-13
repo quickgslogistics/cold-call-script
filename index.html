@@ -112,6 +112,7 @@
   }
   .nav-item .label { flex: 1; line-height: 1.3; }
   .nav-item.done .num { background: var(--green-dim); color: var(--green); }
+  .nav-item.done .num::after { content: ' ✓'; font-size: 9px; }
   .nav-item.active .num { background: var(--green); color: #000; font-weight: 700; }
   .nav-item:not(.active):not(.done) .num { background: var(--bg); color: var(--text3); border: 1px solid var(--border); }
 
@@ -175,7 +176,7 @@
   /* PROSPECT INFO BAR */
   .prospect-bar {
     background: var(--bg3); border-bottom: 1px solid var(--border);
-    padding: 7px 2rem; display: flex; align-items: center; gap: 14px; flex-wrap: wrap;
+    padding: 7px 2rem; display: flex; align-items: center; gap: 8px; flex-wrap: wrap;
   }
   .pf-label { font-size: 10px; color: var(--text3); font-family: 'DM Mono', monospace; text-transform: uppercase; letter-spacing: 0.08em; flex-shrink: 0; }
   .pf-field {
@@ -194,7 +195,7 @@
   .truck-btn.on { background: var(--green-dim); border-color: rgba(46,204,138,0.4); color: var(--green); }
 
   /* CONTENT */
-  .content { padding: 2rem; flex: 1; max-width: 880px; }
+  .content { padding: 2rem; flex: 1; max-width: 880px; overscroll-behavior-y: contain; }
 
   /* EDIT BADGE */
   .edit-badge {
@@ -215,6 +216,14 @@
     font-size: 14px; font-weight: 700; flex-shrink: 0;
     font-family: 'DM Mono', monospace;
   }
+
+  .time-badge {
+    display: inline-flex; align-items: center; gap: 4px;
+    font-size: 10px; color: var(--text3); font-family: 'DM Mono', monospace;
+    background: var(--bg3); border: 1px solid var(--border); border-radius: 4px;
+    padding: 2px 7px; margin-top: 6px;
+  }
+
   .stage-info h2 { font-size: 19px; font-weight: 600; color: var(--text); margin-bottom: 4px; letter-spacing: -0.01em; }
   .stage-info .goal { font-size: 13px; color: var(--text2); line-height: 1.65; max-width: 620px; }
   .stage-info .tonality-pill {
@@ -306,6 +315,17 @@
   /* ===== OBJECTION CARD ===== */
   .obj-card { background: var(--bg2); border: 1px solid var(--border); border-radius: var(--radius); padding: 1rem 1.2rem; margin-bottom: 0.75rem; transition: border-color 0.14s; }
   .obj-card:hover { border-color: var(--border2); }
+
+  .obj-card.handled { opacity: 0.45; }
+  .obj-card.handled .obj-q { text-decoration: line-through; }
+  .obj-handle-btn {
+    float: right; font-size: 10px; padding: 2px 8px; border-radius: 4px;
+    border: 1px solid var(--border2); background: var(--bg); color: var(--text3);
+    cursor: pointer; font-family: 'DM Mono', monospace; transition: all 0.13s;
+    margin-left: 8px;
+  }
+  .obj-card.handled .obj-handle-btn { background: var(--green-dim); color: var(--green); border-color: rgba(46,204,138,0.3); }
+
   .obj-q { font-size: 13px; font-weight: 500; color: var(--orange); margin-bottom: 10px; display: flex; align-items: center; gap: 7px; }
   .obj-q::before { content: '"'; font-size: 20px; line-height: 1; color: var(--border2); }
   .obj-layers { display: flex; flex-direction: column; gap: 7px; }
@@ -375,6 +395,36 @@
   .timer-topbar-badge.visible { display: flex; }
   .timer-topbar-badge.warning { color: var(--orange); background: var(--orange-dim); border-color: rgba(245,166,35,0.2); }
 
+
+  .sidebar { transition: width 0.2s ease; }
+  .sidebar.collapsed { width: 52px; overflow: hidden; }
+  .sidebar.collapsed .sidebar-logo .subtitle,
+  .sidebar.collapsed .sidebar-section-label,
+  .sidebar.collapsed .nav-item .label,
+  .sidebar.collapsed .progress-wrap,
+  .sidebar.collapsed .call-timer-widget,
+  .sidebar.collapsed .cw-label,
+  .sidebar.collapsed .cw-btns,
+  .sidebar.collapsed .sidebar-nav > .sidebar-section > div:not(.nav-item),
+  .sidebar.collapsed > div:not(.sidebar-nav):not(.sidebar-logo) { display: none !important; }
+  .sidebar.collapsed .sidebar-logo { padding: 12px 8px; text-align: center; }
+  .sidebar.collapsed .sidebar-logo .company { font-size: 0; }
+  .sidebar.collapsed .sidebar-logo .company::before { width: 12px; height: 12px; margin: 0 auto; }
+  .sidebar.collapsed .nav-item { padding: 8px; justify-content: center; }
+  .sidebar.collapsed .nav-item .num { width: 28px; height: 28px; font-size: 11px; }
+  .sidebar-collapse-btn {
+    position: absolute; bottom: 60px; right: -12px;
+    width: 24px; height: 24px; border-radius: 50%;
+    background: var(--bg3); border: 1px solid var(--border2);
+    color: var(--text3); font-size: 11px; cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    z-index: 101; transition: all 0.15s; box-shadow: var(--shadow-sm);
+  }
+  .sidebar-collapse-btn:hover { color: var(--text); background: var(--bg4); }
+  .main { transition: margin-left 0.2s ease; }
+  .sidebar.collapsed ~ .main { margin-left: 52px; }
+  @media (max-width: 768px) { .sidebar-collapse-btn { display: none; } }
+
   /* STAGE VISIBILITY */
   .stage { display: none; }
   .stage.active { display: block; }
@@ -389,7 +439,7 @@
   /* ===== CALL NOTES PANEL ===== */
   .notes-panel {
     display: none; position: fixed;
-    right: 0; top: 0; bottom: 0; width: 330px;
+    right: 0; top: 0; bottom: 0; width: min(330px, 95vw);
     background: var(--bg2); border-left: 1px solid var(--border);
     z-index: 200; flex-direction: column; animation: slideInRight 0.2s ease;
     box-shadow: -8px 0 32px rgba(0,0,0,0.5);
@@ -454,13 +504,7 @@
   }
   .phrase-item:hover { background: var(--bg3); color: var(--text); border-color: var(--border); }
   .phrase-item .phrase-tag { font-size: 9.5px; color: var(--text3); font-family: 'DM Mono', monospace; margin-bottom: 2px; }
-  .phrase-copy-toast {
-    position: fixed; bottom: 80px; left: 50%; transform: translateX(-50%);
-    background: var(--green); color: #000; font-size: 12px; font-weight: 600;
-    padding: 6px 16px; border-radius: 20px; z-index: 9999;
-    animation: toastFade 1.8s ease forwards; pointer-events: none; box-shadow: var(--glow-green);
-  }
-  @keyframes toastFade { 0%{opacity:0;transform:translateX(-50%) translateY(6px)} 15%{opacity:1;transform:translateX(-50%) translateY(0)} 75%{opacity:1} 100%{opacity:0} }
+/* toast styles moved to .toast-container */
 
 
 
@@ -504,15 +548,122 @@
 
   body.tips-hidden .tip { display: none; }
 
-  /* PRINT */
-  @media print {
-    .sidebar, .topbar, .nav-footer, .prospect-bar, .notes-panel, .phrases-panel { display: none !important; }
-    .main { margin-left: 0; }
-    .content { padding: 1rem; max-width: 100%; }
-    .stage { display: block !important; }
-    .stage-header { page-break-after: avoid; }
-    .turn { page-break-inside: avoid; }
+  body.focus-mode .tip { display: none; }
+  body.focus-mode .turn-role { display: none; }
+  body.focus-mode .section-label { display: none; }
+  body.focus-mode .scenario-group { display: none; }
+  body.focus-mode .tonality-pill { display: none; }
+  body.focus-mode .stage-info .goal { display: none; }
+  body.focus-mode .warmup-ref { display: none; }
+  body.focus-mode .info-callout { display: none; }
+
+
+
+  .quick-obj-btn {
+    position: fixed; bottom: 72px; right: 20px;
+    width: 44px; height: 44px; border-radius: 50%;
+    background: var(--orange-dim); border: 1px solid rgba(245,166,35,0.3);
+    color: var(--orange); font-size: 18px; cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    box-shadow: var(--shadow-md); z-index: 90;
+    transition: all 0.15s; opacity: 0.7;
   }
+  .quick-obj-btn:hover { opacity: 1; transform: scale(1.08); box-shadow: 0 4px 20px rgba(245,166,35,0.25); }
+  .quick-obj-btn[data-stage="7"] { opacity: 0; pointer-events: none; }
+
+
+  body.light-mode {
+    --bg: #FFFFFF;
+    --bg2: #F7F7F8;
+    --bg3: #F0F0F2;
+    --bg4: #E8E8EC;
+    --border: #E0E0E6;
+    --border2: #C8C8D4;
+    --text: #111318;
+    --text2: #3D3F50;
+    --text3: #8A8DA0;
+    --green-dim: #E6F7EF;
+    --orange-dim: #FEF5E4;
+    --red-dim: #FEF0F0;
+    --blue-dim: #EDF4FF;
+    --purple-dim: #F0EEFF;
+    --teal-dim: #E4F7FA;
+    --shadow-sm: 0 1px 3px rgba(0,0,0,0.08);
+    --shadow-md: 0 4px 12px rgba(0,0,0,0.10);
+  }
+
+
+  .stage-flow-bar {
+    display: flex; align-items: center; gap: 0;
+    padding: 6px 2rem; background: var(--bg2);
+    border-bottom: 1px solid var(--border);
+    overflow-x: auto; scrollbar-width: none;
+  }
+  .stage-flow-bar::-webkit-scrollbar { display: none; }
+  .sfb-step {
+    display: flex; align-items: center; gap: 0;
+    font-size: 10px; color: var(--text3); white-space: nowrap;
+    font-family: 'DM Mono', monospace; cursor: pointer;
+    transition: color 0.13s; padding: 0 4px;
+  }
+  .sfb-step:hover { color: var(--text2); }
+  .sfb-step.active { color: var(--green); font-weight: 600; }
+  .sfb-step.done { color: var(--text2); }
+  .sfb-arrow { color: var(--border2); padding: 0 2px; font-size: 9px; }
+  @media (max-width: 768px) { .stage-flow-bar { padding: 5px 1rem; } .sfb-step { font-size: 9px; } }
+
+
+  .toast-container {
+    position: fixed; bottom: 80px; left: 50%;
+    transform: translateX(-50%); z-index: 9999;
+    display: flex; flex-direction: column; align-items: center; gap: 6px;
+    pointer-events: none;
+  }
+  .toast {
+    background: var(--bg4); color: var(--text); font-size: 12px; font-weight: 500;
+    padding: 7px 18px; border-radius: 20px; border: 1px solid var(--border2);
+    box-shadow: var(--shadow-md); white-space: nowrap;
+    animation: toastAnim 2s ease forwards;
+  }
+  .toast.success { background: var(--green-dim); color: var(--green); border-color: rgba(46,204,138,0.3); }
+  .toast.error { background: var(--red-dim); color: var(--red); border-color: rgba(240,92,92,0.25); }
+  @keyframes toastAnim {
+    0% { opacity: 0; transform: translateY(8px) scale(0.95); }
+    12% { opacity: 1; transform: translateY(0) scale(1); }
+    75% { opacity: 1; }
+    100% { opacity: 0; transform: translateY(-4px); }
+  }
+
+
+  .turn { cursor: default; }
+  .turn.tip-highlight .tip {
+    background: var(--yellow-dim); border-left: 2px solid var(--yellow);
+    color: var(--yellow); padding: 6px 10px; border-radius: 0 4px 4px 0;
+    transition: all 0.2s;
+  }
+  .turn-role { cursor: pointer; user-select: none; }
+  .turn-role:hover { opacity: 0.8; }
+
+  /* PRINT */
+
+  @page { margin: 1.5cm; }
+  @media print {
+    .sidebar, .topbar, .nav-footer, .prospect-bar, .notes-panel,
+    .phrases-panel, .stage-flow-bar, .quick-obj-btn,
+    .sidebar-collapse-btn, .speech-copy-btn, .obj-handle-btn { display: none !important; }
+    .main { margin-left: 0 !important; }
+    .content { padding: 0; max-width: 100%; }
+    .stage { display: block !important; break-inside: avoid; }
+    .stage-header { break-after: avoid; border-bottom: 1pt solid #ccc; padding-bottom: 8pt; margin-bottom: 12pt; }
+    .speech { break-inside: avoid; border-left: 2pt solid #999 !important; padding: 6pt 10pt; margin-bottom: 6pt; background: none !important; border-radius: 0 !important; }
+    .speech.them { border-left-color: #bbb !important; }
+    .scenario-panel { display: block !important; }
+    .scenario-group { display: none; }
+    .tip { font-size: 9pt; color: #666; border-top: 0.5pt solid #ddd; padding-top: 4pt; margin-top: 4pt; }
+    h2 { font-size: 14pt; }
+    body { font-size: 10pt; line-height: 1.5; }
+  }
+
 
 
   .hamburger-btn {
@@ -526,10 +677,28 @@
     background: rgba(0,0,0,0.6); z-index: 99; backdrop-filter: blur(2px);
   }
   .sidebar-overlay.open { display: block; }
+
+  @media (max-width: 600px) {
+    .topbar-actions .btn-hide-mobile { display: none; }
+    .topbar-title { font-size: 12px; }
+  }
+
+
+  @media (max-width: 768px) {
+    .scenario-btn { padding: 9px 13px; font-size: 13px; min-height: 44px; }
+    .alt-divider { margin: 6px 0 4px; }
+  }
+
   @media (max-width: 768px) {
     .hamburger-btn { display: flex; align-items: center; }
     .sidebar { transform: translateX(-100%); transition: transform 0.22s ease; }
     .sidebar.mobile-open { transform: translateX(0); box-shadow: 4px 0 24px rgba(0,0,0,0.5); }
+  }
+
+
+  @media (max-width: 600px) {
+    .topbar-actions .btn-hide-mobile { display: none; }
+    .topbar-title { font-size: 12px; }
   }
 
   @media (max-width: 768px) {
@@ -543,6 +712,23 @@
     .btn { padding: 5px 9px; font-size: 12px; }
   }
 
+
+
+  .skip-link {
+    position: absolute; top: -40px; left: 0; z-index: 9999;
+    background: var(--green); color: #000; padding: 8px 16px;
+    font-size: 13px; font-weight: 600; border-radius: 0 0 6px 0;
+    transition: top 0.15s;
+  }
+  .skip-link:focus { top: 0; }
+
+  :focus-visible {
+    outline: 2px solid var(--green);
+    outline-offset: 2px;
+  }
+  button:focus:not(:focus-visible),
+  .nav-item:focus:not(:focus-visible) { outline: none; }
+
   ::-webkit-scrollbar { width: 5px; height: 5px; }
   ::-webkit-scrollbar-track { background: transparent; }
   ::-webkit-scrollbar-thumb { background: var(--border2); border-radius: 4px; }
@@ -550,10 +736,12 @@
 </style>
 </head>
 <body>
+<div class="toast-container" id="toastContainer"></div>
+<a href="#mainContent" class="skip-link">Skip to content</a>
 <div class="app">
 
 <!-- SIDEBAR -->
-<aside class="sidebar">
+<aside class="sidebar" role="navigation" aria-label="Script stages">
   <div class="sidebar-logo">
     <div class="company">QuickGS Logistics</div>
     <div class="subtitle">Cold Call Script v3.0</div>
@@ -568,6 +756,23 @@
   </div>
 
   <!-- CALL TIMER -->
+
+  <!-- Call Counter -->
+  <div style="margin:0 0.75rem 0.25rem;background:var(--bg3);border:1px solid var(--border);border-radius:var(--radius);padding:9px 12px;display:flex;align-items:center;justify-content:space-between;">
+    <span style="font-size:9px;color:var(--text3);font-family:'DM Mono',monospace;text-transform:uppercase;letter-spacing:0.1em;">Today's calls</span>
+    <div style="display:flex;align-items:center;gap:7px;">
+      <span id="callCountDisplay" style="font-size:22px;font-family:'DM Mono',monospace;color:var(--green);font-weight:500;">0</span>
+      <button onclick="incrementCallCount()" title="Log a call" style="background:var(--green-dim);border:1px solid rgba(46,204,138,0.25);color:var(--green);border-radius:4px;padding:3px 8px;font-size:11px;cursor:pointer;font-family:'DM Mono',monospace;">+1</button>
+      <button onclick="resetCallCount()" title="Reset counter" style="background:var(--bg);border:1px solid var(--border2);color:var(--text3);border-radius:4px;padding:3px 6px;font-size:10px;cursor:pointer;">↺</button>
+    </div>
+  </div>
+
+  <!-- Rep Profile -->
+  <div style="margin:0 0.75rem 0.5rem;background:var(--bg3);border:1px solid var(--border);border-radius:var(--radius);padding:10px 12px;">
+    <div style="font-size:9px;color:var(--text3);font-family:'DM Mono',monospace;text-transform:uppercase;letter-spacing:0.1em;margin-bottom:7px;">Rep Profile</div>
+    <input id="repNameInput" type="text" placeholder="Your name (e.g. Walter)" oninput="saveRepName(this.value)" style="width:100%;background:var(--bg);border:1px solid var(--border2);border-radius:4px;padding:5px 8px;color:var(--text);font-size:12px;font-family:'DM Sans',sans-serif;outline:none;">
+  </div>
+
   <div class="call-timer-widget">
     <div class="cw-label">Call Timer</div>
     <div class="cw-time" id="timerDisplay">00:00</div>
@@ -643,6 +848,18 @@
       </div>
     </div>
   </div>
+
+  <!-- Version info -->
+  <div style="padding:8px 1.25rem 12px;border-top:1px solid var(--border);margin-top:auto;">
+    <div style="font-size:9px;color:var(--text3);font-family:'DM Mono',monospace;line-height:1.8;">
+      <div>v3.1 · <span id="lastUpdated">updated today</span></div>
+      <div style="display:flex;gap:5px;margin-top:5px;">
+        <button onclick="exportScript()" style="flex:1;background:var(--bg3);border:1px solid var(--border2);color:var(--text3);border-radius:3px;padding:3px 0;font-size:9px;cursor:pointer;font-family:'DM Mono',monospace;">export JSON</button>
+        <label style="flex:1;background:var(--bg3);border:1px solid var(--border2);color:var(--text3);border-radius:3px;padding:3px 0;font-size:9px;cursor:pointer;text-align:center;font-family:'DM Mono',monospace;">import JSON<input type="file" accept=".json" onchange="importScript(this)" style="display:none"></label>
+      </div>
+    </div>
+  </div>
+  <button class="sidebar-collapse-btn" id="sidebarCollapseBtn" onclick="toggleSidebarCollapse()" title="Collapse sidebar">◀</button>
 </aside>
 
 <!-- MAIN -->
@@ -652,7 +869,7 @@
   <div class="topbar">
     <div class="topbar-left">
       <div class="topbar-title" id="topTitle">Stage 1 — Connection</div>
-      <div class="topbar-sub">NEPQ™ Framework · Jeremy Miner Method</div>
+      <div class="topbar-sub" id="topbarSub">NEPQ™ Framework · Jeremy Miner Method</div>
     </div>
     <button class="hamburger-btn" onclick="toggleMobileSidebar()" aria-label="Menu">☰</button>
     <div id="timerTopbarBadge" class="timer-topbar-badge"><span>⏱</span><span id="timerTopbarTime">00:00</span></div>
@@ -660,18 +877,20 @@
       <div class="edit-badge" id="editBadge">● EDIT MODE &nbsp;<button onclick="revertEdits()" style="background:var(--red-dim);border:1px solid rgba(240,92,92,0.3);color:var(--red);border-radius:3px;padding:2px 8px;font-size:10px;cursor:pointer;font-family:'DM Mono',monospace;">↩ Revert</button></div>
       <button class="btn" onclick="togglePhrases()" id="phrasesBtn" title="Quick phrases">💬 Phrases</button>
       <button class="btn" onclick="toggleNotes()" id="notesBtn">📋 Notes</button>
-      <button class="btn" onclick="toggleTips()" id="tipsBtn" title="Toggle tips (T)">💡 Tips</button>
+      <button class="btn btn-hide-mobile" onclick="toggleFocusMode()" id="focusBtn" title="Focus mode — hides tips/labels">⚡ Focus</button>
+        <button class="btn btn-hide-mobile" onclick="cycleFontSize()" id="fontBtn" title="Font size">A</button>
+        <button class="btn btn-hide-mobile" onclick="toggleTips()" id="tipsBtn" title="Toggle tips (T)">💡 Tips</button>
         <button class="btn" onclick="toggleEdit()" id="editBtn">✏️ Edit Script</button>
-      <button class="btn" onclick="window.print()">🖨️</button>
+      <button class="btn btn-hide-mobile" onclick="window.print()" title="Print">🖨️</button>
     </div>
   </div>
 
   <!-- PROSPECT INFO BAR -->
   <div class="prospect-bar">
     <span class="pf-label">Prospect:</span>
-    <input class="pf-field" id="pfName" placeholder="Name" style="width:115px">
-    <input class="pf-field" id="pfCompany" placeholder="Company" style="width:135px">
-    <input class="pf-field" id="pfPhone" placeholder="Phone" style="width:115px">
+    <input class="pf-field" id="pfName" placeholder="Name" oninput="updateTopbarSub(); updateSmsPreview();" style="width:clamp(80px,115px,18vw)">
+    <input class="pf-field" id="pfCompany" placeholder="Company" oninput="updateTopbarSub()" style="width:clamp(90px,135px,20vw)">
+    <input class="pf-field" id="pfPhone" placeholder="Phone" style="width:clamp(80px,115px,18vw)"><button onclick="openWhatsApp()" title="Open WhatsApp with this number" style="background:var(--bg3);border:1px solid var(--border2);color:#25D366;border-radius:4px;padding:3px 8px;font-size:12px;cursor:pointer;flex-shrink:0;">WA</button>
     <span class="pf-label" style="margin-left:4px">Trucks:</span>
     <div class="pf-trucks" id="truckBtns">
       <button class="truck-btn" onclick="setTrucks(1)">1</button>
@@ -680,10 +899,14 @@
       <button class="truck-btn" onclick="setTrucks(4)">4</button>
       <button class="truck-btn" onclick="setTrucks(5)">5+</button>
     </div>
-    <input class="pf-field" id="pfBoard" placeholder="Load board" style="width:130px">
-    <input class="pf-field" id="pfState" placeholder="State/Region" style="width:110px">
+    <input class="pf-field" id="pfBoard" placeholder="Load board" style="width:clamp(85px,130px,19vw)">
+    <input class="pf-field" id="pfState" placeholder="State/Region" style="width:clamp(80px,110px,17vw)">
+        <button onclick="saveProspectPreset()" title="Save prospect" style="background:var(--bg3);border:1px solid var(--border2);color:var(--text3);border-radius:4px;padding:4px 9px;font-size:11px;cursor:pointer;flex-shrink:0;transition:all 0.13s;" onmouseover="this.style.color='var(--blue)'" onmouseout="this.style.color='var(--text3)'">💾</button>
+    <button onclick="loadProspectPreset()" title="Load last prospect" style="background:var(--bg3);border:1px solid var(--border2);color:var(--text3);border-radius:4px;padding:4px 9px;font-size:11px;cursor:pointer;flex-shrink:0;transition:all 0.13s;" onmouseover="this.style.color='var(--blue)'" onmouseout="this.style.color='var(--text3)'">📂</button>
+    <button onclick="clearProspectBar()" title="Clear all fields" style="background:var(--bg3);border:1px solid var(--border2);color:var(--text3);border-radius:4px;padding:4px 9px;font-size:11px;cursor:pointer;flex-shrink:0;transition:all 0.13s;" onmouseover="this.style.color='var(--red)'" onmouseout="this.style.color='var(--text3)'">✕ Clear</button>
   </div>
 
+  <div class="stage-flow-bar" id="stageFlowBar"></div>
   <!-- CONTENT -->
   <div class="content" id="mainContent">
 
@@ -1301,8 +1524,44 @@
         <div class="turn-role" style="color:var(--green)"><span class="role-dot" style="background:var(--green)"></span>You</div>
         <div class="speech you" contenteditable="false">"Right. And is that something you're okay with… or is <span class="hl">changing that actually important to you?</span>"</div>
         <div class="tip">The commitment seed. Forces them to take a verbal position.</div>
+      </div
+
+      <div class="scenario-group">
+        <div class="scenario-group-label">Their response to future-pacing</div>
+        <div class="scenario-btns">
+          <button class="scenario-btn active" onclick="switchScenario('cons', 'painstayed', this)"><span class="s-dot"></span>Same spot / want to change</button>
+          <button class="scenario-btn alt" onclick="switchScenario('cons', 'doingwell', this)"><span class="s-dot"></span>"Actually doing well"</button>
+        </div>
+      </div>
+      <div class="scenario-panel active" id="cons-painstayed">
+        <div class="turn">
+          <div class="turn-role" style="color:var(--purple)"><span class="role-dot" style="background:var(--purple)"></span>Prospect</div>
+          <div class="speech them">"Honestly, probably same spot. That's what I'm trying to avoid."</div>
+        </div>
+        <div class="turn">
+          <div class="turn-role" style="color:var(--green)"><span class="role-dot" style="background:var(--green)"></span>You</div>
+          <div class="speech you" contenteditable="false">"Right. And is that something you're okay with… or is <span class="hl">changing that actually important to you?</span>"</div>
+          <div class="tip">The commitment seed. Forces them to take a verbal position. If they say yes it's important — move to Stage 6.</div>
+        </div>
+      </div>
+      <div class="scenario-panel" id="cons-doingwell">
+        <div class="turn">
+          <div class="turn-role" style="color:var(--purple)"><span class="role-dot" style="background:var(--purple)"></span>Prospect</div>
+          <div class="speech them">"Actually things are going pretty well right now. I can't complain."</div>
+        </div>
+        <div class="turn">
+          <div class="turn-role" style="color:var(--green)"><span class="role-dot" style="background:var(--green)"></span>You</div>
+          <div class="speech you" contenteditable="false">"That's genuinely good to hear. And I wouldn't want to fix something that isn't broken. Can I just ask — is there any area where you feel like there's still room to improve, even if things are good overall? Or are you pretty much where you want to be?"</div>
+          <div class="tip">Don't challenge their "doing well." Validate it and look for a micro-gap. Almost everyone has one even when things are good. If there's truly none — this is a graceful exit.</div>
+        </div>
+        <div class="turn">
+          <div class="turn-role" style="color:var(--green)"><span class="role-dot" style="background:var(--green)"></span>You — if truly no gap</div>
+          <div class="speech you" contenteditable="false">"That's great — honestly I don't want to waste your time if you're already in a good spot. Would it be okay if I checked back in maybe 60-90 days? Things change, and if you ever feel like you want another set of eyes on the operation, I'd love to be the first call."</div>
+          <div class="tip">Plant a 60-90 day seed. These callbacks convert surprisingly well — situations change fast in trucking.</div>
+        </div>
       </div>
     </div>
+      </div><!-- close cons-doingwell -->
 
     <!-- ===================== STAGE 5: COMMITMENT ===================== -->
     <div class="stage" id="stage-5">
@@ -1378,6 +1637,9 @@
 
     <!-- ===================== STAGE 6: PRESENTATION ===================== -->
     <div class="stage" id="stage-6">
+      <div class="info-callout" style="margin-bottom:1.5rem;cursor:pointer;" onclick="goTo(7)">
+        💡 Prospect throws an objection? <strong style="color:var(--teal)">→ Jump to Objection Handling</strong>
+      </div>
       <div class="stage-header">
         <div class="stage-badge" style="background:var(--green-dim);color:var(--green)">07</div>
         <div class="stage-info">
@@ -1505,6 +1767,8 @@
           <button class="scenario-btn alt" onclick="switchScenario('obj', '7', this)"><span class="s-dot"></span>Send me something first</button>
           <button class="scenario-btn alt" onclick="switchScenario('obj', '8', this)"><span class="s-dot"></span>I do my own dispatch</button>
           <button class="scenario-btn alt" onclick="switchScenario('obj', '9', this)"><span class="s-dot"></span>I know brokers already</button>
+          <button class="scenario-btn alt" onclick="switchScenario('obj', '10', this)"><span class="s-dot"></span>Leased to carrier</button>
+          <button class="scenario-btn alt" onclick="switchScenario('obj', '11', this)"><span class="s-dot"></span>How long in business?</button>
         </div>
       </div>
 
@@ -1607,6 +1871,34 @@
       </div>
 
       <!-- NEW: I know brokers already -->
+
+      <!-- C3: Leased to carrier objection -->
+      <div class="scenario-panel" id="obj-10">
+        <div class="section-label">Objection 10 — "I'm leased to a carrier / I have a company dispatcher"</div>
+        <div class="obj-card">
+          <div class="obj-q">I'm leased to a carrier — they handle all my dispatch.</div>
+          <div class="obj-layers">
+            <div class="obj-layer"><div class="layer-num">L1</div><div><div class="layer-text" contenteditable="false">"That makes sense — leasing is a solid setup for a lot of guys. Can I ask — are you locked in with them or is it more of an at-will arrangement?"</div><div class="layer-note">↳ Understand the flexibility. If they're locked in, there may be nothing to do. If at-will, there's a gap to explore.</div></div></div>
+            <div class="obj-layer"><div class="layer-num">L2</div><div><div class="layer-text" contenteditable="false">"And with that arrangement — do you feel like you have full visibility into what each load actually pays, or does the carrier handle the rate side completely?"</div><div class="layer-note">↳ The pain with leasing is often lack of rate transparency. Surface it with a question, not an accusation.</div></div></div>
+            <div class="obj-layer"><div class="layer-num">L3</div><div><div class="layer-text" contenteditable="false">"What would have to change in that arrangement for you to want to look at other options?"</div><div class="layer-note">↳ Future-pacing. They may not be ready now, but they'll remember this question when the lease situation gets frustrating.</div></div></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- C4: Track record / how long in business objection -->
+      <div class="scenario-panel" id="obj-11">
+        <div class="section-label">Objection 11 — "How long have you been around? / Do you have references?"</div>
+        <div class="obj-card">
+          <div class="obj-q">How long have you guys been in business? Do you have references I can check?</div>
+          <div class="obj-layers">
+            <div class="obj-layer"><div class="layer-num">L1</div><div><div class="layer-text" contenteditable="false">"That's a completely fair question — you should absolutely know who you're working with. We've been [X years] in the industry and we work with [N] active carriers right now."</div><div class="layer-note">↳ Answer it directly first. Don't deflect. Specificity builds credibility even if the numbers are modest.</div></div></div>
+            <div class="obj-layer"><div class="layer-num">L2</div><div><div class="layer-text" contenteditable="false">"And yes — I can connect you with a couple of carriers we work with who'd be happy to talk about their experience. Would that be helpful before you decide?"</div><div class="layer-note">↳ Offer references proactively. If you have them, this closes the objection entirely. If you don't, this is a gap to fix.</div></div></div>
+            <div class="obj-layer"><div class="layer-num">L3</div><div><div class="layer-text" contenteditable="false">"And honestly — the best reference is running one load with us. You'd see the rate we get, how we handle the broker, the paperwork. That tells you more than any testimonial. Would you be open to that?"</div><div class="layer-note">↳ Trial offer as the ultimate proof. Bypasses the need for references entirely.</div></div></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Objection 9 merged -->
       <div class="scenario-panel" id="obj-9">
         <div class="section-label">Objection 9 — "I already have my broker relationships"</div>
         <div class="obj-card">
@@ -1645,6 +1937,7 @@
           <button class="scenario-btn" onclick="switchScenario('close', 'notready', this)"><span class="s-dot"></span>Not ready / graceful exit</button>
           <button class="scenario-btn alt" onclick="switchScenario('close', 'sendinfo', this)"><span class="s-dot"></span>Just send info</button>
           <button class="scenario-btn alt" onclick="switchScenario('close', 'callback', this)"><span class="s-dot"></span>Call me back</button>
+          <button class="scenario-btn alt" onclick="switchScenario('close', 'referral', this)"><span class="s-dot"></span>Referral ask</button>
         </div>
       </div>
 
@@ -1730,9 +2023,28 @@
         </div>
       </div>
 
+
+      <!-- C6: Referral ask -->
+      <div class="scenario-panel" id="close-referral">
+        <div class="turn">
+          <div class="turn-role" style="color:var(--green)"><span class="role-dot" style="background:var(--green)"></span>You — after a positive close</div>
+          <div class="speech you" contenteditable="false">"Hey before I let you go — I really appreciate your time today. Can I ask you something? Is there anyone else in your network — other owner-operators, guys you know from the road — who might be dealing with the same kind of situation you described? I'm always looking to help people in the same boat."</div>
+          <div class="tip">Ask for referrals right after the positive emotion of a good call — never in the middle of a pitch. The warmer the close, the higher the referral rate.</div>
+        </div>
+        <div class="turn">
+          <div class="turn-role" style="color:var(--purple)"><span class="role-dot" style="background:var(--purple)"></span>Prospect</div>
+          <div class="speech them">"Yeah actually my buddy [Name] has been struggling with dispatch too."</div>
+        </div>
+        <div class="turn">
+          <div class="turn-role" style="color:var(--green)"><span class="role-dot" style="background:var(--green)"></span>You</div>
+          <div class="speech you" contenteditable="false">"That's awesome — would you be comfortable making a quick intro? Even just a text saying you spoke to us? I'll take care of the rest."</div>
+          <div class="tip">"A quick intro" lowers the bar. You're not asking them to sell for you — just connect.</div>
+        </div>
+      </div>
+
       <!-- ===== SMS CLOSE — always send at end of every call ===== -->
       <div class="section-label" style="margin-top:2rem">📱 End of every call — send this SMS</div>
-      <div class="speech sms-preview" style="margin-bottom:0.5rem">
+      <div class="speech sms-preview" id="smsLivePreview" style="margin-bottom:0.5rem">
         <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;">
           <span style="font-size:10px;color:var(--blue);font-family:'DM Mono',monospace;text-transform:uppercase;letter-spacing:0.1em;">SMS Template</span>
           <button onclick="copySmsTemplate()" id="smsCopyBtn" style="font-size:11px;padding:4px 10px;border-radius:4px;border:1px solid rgba(91,168,255,0.3);background:var(--blue-dim);color:var(--blue);cursor:pointer;font-family:'DM Sans',sans-serif;transition:all 0.13s;">📋 Copy</button>
@@ -1749,6 +2061,10 @@
         📋 Onboarding: <strong>https://quickgslogistics.com/carrier-dispatching-package/</strong><br><br>
         Reach out anytime we're here when you're ready! 🙎
       </div>
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-top:6px;">
+          <span id="smsCharCount" style="font-size:10px;color:var(--text3);font-family:'DM Mono',monospace;">0 chars · 0 segments</span>
+          <button id="smsCopyBtn2" onclick="copySmsTemplate()" style="font-size:11px;padding:4px 10px;border-radius:4px;border:1px solid rgba(91,168,255,0.3);background:var(--blue-dim);color:var(--blue);cursor:pointer;font-family:'DM Sans',sans-serif;">📋 Copy SMS</button>
+        </div>
       <div class="tip" style="margin-bottom:2rem">Send within 60 seconds of hanging up. Every call ends with this — booked, trial, or graceful exit. The SMS keeps you alive in their contacts and converts most late follow-ups.</div>
 
     </div><!-- end stage-8 -->
@@ -1827,18 +2143,6 @@
             <div class="tp-desc">The close should feel like a natural next step, not a moment of tension. "I'll send you a text right now" removes all friction. The SMS does the heavy lifting after the call.</div>
             <div class="tp-meter"><div class="tp-dot on"></div><div class="tp-dot on"></div><div class="tp-dot on"></div><div class="tp-dot"></div><div class="tp-dot"></div></div>
           </div>
-        </div>
-      </div>
-
-      <div class="scenario-panel" id="open-calledback">
-        <div class="turn">
-          <div class="turn-role" style="color:var(--purple)"><span class="role-dot" style="background:var(--purple)"></span>Prospect</div>
-          <div class="speech them">"Hey I got a missed call from this number — did you call me?"</div>
-        </div>
-        <div class="turn">
-          <div class="turn-role" style="color:var(--green)"><span class="role-dot" style="background:var(--green)"></span>You</div>
-          <div class="speech you" contenteditable="false">"Oh yeah — yeah I did try to reach you… uh… this is [Name] from QuickGS Logistics… and uh… I'm glad you called back actually. I was wondering if you could help me out for a moment — I'm not sure if you're the right person I should be speaking with, but I was looking into dispatching-related stuff for owner-operators in your area… uh… are you the one running the trucking side?"</div>
-          <div class="tip">Returned call = much warmer than a cold call. They called YOU back. Stay slightly uncertain but you can be more direct. Their calling back is an implicit signal of curiosity.</div>
         </div>
       </div>
 
@@ -1921,6 +2225,8 @@
           <button class="scenario-btn" onclick="switchScenario('open', 'busy', this)"><span class="s-dot"></span>"I'm busy"</button>
           <button class="scenario-btn alt" onclick="switchScenario('open', 'wrongperson2', this)"><span class="s-dot"></span>"You want [Name]"</button>
           <button class="scenario-btn alt" onclick="switchScenario('open', 'calledback', this)"><span class="s-dot"></span>"You called me back?"</button>
+          <button class="scenario-btn alt" onclick="switchScenario('open', 'gatekeeper', this)"><span class="s-dot"></span>Gatekeeper answers</button>
+          <button class="scenario-btn alt" onclick="switchScenario('open', 'scheduled', this)"><span class="s-dot"></span>Scheduled callback</button>
         </div>
       </div>
 
@@ -1990,6 +2296,88 @@
         </div>
       </div>
 
+
+      <!-- C1: Gatekeeper panel -->
+      <div class="scenario-panel" id="open-gatekeeper">
+        <div class="info-callout">
+          🔒 A receptionist, assistant, or employee answers — not the owner. Goal: get transferred without triggering a hard no.
+        </div>
+        <div class="turn">
+          <div class="turn-role" style="color:var(--purple)"><span class="role-dot" style="background:var(--purple)"></span>Gatekeeper</div>
+          <div class="speech them">"[Company name], how can I help you?"</div>
+        </div>
+        <div class="turn">
+          <div class="turn-role" style="color:var(--green)"><span class="role-dot" style="background:var(--green)"></span>You</div>
+          <div class="speech you" contenteditable="false">"Oh hey yeah… this is [Your Name]… uh… is [Owner Name] around by any chance?"</div>
+          <div class="tip">Name the owner directly. Don't explain why you're calling — that gives the gatekeeper a reason to screen you. Be casual, not formal.</div>
+        </div>
+        <div class="turn">
+          <div class="turn-role" style="color:var(--purple)"><span class="role-dot" style="background:var(--purple)"></span>Gatekeeper</div>
+          <div class="speech them">"Can I ask what this is regarding?"</div>
+        </div>
+        <div class="turn">
+          <div class="turn-role" style="color:var(--green)"><span class="role-dot" style="background:var(--green)"></span>You</div>
+          <div class="speech you" contenteditable="false">"Yeah it's just about their trucking operation — I had a quick question for them. It'll only take a second."</div>
+          <div class="tip">Vague but honest. "Their trucking operation" is specific enough to be credible but vague enough to not be screenable. "Quick question" signals low pressure.</div>
+        </div>
+        <div class="turn">
+          <div class="turn-role" style="color:var(--purple)"><span class="role-dot" style="background:var(--purple)"></span>Gatekeeper</div>
+          <div class="speech them">"They're not available right now. Can I take a message?"</div>
+        </div>
+        <div class="turn">
+          <div class="turn-role" style="color:var(--green)"><span class="role-dot" style="background:var(--green)"></span>You</div>
+          <div class="speech you" contenteditable="false">"Sure — just let them know [Your Name] from QuickGS called. My number is [number]. I'll also try back later — when's usually a good time to reach them?"</div>
+          <div class="tip">Always ask for the best time. The gatekeeper usually knows the owner's schedule and will tell you. This doubles your callback success rate.</div>
+        </div>
+      </div>
+
+      <!-- C2: Scheduled callback opener -->
+      <div class="scenario-panel" id="open-scheduled">
+        <div class="info-callout" style="background:var(--green-dim);border-color:rgba(46,204,138,0.2);color:var(--green);">
+          ✅ They said "call me back Tuesday" — this is a warm call, not cold. Adjust tone: slightly more confident, reference the prior conversation.
+        </div>
+        <div class="turn">
+          <div class="turn-role" style="color:var(--green)"><span class="role-dot" style="background:var(--green)"></span>You</div>
+          <div class="speech you" contenteditable="false">"Hey [Name]… yeah it's [Your Name] from QuickGS… we spoke [last week / a few days ago] and you mentioned this was a better time to connect… uh… still okay to chat for a few minutes?"</div>
+          <div class="tip">Reference the previous conversation immediately — it establishes credibility and reminds them who you are. They agreed to this call, so the guard is already lower.</div>
+        </div>
+        <div class="turn">
+          <div class="turn-role" style="color:var(--purple)"><span class="role-dot" style="background:var(--purple)"></span>Prospect</div>
+          <div class="speech them">"Oh yeah, right. Sure, go ahead."</div>
+        </div>
+        <div class="turn">
+          <div class="turn-role" style="color:var(--green)"><span class="role-dot" style="background:var(--green)"></span>You</div>
+          <div class="speech you" contenteditable="false">"I appreciate that. So when we talked before you mentioned [specific thing they said — fleet size / pain point]. I just wanted to pick up from there — has anything changed since then, or is that still the situation?"</div>
+          <div class="tip">Referencing what they said previously shows you listened and took notes. This is the single biggest trust-builder on a callback call.</div>
+        </div>
+      </div>
+
+      <div class="scenario-panel" id="open-calledback">
+        <div class="turn">
+          <div class="turn-role" style="color:var(--purple)"><span class="role-dot" style="background:var(--purple)"></span>Prospect</div>
+          <div class="speech them">"Hey I got a missed call from this number — did you call me?"</div>
+        </div>
+        <div class="turn">
+          <div class="turn-role" style="color:var(--green)"><span class="role-dot" style="background:var(--green)"></span>You</div>
+          <div class="speech you" contenteditable="false">"Oh yeah — yeah I did try to reach you… uh… this is [Name] from QuickGS Logistics… and uh… I'm glad you called back actually. I was wondering if you could help me out for a moment — I'm not sure if you're the right person I should be speaking with, but I was looking into dispatching-related stuff for owner-operators in your area… uh… are you the one running the trucking side?"</div>
+          <div class="tip">Returned call = much warmer than a cold call. They called YOU back. Stay slightly uncertain but you can be more direct. Their calling back is an implicit signal of curiosity.</div>
+        </div>
+      </div>
+
+
+      <!-- C1: Gatekeeper panel -->
+      div class="scenario-panel" id="open-calledback">
+        <div class="turn">
+          <div class="turn-role" style="color:var(--purple)"><span class="role-dot" style="background:var(--purple)"></span>Prospect</div>
+          <div class="speech them">"Hey I got a missed call from this number — did you call me?"</div>
+        </div>
+        <div class="turn">
+          <div class="turn-role" style="color:var(--green)"><span class="role-dot" style="background:var(--green)"></span>You</div>
+          <div class="speech you" contenteditable="false">"Oh yeah — yeah I did try to reach you… uh… this is [Name] from QuickGS Logistics… and uh… I'm glad you called back actually. I was wondering if you could help me out for a moment — I'm not sure if you're the right person I should be speaking with, but I was looking into dispatching-related stuff for owner-operators in your area… uh… are you the one running the trucking side?"</div>
+          <div class="tip">Returned call = much warmer than a cold call. Stay slightly uncertain but you can be more direct. Their calling back is an implicit signal of curiosity.</div>
+        </div>
+      </div>
+
       <div class="section-label">Key Principles from Jeremy Miner</div>
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.75rem;margin-bottom:1rem;">
         <div class="obj-card">
@@ -2026,7 +2414,10 @@
   </div>
 
 </div><!-- end .main -->
+<div aria-live="polite" aria-atomic="true" id="sr-announce" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;"></div>
 </div><!-- end .app -->
+
+<button class="quick-obj-btn" id="quickObjBtn" onclick="goTo(7)" title="Jump to Objections (O)">🛡</button>
 
 <div class="sidebar-overlay" id="sidebarOverlay" onclick="toggleMobileSidebar()"></div>
 
@@ -2058,7 +2449,10 @@
       </div>
       <div class="notes-field">
         <label>Follow-up Date</label>
-        <input type="date" id="followupDate" style="color:var(--text2);background:var(--bg3);border:1px solid var(--border2);border-radius:5px;padding:7px 10px;font-size:13px;font-family:inherit;outline:none;width:100%">
+        <div style="display:flex;gap:5px;">
+          <input type="date" id="followupDate" style="flex:1;color:var(--text2);background:var(--bg3);border:1px solid var(--border2);border-radius:5px;padding:7px 10px;font-size:13px;font-family:inherit;outline:none;">
+          <button onclick="downloadIcs(document.getElementById('pfName').value, document.getElementById('followupDate').value)" style="padding:7px 10px;border-radius:5px;background:var(--bg3);border:1px solid var(--border2);color:var(--blue);font-size:12px;cursor:pointer;flex-shrink:0;" title="Download .ics">📅</button>
+        </div>
       </div>
       <div class="notes-field">
         <label>Call Duration</label>
@@ -2080,6 +2474,16 @@
       </div>
     </div>
 
+
+      <!-- Stats -->
+      <div class="notes-field">
+        <label style="display:flex;align-items:center;justify-content:space-between;">
+          <span>Stats</span>
+          <span id="statsToggle" onclick="toggleStats()" style="cursor:pointer;color:var(--blue);font-size:9px;text-transform:none;font-weight:500;">show ▾</span>
+        </label>
+        <div id="statsList" style="display:none;flex-direction:column;gap:6px;margin-top:6px;"></div>
+      </div>
+
       <!-- Call History -->
       <div class="notes-field">
         <label style="display:flex;align-items:center;justify-content:space-between;">
@@ -2093,6 +2497,7 @@
   </div>
   <div class="notes-footer">
     <button class="notes-save-btn" onclick="saveNotes()">Save Notes</button>
+    <button class="notes-clear-btn" onclick="exportCallHistory()" style="color:var(--blue);border-color:rgba(91,168,255,0.25);">⬇ CSV</button>
     <button class="notes-clear-btn" onclick="clearNotes()">Clear</button>
   </div>
 </div>
@@ -2101,8 +2506,16 @@
 <div class="phrases-panel" id="phrasesPanel">
   <div class="phrases-header">
     <div class="phrases-title">💬 POWER PHRASES — click to copy</div>
+    <input type="search" id="phraseSearch" placeholder="Search phrases…" oninput="filterPhrases(this.value)" style="width:100%;margin-top:7px;padding:5px 9px;background:var(--bg3);border:1px solid var(--border2);border-radius:4px;color:var(--text);font-size:12px;font-family:'DM Sans',sans-serif;outline:none;">
   </div>
   <div class="phrases-list" id="phrasesList"></div>
+  <div style="padding:7px 7px 10px;border-top:1px solid var(--border);">
+    <div style="display:flex;gap:5px;">
+      <input type="text" id="newPhraseInput" placeholder="Add custom phrase…" style="flex:1;padding:5px 9px;background:var(--bg3);border:1px solid var(--border2);border-radius:4px;color:var(--text);font-size:12px;font-family:'DM Sans',sans-serif;outline:none;">
+      <button onclick="addCustomPhrase()" style="padding:5px 10px;border-radius:4px;background:var(--green-dim);border:1px solid rgba(46,204,138,0.25);color:var(--green);font-size:11px;cursor:pointer;">+ Add</button>
+    </div>
+  </div>
+
 </div>
 
 
@@ -2127,6 +2540,8 @@
 
   function goTo(idx) {
     if (idx === null || idx === undefined) return;
+    scrollPositions[current] = document.getElementById('mainContent').scrollTop || window.scrollY;
+    if (idx > current) markStageComplete(current);
     document.getElementById(stageIds[current]).classList.remove('active');
     document.getElementById('nav-' + current).classList.remove('active');
     for (let i = 0; i < idx; i++) {
@@ -2135,11 +2550,17 @@
     }
     current = idx;
     document.getElementById(stageIds[current]).classList.add('active');
+    document.querySelectorAll('.nav-item').forEach(n => n.removeAttribute('aria-current'));
     document.getElementById('nav-' + current).classList.add('active');
     document.getElementById('nav-' + current).classList.remove('done');
+    document.getElementById('nav-' + current).setAttribute('aria-current', 'step');
     updateUI();
-    window.scrollTo(0, 0);
+    const savedScroll = scrollPositions[current] || 0;
+    requestAnimationFrame(() => { window.scrollTo(0, savedScroll); });
     addSpeechCopyButtons();
+    addObjHandledButtons();
+    addScenarioKeyboardNav();
+    addTurnRoleClickHighlight();
   }
 
   function changeStage(dir) {
@@ -2152,6 +2573,10 @@
     document.getElementById('topTitle').textContent = stageTitles[current];
     const stageLabel = current === 10 ? 'Stage 0 — Warm-Up' : 'Stage ' + (current + 1) + ' / ' + stageIds.length;
     document.getElementById('stageMini').textContent = stageLabel;
+    document.title = stageTitles[current] + ' — QuickGS Script';
+    updateBreadcrumb();
+    const qob = document.getElementById('quickObjBtn');
+    if (qob) { qob.dataset.stage = current === 7 ? '7' : ''; qob.style.opacity = current === 7 ? '0' : ''; qob.style.pointerEvents = current === 7 ? 'none' : ''; }
     document.getElementById('prevBtn').disabled = current === 0;
     document.getElementById('nextBtn').disabled = current === stageIds.length - 1;
     document.getElementById('nextBtn').textContent = current === stageIds.length - 2 ? 'Close ✓' : 'Next →';
@@ -2191,10 +2616,29 @@ const originalTexts = new Map(); // key = element, value = original innerHTML
   }
 
   // ===== SCENARIO SYSTEM =====
-  const scenarioState = {}; // persists active scenario per group across stage visits
+  const scenarioState = {};
+  const scrollPositions = {};
+
+  const completedStages = new Set();
+  function markStageComplete(idx) {
+    if (idx === null || idx === undefined) return;
+    completedStages.add(idx);
+    const navItem = document.getElementById('nav-' + idx);
+    if (navItem) navItem.classList.add('done');
+  }
+  // Mark stage complete when user navigates forward
+ // persists active scenario per group across stage visits
 
   function switchScenario(group, id, btn) {
     scenarioState[group] = id;
+    // Track objection frequency
+    if (group === 'obj') {
+      const key = 'quickgs_obj_' + id;
+      const count = parseInt(localStorage.getItem(key) || '0') + 1;
+      localStorage.setItem(key, count);
+    }
+    const srAnnounce = document.getElementById('sr-announce');
+    if (srAnnounce) srAnnounce.textContent = 'Scenario changed to: ' + btn.textContent.trim();
     const container = btn.closest('.scenario-btns');
     container.querySelectorAll('.scenario-btn').forEach(b => b.classList.remove('active'));
     btn.classList.add('active');
@@ -2237,6 +2681,8 @@ const originalTexts = new Map(); // key = element, value = original innerHTML
       updateTimerDisplay();
       document.getElementById('timerStartBtn').style.display = 'block';
       document.getElementById('timerStopBtn').style.display = 'none';
+      document.getElementById('callDurField').value = '';
+      document.getElementById('timerTopbarBadge').classList.remove('visible','warning');
     }
   }
 
@@ -2288,6 +2734,52 @@ const originalTexts = new Map(); // key = element, value = original innerHTML
 
   // ===== CALL NOTES PANEL =====
 
+
+  function toggleStats() {
+    const list = document.getElementById('statsList');
+    const toggle = document.getElementById('statsToggle');
+    const isHidden = list.style.display === 'none' || list.style.display === '';
+    if (isHidden) { loadStats(); list.style.display = 'flex'; toggle.textContent = 'hide ▴'; }
+    else { list.style.display = 'none'; toggle.textContent = 'show ▾'; }
+  }
+  function loadStats() {
+    const list = document.getElementById('statsList');
+    list.innerHTML = '';
+    const keys = Object.keys(localStorage).filter(k => k.startsWith('quickgs_call_'));
+    const total = keys.length;
+    const outcomes = {};
+    let totalDur = 0; let durCount = 0;
+    keys.forEach(k => {
+      try {
+        const d = JSON.parse(localStorage.getItem(k));
+        outcomes[d.outcome || 'none'] = (outcomes[d.outcome || 'none'] || 0) + 1;
+        if (d.dur) {
+          const parts = d.dur.split(':');
+          if (parts.length === 2) { totalDur += parseInt(parts[0])*60 + parseInt(parts[1]); durCount++; }
+        }
+      } catch(e) {}
+    });
+    const booked = outcomes['booked'] || 0;
+    const rate = total > 0 ? Math.round((booked/total)*100) : 0;
+    const avgMin = durCount > 0 ? Math.round(totalDur/durCount/60*10)/10 : 0;
+    // Objection counts
+    const objKeys = Object.keys(localStorage).filter(k => k.startsWith('quickgs_obj_'));
+    const topObj = objKeys.map(k => ({key: k.replace('quickgs_obj_',''), count: parseInt(localStorage.getItem(k))}))
+      .sort((a,b) => b.count - a.count).slice(0,3);
+    const statsData = [
+      {label:'Total calls logged', val: total},
+      {label:'Booked', val: booked + ' (' + rate + '%)'},
+      {label:'Avg call duration', val: avgMin + ' min'},
+      {label:'Top objection', val: topObj.length ? topObj[0].key + ' ('+topObj[0].count+'×)' : '—'},
+    ];
+    statsData.forEach(s => {
+      const row = document.createElement('div');
+      row.style.cssText = 'display:flex;justify-content:space-between;align-items:center;background:var(--bg3);border:1px solid var(--border);border-radius:5px;padding:6px 10px;font-size:12px;';
+      row.innerHTML = '<span style="color:var(--text2)">' + s.label + '</span><span style="color:var(--text);font-family:monospace;font-weight:500">' + s.val + '</span>';
+      list.appendChild(row);
+    });
+  }
+
   function toggleHistory() {
     const list = document.getElementById('historyList');
     const toggle = document.getElementById('historyToggle');
@@ -2317,7 +2809,12 @@ const originalTexts = new Map(); // key = element, value = original innerHTML
         const outcomeLabel = {booked:'Booked',callback:'Callback',noanswer:'No ans.',notinterested:'Not int.',none:'—'}[d.outcome] || '—';
         const item = document.createElement('div');
         item.style.cssText = 'background:var(--bg3);border:1px solid var(--border);border-radius:5px;padding:6px 9px;font-size:11px;cursor:pointer;';
-        item.innerHTML = `<div style="display:flex;justify-content:space-between;align-items:center;"><span style="font-weight:500;color:var(--text)">${d.name}${d.company ? ' — '+d.company : ''}</span><span style="color:${outcomeColor};font-family:'DM Mono',monospace;font-size:10px;">${outcomeLabel}</span></div><div style="color:var(--text3);margin-top:2px;font-size:10px;">${d.savedAt} · ${d.dur || '—'}</div>`;
+        item.innerHTML = `<div style="display:flex;justify-content:space-between;align-items:center;"><span style="font-weight:500;color:var(--text)">${d.name}${d.company ? ' — '+d.company : ''}</span><span style="color:${outcomeColor};font-family:monospace;font-size:10px;">${outcomeLabel}</span></div><div style="color:var(--text3);margin-top:2px;font-size:10px;">${d.savedAt} · ${d.dur || '—'}</div>`;
+        const delBtn = document.createElement('button');
+        delBtn.textContent = '✕';
+        delBtn.style.cssText = 'background:none;border:none;color:var(--text3);cursor:pointer;padding:0 4px;font-size:12px;';
+        delBtn.onclick = (e) => { e.stopPropagation(); localStorage.removeItem(k); item.remove(); showToast('Entry deleted'); };
+        item.appendChild(delBtn);
         item.onclick = () => {
           document.getElementById('pfName').value = d.name || '';
           document.getElementById('pfCompany').value = d.company || '';
@@ -2329,6 +2826,235 @@ const originalTexts = new Map(); // key = element, value = original innerHTML
     });
   }
 
+
+
+  // Call counter
+  function getCallCountKey() { return 'quickgs_callcount_' + new Date().toDateString(); }
+
+  function clearProspectBar() {
+    ['pfName','pfCompany','pfPhone','pfBoard','pfState'].forEach(id => { document.getElementById(id).value = ''; });
+    selectedTrucks = null;
+    document.querySelectorAll('.truck-btn').forEach(b => b.classList.remove('on'));
+  }
+
+  function loadCallCount() {
+    const v = parseInt(localStorage.getItem(getCallCountKey()) || '0');
+    document.getElementById('callCountDisplay').textContent = v;
+    return v;
+  }
+  function incrementCallCount() {
+    const key = getCallCountKey();
+    const v = parseInt(localStorage.getItem(key) || '0') + 1;
+    localStorage.setItem(key, v);
+    document.getElementById('callCountDisplay').textContent = v;
+  }
+  function resetCallCount() {
+    localStorage.setItem(getCallCountKey(), 0);
+    document.getElementById('callCountDisplay').textContent = 0;
+  }
+
+
+  function toggleObjHandled(btn) {
+    const card = btn.closest('.obj-card');
+    card.classList.toggle('handled');
+    btn.textContent = card.classList.contains('handled') ? '✓ handled' : 'mark handled';
+  }
+  function addObjHandledButtons() {
+    document.querySelectorAll('.obj-q').forEach(q => {
+      if (q.querySelector('.obj-handle-btn')) return;
+      const btn = document.createElement('button');
+      btn.className = 'obj-handle-btn';
+      btn.textContent = 'mark handled';
+      btn.onclick = () => toggleObjHandled(btn);
+      q.appendChild(btn);
+    });
+  }
+
+
+  function addTimeBadges() {
+    const estimates = {
+      'stage-0':'~3 min','stage-1':'~3 min','stage-2':'~2 min','stage-3':'~3 min',
+      'stage-4':'~2 min','stage-5':'~1 min','stage-6':'~4 min','stage-7':'~3 min',
+      'stage-8':'~3 min','stage-9':'ref','stage-10':'~1 min'
+    };
+    Object.entries(estimates).forEach(([sid, est]) => {
+      const stage = document.getElementById(sid);
+      if (!stage) return;
+      const h2 = stage.querySelector('.stage-info h2');
+      if (!h2 || h2.nextSibling && h2.nextSibling.className === 'time-badge') return;
+      const badge = document.createElement('span');
+      badge.className = 'time-badge';
+      badge.textContent = '⏱ ' + est;
+      h2.parentNode.insertBefore(badge, h2.nextSibling);
+    });
+  }
+
+
+  const fontSizes = [13, 15, 17];
+  let fontIdx = 1;
+  function cycleFontSize() {
+    fontIdx = (fontIdx + 1) % fontSizes.length;
+    document.documentElement.style.fontSize = fontSizes[fontIdx] + 'px';
+    document.getElementById('fontBtn').textContent = 'A' + (fontIdx === 0 ? '−' : fontIdx === 1 ? '' : '+');
+    localStorage.setItem('quickgs_fontsize', fontIdx);
+  }
+  function loadFontSize() {
+    const saved = parseInt(localStorage.getItem('quickgs_fontsize') || '1');
+    fontIdx = saved - 1;
+    cycleFontSize();
+  }
+
+
+  let focusMode = false;
+  function toggleFocusMode() {
+    focusMode = !focusMode;
+    document.body.classList.toggle('focus-mode', focusMode);
+    const btn = document.getElementById('focusBtn');
+    btn.textContent = focusMode ? '⚡ Focus on' : '⚡ Focus';
+    btn.style.opacity = focusMode ? '1' : '';
+    btn.style.background = focusMode ? 'var(--green-dim)' : '';
+    btn.style.color = focusMode ? 'var(--green)' : '';
+  }
+
+
+
+  function showShortcuts() {
+    const msg = '⌨ Keyboard shortcuts\n\n← → or ↑ ↓  Navigate stages\nP  Phrases panel\nN  Notes\nT  Tips toggle\nF  Focus mode\nO  Jump to Objections\nEsc  Close panels';
+    alert(msg);
+  }
+
+  function saveRepName(val) { localStorage.setItem('quickgs_rep_name', val); }
+  function loadRepName() {
+    const name = localStorage.getItem('quickgs_rep_name') || '';
+    const el = document.getElementById('repNameInput');
+    if (el) el.value = name;
+  }
+
+
+
+  function saveProspectPreset() {
+    const data = {
+      name: document.getElementById('pfName').value,
+      company: document.getElementById('pfCompany').value,
+      phone: document.getElementById('pfPhone').value,
+      board: document.getElementById('pfBoard').value,
+      state: document.getElementById('pfState').value,
+      trucks: selectedTrucks
+    };
+    localStorage.setItem('quickgs_prospect_preset', JSON.stringify(data));
+    showToast('✓ Prospect saved');
+  }
+  function loadProspectPreset() {
+    try {
+      const data = JSON.parse(localStorage.getItem('quickgs_prospect_preset') || '{}');
+      if (!data.name && !data.company) { showToast('No saved prospect'); return; }
+      document.getElementById('pfName').value = data.name || '';
+      document.getElementById('pfCompany').value = data.company || '';
+      document.getElementById('pfPhone').value = data.phone || '';
+      document.getElementById('pfBoard').value = data.board || '';
+      document.getElementById('pfState').value = data.state || '';
+      if (data.trucks) setTrucks(data.trucks);
+      updateTopbarSub();
+      showToast('✓ Prospect loaded');
+    } catch(e) { showToast('Nothing saved'); }
+  }
+
+
+  let sidebarCollapsed = false;
+  function toggleSidebarCollapse() {
+    sidebarCollapsed = !sidebarCollapsed;
+    document.querySelector('.sidebar').classList.toggle('collapsed', sidebarCollapsed);
+    document.getElementById('sidebarCollapseBtn').textContent = sidebarCollapsed ? '▶' : '◀';
+    localStorage.setItem('quickgs_sidebar_collapsed', sidebarCollapsed);
+  }
+  function loadSidebarState() {
+    if (localStorage.getItem('quickgs_sidebar_collapsed') === 'true') toggleSidebarCollapse();
+  }
+
+
+  function updateSmsPreview() {
+    const name = document.getElementById('pfName').value.trim() || '[Name]';
+    const repName = localStorage.getItem('quickgs_rep_name') || 'Walter';
+    const preview = document.getElementById('smsLivePreview');
+    if (!preview) return;
+    preview.innerHTML = `Hi, <strong>${name}</strong>! I'm <strong>${repName}</strong> from QuickGS 🚛<br><br>
+        Great talking with you! Here's everything:<br><br>
+        🌐 Website: <strong>https://quickgslogistics.com</strong><br>
+        📅 Book a call: <strong>https://quickgslogistics.com/bookings</strong><br>
+        📞 Phone: <strong>+1307-509-5759</strong><br>
+        💬 For SMS: <strong>+1800-483-1253</strong><br>
+        💬 Telegram: <strong>https://t.me/quickgslogistics</strong><br>
+        ✉️ Email: <strong>contact@quickgslogistics.com</strong><br><br>
+        READY TO START? HERE IS THE FORM:<br>
+        📋 Onboarding: <strong>https://quickgslogistics.com/carrier-dispatching-package/</strong><br><br>
+        Reach out anytime we're here when you're ready! 🙎`;
+  }
+
+
+  const stageShortNames = ['Connect','Situation','Problem','Solution','Consequence',
+    'Commit','Present','Objections','Close','Tonality','Warm-Up'];
+  function updateBreadcrumb() {
+    const bar = document.getElementById('stageFlowBar');
+    if (!bar) return;
+    bar.innerHTML = stageShortNames.map((name, i) => {
+      const cls = i === current ? 'active' : completedStages.has(i) ? 'done' : '';
+      const arrow = i < stageShortNames.length - 1 ? '<span class="sfb-arrow">›</span>' : '';
+      return `<span class="sfb-step ${cls}" onclick="goTo(${i})">${name}</span>${arrow}`;
+    }).join('');
+  }
+
+
+  function addScenarioKeyboardNav() {
+    document.querySelectorAll('.scenario-btn').forEach(btn => {
+      if (btn.getAttribute('tabindex')) return;
+      btn.setAttribute('tabindex', '0');
+      btn.addEventListener('keydown', e => {
+        if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); btn.click(); }
+      });
+    });
+  }
+
+
+  function addTurnRoleClickHighlight() {
+    document.querySelectorAll('.turn-role').forEach(role => {
+      if (role.dataset.highlighted) return;
+      role.dataset.highlighted = '1';
+      role.addEventListener('click', () => {
+        const turn = role.closest('.turn');
+        if (turn) {
+          turn.classList.toggle('tip-highlight');
+          setTimeout(() => turn.classList.remove('tip-highlight'), 3000);
+        }
+      });
+    });
+  }
+
+  function updateTopbarSub() {
+    const name = document.getElementById('pfName').value.trim();
+    const company = document.getElementById('pfCompany').value.trim();
+    const sub = document.getElementById('topbarSub');
+    if (!sub) return;
+    if (name || company) {
+      sub.textContent = '📞 ' + [name, company].filter(Boolean).join(' · ');
+      sub.style.color = 'var(--green)';
+    } else {
+      sub.textContent = 'NEPQ™ Framework · Jeremy Miner Method';
+      sub.style.color = '';
+    }
+  }
+
+
+  let lightMode = false;
+  function toggleLightMode() {
+    lightMode = !lightMode;
+    document.body.classList.toggle('light-mode', lightMode);
+    const btn = document.getElementById('lightModeBtn');
+    if (btn) btn.textContent = lightMode ? '🌙' : '☀️';
+    localStorage.setItem('quickgs_light_mode', lightMode);
+  }
+  function loadColorMode() {
+    if (localStorage.getItem('quickgs_light_mode') === 'true') toggleLightMode();
+  }
 
   function toggleMobileSidebar() {
     document.querySelector('.sidebar').classList.toggle('mobile-open');
@@ -2351,6 +3077,115 @@ const originalTexts = new Map(); // key = element, value = original innerHTML
     document.body.classList.toggle('tips-hidden', !tipsVisible);
     document.getElementById('tipsBtn').textContent = tipsVisible ? '💡 Tips' : '💡 Tips off';
     document.getElementById('tipsBtn').style.opacity = tipsVisible ? '1' : '0.5';
+  }
+
+
+
+
+
+
+  function openWhatsApp() {
+    const phone = document.getElementById('pfPhone').value.replace(/[^0-9]/g,'');
+    if (!phone) { showToast('Enter a phone number first'); return; }
+    const msg = encodeURIComponent("Hi, I'm Walter from QuickGS Logistics 🚛\nGreat talking with you! Here's everything:\n\n🌐 https://quickgslogistics.com\n📞 +1307-509-5759\n\nReach out anytime!");
+    window.open('https://wa.me/' + phone + '?text=' + msg, '_blank');
+  }
+
+  function downloadIcs(name, dateStr) {
+    if (!dateStr) { showToast('No follow-up date set'); return; }
+    const d = new Date(dateStr);
+    const pad = n => String(n).padStart(2,'0');
+    const dt = d.getFullYear()+pad(d.getMonth()+1)+pad(d.getDate());
+    const ics = `BEGIN:VCALENDAR\nVERSION:2.0\nBEGIN:VEVENT\nDTSTART;VALUE=DATE:${dt}\nDTEND;VALUE=DATE:${dt}\nSUMMARY:Follow up: ${name || 'Prospect'}\nDESCRIPTION:QuickGS cold call follow-up\nEND:VEVENT\nEND:VCALENDAR`;
+    const blob = new Blob([ics], {type:'text/calendar'});
+    const a = document.createElement('a'); a.href = URL.createObjectURL(blob);
+    a.download = 'followup_' + (name||'prospect').replace(/\s/g,'_') + '.ics';
+    a.click(); showToast('✓ Calendar event downloaded!');
+  }
+
+
+  function exportScript() {
+    const speeches = {};
+    document.querySelectorAll('.speech.you[contenteditable]').forEach((el, i) => {
+      speeches['speech_' + i] = el.innerHTML;
+    });
+    const data = { version: '3.0', exported: new Date().toISOString(), speeches };
+    const blob = new Blob([JSON.stringify(data, null, 2)], {type:'application/json'});
+    const a = document.createElement('a'); a.href = URL.createObjectURL(blob);
+    a.download = 'quickgs_script_' + new Date().toISOString().split('T')[0] + '.json';
+    a.click(); showToast('✓ Script exported!');
+  }
+  function importScript(input) {
+    const file = input.files[0]; if (!file) return;
+    const reader = new FileReader();
+    reader.onload = e => {
+      try {
+        const data = JSON.parse(e.target.result);
+        const speeches = document.querySelectorAll('.speech.you[contenteditable]');
+        Object.values(data.speeches || {}).forEach((html, i) => {
+          if (speeches[i]) speeches[i].innerHTML = html;
+        });
+        showToast('✓ Script imported!');
+      } catch(err) { showToast('⚠ Invalid file'); }
+    };
+    reader.readAsText(file);
+  }
+
+  function exportCallHistory() {
+    const keys = Object.keys(localStorage).filter(k => k.startsWith('quickgs_call_')).sort();
+    if (keys.length === 0) { showToast('No calls to export'); return; }
+    const rows = [['Name','Company','Phone','State','Outcome','SMS Sent','Pain','Duration','Follow-up','Notes','Saved At']];
+    keys.forEach(k => {
+      try {
+        const d = JSON.parse(localStorage.getItem(k));
+        rows.push([d.name||'',d.company||'',d.phone||'',d.state||'',d.outcome||'',d.smsSent||'',d.pain||'',d.dur||'',d.followup||'',(d.notes||'').replace(/\n/g,' '),d.savedAt||'']);
+      } catch(e) {}
+    });
+    const csv = rows.map(r => r.map(v => '"'+String(v).replace(/"/g,'""')+'"').join(',')).join('\n');
+    const blob = new Blob([csv], { type: 'text/csv' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a'); a.href = url;
+    a.download = 'quickgs_calls_' + new Date().toISOString().split('T')[0] + '.csv';
+    a.click(); URL.revokeObjectURL(url);
+    showToast('✓ CSV exported!');
+  }
+
+  function addCustomPhrase() {
+    const input = document.getElementById('newPhraseInput');
+    const text = input.value.trim();
+    if (!text) return;
+    // Save to localStorage
+    const customs = JSON.parse(localStorage.getItem('quickgs_custom_phrases') || '[]');
+    customs.push({ tag: 'Custom', text });
+    localStorage.setItem('quickgs_custom_phrases', JSON.stringify(customs));
+    input.value = '';
+    // Add to visible list
+    const list = document.getElementById('phrasesList');
+    const div = document.createElement('div');
+    div.className = 'phrase-item';
+    div.innerHTML = '<div class="phrase-tag">Custom</div><div>"' + text + '"</div>';
+    div.onclick = () => copyPhrase(text);
+    list.appendChild(div);
+    showToast('✓ Phrase added!');
+  }
+  function loadCustomPhrases() {
+    const customs = JSON.parse(localStorage.getItem('quickgs_custom_phrases') || '[]');
+    const list = document.getElementById('phrasesList');
+    customs.forEach(p => {
+      const div = document.createElement('div');
+      div.className = 'phrase-item';
+      div.innerHTML = '<div class="phrase-tag">Custom</div><div>"' + p.text + '"</div>';
+      div.onclick = () => copyPhrase(p.text);
+      list.appendChild(div);
+    });
+  }
+
+  function filterPhrases(query) {
+    const q = query.toLowerCase();
+    document.querySelectorAll('.phrase-item').forEach(item => {
+      const text = item.textContent.toLowerCase();
+      item.style.display = text.includes(q) ? '' : 'none';
+    });
   }
 
   function toggleNotes() {
@@ -2378,6 +3213,9 @@ const originalTexts = new Map(); // key = element, value = original innerHTML
     const smsSent = document.getElementById('smsSentField').value;
     const pain = document.getElementById('painField').value;
     const data = { name, company, phone, state, outcome, smsSent, pain, followup, dur, notes, savedAt: new Date().toLocaleString() };
+    // Enforce 50-entry limit
+    const allKeys = Object.keys(localStorage).filter(k => k.startsWith('quickgs_call_')).sort();
+    if (allKeys.length >= 50) { try { localStorage.removeItem(allKeys[0]); } catch(e) {} }
     const key = 'quickgs_call_' + Date.now();
     let saved = false;
     try { localStorage.setItem(key, JSON.stringify(data)); saved = true; } catch(e) { saved = false; }
@@ -2459,12 +3297,14 @@ const originalTexts = new Map(); // key = element, value = original innerHTML
     });
   }
 
-  function showToast(msg) {
+  function showToast(msg, type) {
+    const container = document.getElementById('toastContainer');
+    if (!container) return;
     const toast = document.createElement('div');
-    toast.className = 'phrase-copy-toast';
+    toast.className = 'toast' + (type ? ' ' + type : (msg.includes('⚠') ? ' error' : msg.includes('✓') || msg.includes('✅') ? ' success' : ''));
     toast.textContent = msg;
-    document.body.appendChild(toast);
-    setTimeout(() => toast.remove(), 1900);
+    container.appendChild(toast);
+    setTimeout(() => toast.remove(), 2100);
   }
 
   function togglePhrases() {
@@ -2485,7 +3325,7 @@ const originalTexts = new Map(); // key = element, value = original innerHTML
   // Keyboard navigation
   document.addEventListener('keydown', (e) => {
     if (editMode) return;
-    if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA' || e.target.tagName === 'SELECT') return;
+    if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA' || e.target.tagName === 'SELECT' || e.target.contentEditable === 'true') return;
     if (e.key === 'ArrowRight' || e.key === 'ArrowDown') changeStage(1);
     if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') changeStage(-1);
     if (e.key === 'Escape') {
@@ -2512,10 +3352,13 @@ const originalTexts = new Map(); // key = element, value = original innerHTML
 
   // UX1: Add copy buttons to all .speech.you elements
   function addSpeechCopyButtons() {
-    document.querySelectorAll('.speech.you').forEach(el => {
+    const activeStage = document.getElementById(stageIds[current]);
+    if (!activeStage) return;
+    activeStage.querySelectorAll('.speech.you').forEach(el => {
       if (el.querySelector('.speech-copy-btn')) return;
       const btn = document.createElement('button');
       btn.className = 'speech-copy-btn';
+      btn.setAttribute('aria-label', 'Copy speech text');
       btn.textContent = 'copy';
       btn.onclick = (e) => {
         e.stopPropagation();
@@ -2528,8 +3371,33 @@ const originalTexts = new Map(); // key = element, value = original innerHTML
     });
   }
 
+
+  // SMS character counter
+  function updateSmsCounter() {
+    const repName = localStorage.getItem('quickgs_rep_name') || 'Walter';
+    const template = `Hi, I'm ${repName} from QuickGS 🚛
+Great talking with you! Here's everything:
+
+🌐 Website: https://quickgslogistics.com
+📅 Book a call: https://quickgslogistics.com/bookings
+📞 Phone: +1307-509-5759
+💬 For SMS: +1800-483-1253
+💬 Telegram: https://t.me/quickgslogistics
+✉️ Email: contact@quickgslogistics.com
+
+READY TO START? HERE IS THE FORM:
+📋 Onboarding: https://quickgslogistics.com/carrier-dispatching-package/
+
+Reach out anytime we're here when you're ready! 🙎`;
+    const len = template.length;
+    const segs = Math.ceil(len / 160);
+    const el = document.getElementById('smsCharCount');
+    if (el) el.textContent = len + ' chars · ' + segs + ' segment' + (segs > 1 ? 's' : '');
+  }
+
   function copySmsTemplate() {
-    const template = `Hi, I'm Walter from QuickGS 🚛
+    const repName = localStorage.getItem('quickgs_rep_name') || 'Walter';
+    const template = `Hi, I'm ${repName} from QuickGS 🚛
 Great talking with you! Here's everything:
 
 🌐 Website: https://quickgslogistics.com
@@ -2548,9 +3416,38 @@ Reach out anytime we're here when you're ready! 🙎`;
     if (btn) { btn.textContent = '✅ Copied!'; setTimeout(() => { btn.textContent = '📋 Copy'; }, 2000); }
   }
 
+
+  // Swipe gesture for mobile stage navigation
+  let touchStartX = 0;
+  let touchStartY = 0;
+  document.getElementById('mainContent').addEventListener('touchstart', e => {
+    touchStartX = e.touches[0].clientX;
+    touchStartY = e.touches[0].clientY;
+  }, { passive: true });
+  document.getElementById('mainContent').addEventListener('touchend', e => {
+    const dx = e.changedTouches[0].clientX - touchStartX;
+    const dy = e.changedTouches[0].clientY - touchStartY;
+    if (Math.abs(dx) > 60 && Math.abs(dx) > Math.abs(dy) * 1.5) {
+      if (dx < 0) changeStage(1);
+      else changeStage(-1);
+    }
+  }, { passive: true });
+
   buildPhrasesList();
+  loadSidebarState();
+  loadColorMode();
+  if (typeof loadCallCount === 'function') loadCallCount();
+  updateBreadcrumb();
+  loadCustomPhrases();
   addAltDividers();
+  addTimeBadges();
   addSpeechCopyButtons();
+  addObjHandledButtons();
+  loadCallCount();
+  updateSmsCounter();
+  updateSmsPreview();
+  addScenarioKeyboardNav();
+  addTurnRoleClickHighlight();
   updateUI();
 </script>
 </body>
