@@ -445,6 +445,9 @@
     box-shadow: -8px 0 32px rgba(0,0,0,0.5);
   }
   .notes-panel.open { display: flex; }
+  /* Push main content left when notes panel is open so it doesn't overlap */
+  body.notes-open .main { margin-right: min(330px, 95vw); transition: margin-right 0.2s ease; }
+  @media (max-width: 768px) { body.notes-open .main { margin-right: 0; } }
   @keyframes slideInRight { from { transform: translateX(40px); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
   .notes-header { padding: 1rem 1.25rem; border-bottom: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; }
   .notes-title { font-size: 13px; font-weight: 600; color: var(--text); }
@@ -744,7 +747,7 @@
 <aside class="sidebar" role="navigation" aria-label="Script stages">
   <div class="sidebar-logo">
     <div class="company">QuickGS Logistics</div>
-    <div class="subtitle">Cold Call Script v3.0</div>
+    <div class="subtitle">Cold Call Script v3.2</div>
   </div>
 
   <div class="progress-wrap">
@@ -786,7 +789,7 @@
   <div class="sidebar-nav">
     <div class="sidebar-section">
       <div class="sidebar-section-label">Start Here</div>
-      <div class="nav-item" id="nav-0" onclick="goTo(0)">
+      <div class="nav-item active" id="nav-0" onclick="goTo(0)">
         <div class="num">0</div>
         <div class="label">Cold Open — Intro</div>
       </div>
@@ -794,7 +797,7 @@
 
     <div class="sidebar-section">
       <div class="sidebar-section-label">Discovery & Close</div>
-      <div class="nav-item active" id="nav-1" onclick="goTo(1)">
+      <div class="nav-item" id="nav-1" onclick="goTo(1)">
         <div class="num">1</div>
         <div class="label">Connection</div>
       </div>
@@ -852,7 +855,7 @@
   <!-- Version info -->
   <div style="padding:8px 1.25rem 12px;border-top:1px solid var(--border);margin-top:auto;">
     <div style="font-size:9px;color:var(--text3);font-family:'DM Mono',monospace;line-height:1.8;">
-      <div>v3.1 · <span id="lastUpdated">updated today</span></div>
+      <div>v3.2 · <span id="lastUpdated">updated today</span></div>
       <div style="display:flex;gap:5px;margin-top:5px;">
         <button onclick="exportScript()" style="flex:1;background:var(--bg3);border:1px solid var(--border2);color:var(--text3);border-radius:3px;padding:3px 0;font-size:9px;cursor:pointer;font-family:'DM Mono',monospace;">export JSON</button>
         <label style="flex:1;background:var(--bg3);border:1px solid var(--border2);color:var(--text3);border-radius:3px;padding:3px 0;font-size:9px;cursor:pointer;text-align:center;font-family:'DM Mono',monospace;">import JSON<input type="file" accept=".json" onchange="importScript(this)" style="display:none"></label>
@@ -888,8 +891,8 @@
   <!-- PROSPECT INFO BAR -->
   <div class="prospect-bar">
     <span class="pf-label">Prospect:</span>
-    <input class="pf-field" id="pfName" placeholder="Name" oninput="updateTopbarSub(); updateSmsPreview();" style="width:clamp(80px,115px,18vw)">
-    <input class="pf-field" id="pfCompany" placeholder="Company" oninput="updateTopbarSub()" style="width:clamp(90px,135px,20vw)">
+    <input class="pf-field" id="pfName" placeholder="Name" oninput="updateDynamicSpeeches(); updateTopbarSub(); updateSmsPreview();" style="width:clamp(80px,115px,18vw)">
+    <input class="pf-field" id="pfCompany" placeholder="Company" oninput="updateDynamicSpeeches(); updateTopbarSub()" style="width:clamp(90px,135px,20vw)">
     <input class="pf-field" id="pfPhone" placeholder="Phone" style="width:clamp(80px,115px,18vw)"><button onclick="openWhatsApp()" title="Open WhatsApp with this number" style="background:var(--bg3);border:1px solid var(--border2);color:#25D366;border-radius:4px;padding:3px 8px;font-size:12px;cursor:pointer;flex-shrink:0;">WA</button>
     <span class="pf-label" style="margin-left:4px">Trucks:</span>
     <div class="pf-trucks" id="truckBtns">
@@ -899,8 +902,13 @@
       <button class="truck-btn" onclick="setTrucks(4)">4</button>
       <button class="truck-btn" onclick="setTrucks(5)">5+</button>
     </div>
-    <input class="pf-field" id="pfBoard" placeholder="Load board" style="width:clamp(85px,130px,19vw)">
-    <input class="pf-field" id="pfState" placeholder="State/Region" style="width:clamp(80px,110px,17vw)">
+    <input class="pf-field" id="pfBoard" placeholder="Load board" style="width:clamp(85px,130px,19vw)" oninput="updateTopbarSub(); updateSmsPreview(); updateDynamicSpeeches();">
+    <input class="pf-field" id="pfState" placeholder="State/City" style="width:clamp(80px,110px,17vw)" oninput="updateTopbarSub(); updateSmsPreview(); updateDynamicSpeeches();">
+    <input class="pf-field" id="pfEquipment" placeholder="Equipment (e.g. Dry Van)" style="width:clamp(90px,130px,19vw)" oninput="updateTopbarSub(); updateSmsPreview(); updateDynamicSpeeches();">
+    <input class="pf-field" id="pfMileage" placeholder="Annual miles" style="width:clamp(80px,105px,16vw)" oninput="updateTopbarSub(); updateSmsPreview(); updateDynamicSpeeches();">
+    <input class="pf-field" id="pfCarrierAge" placeholder="Yrs in business" style="width:clamp(75px,100px,15vw)" oninput="updateTopbarSub(); updateSmsPreview(); updateDynamicSpeeches();">
+    <input class="pf-field" id="pfOTR" placeholder="OTR? (Y/N)" style="width:clamp(65px,80px,12vw)" oninput="updateTopbarSub(); updateSmsPreview(); updateDynamicSpeeches();">
+    <input class="pf-field" id="pfDOT" placeholder="DOT #" style="width:clamp(65px,85px,13vw)" oninput="updateTopbarSub(); updateSmsPreview(); updateDynamicSpeeches();">
         <button onclick="saveProspectPreset()" title="Save prospect" style="background:var(--bg3);border:1px solid var(--border2);color:var(--text3);border-radius:4px;padding:4px 9px;font-size:11px;cursor:pointer;flex-shrink:0;transition:all 0.13s;" onmouseover="this.style.color='var(--blue)'" onmouseout="this.style.color='var(--text3)'">💾</button>
     <button onclick="loadProspectPreset()" title="Load last prospect" style="background:var(--bg3);border:1px solid var(--border2);color:var(--text3);border-radius:4px;padding:4px 9px;font-size:11px;cursor:pointer;flex-shrink:0;transition:all 0.13s;" onmouseover="this.style.color='var(--blue)'" onmouseout="this.style.color='var(--text3)'">📂</button>
     <button onclick="clearProspectBar()" title="Clear all fields" style="background:var(--bg3);border:1px solid var(--border2);color:var(--text3);border-radius:4px;padding:4px 9px;font-size:11px;cursor:pointer;flex-shrink:0;transition:all 0.13s;" onmouseover="this.style.color='var(--red)'" onmouseout="this.style.color='var(--text3)'">✕ Clear</button>
@@ -925,7 +933,7 @@
 
       <div class="turn">
         <div class="turn-role" style="color:var(--green)"><span class="role-dot" style="background:var(--green)"></span>You</div>
-        <div class="speech you" contenteditable="false">"Yeah… is this uh… is this <span class="hl">[Owner's Name]</span>?"</div>
+        <div class="speech you" contenteditable="false">"Yeah… is this uh… is this <span class="hl" data-token="name">[Owner's Name]</span>?"</div>
         <div class="tip">Upward inflection — like you're not sure you have the right person. This alone stops the "not interested" reflex before it starts.</div>
       </div>
 
@@ -950,6 +958,7 @@
       <div class="turn">
         <div class="turn-role" style="color:var(--green)"><span class="role-dot" style="background:var(--green)"></span>You</div>
         <div class="speech you" contenteditable="false">"Well… and I'm not sure if you're the right person I should be talking to… but I called to see who would be responsible for… overseeing any <span class="hl">possible hidden gaps</span> in like your dispatching — like finding loads and negotiating rates with brokers — that could be causing you guys to <span class="hl">keep leaving money on the table</span> every month… uh… who should I be talking to about that?"</div>
+        <div class="tip">Works for both owner-ops (1–2 trucks) and fleets (3+ trucks). For fleets adjust to: "…causing your fleet to leave money on the table every month…"</div>
         <div class="tip"><strong>"Possible"</strong> = neutral word — they can't say "we don't have that" because you said possible. <strong>"Could be"</strong> = neutral, not "is." <strong>"Who should I be talking to"</strong> = if they ARE the owner, they can't say "that's not me" without looking bad. They say "that's me."</div>
       </div>
 
@@ -974,7 +983,7 @@
         </div>
         <div class="turn">
           <div class="turn-role" style="color:var(--green)"><span class="role-dot" style="background:var(--green)"></span>You</div>
-          <div class="speech you" contenteditable="false">"Oh good… yeah so um… we work with owner-operators on the dispatching side — finding loads, negotiating rates, handling the paperwork… uh… I'm not even sure if what we do would make sense for your situation or if you've already got that covered… would you be opposed to me asking you just a couple questions to find out?"</div>
+          <div class="speech you" contenteditable="false">"Oh good… yeah so um… we work with carriers and owner-operators like <span data-token="company">[Company]</span> on the dispatching side — finding loads, negotiating rates, handling all the paperwork… uh… I'm not even sure if what we do would make sense for your setup or if you've already got that covered… would you be opposed to me asking you just a couple questions to find out?"</div>
           <div class="tip">"I'm not even sure if what we do would make sense" = push them away → they pull you back. "Would you be opposed" = uses their instinct to say no in your favor. → Move to Stage 1: Connection.</div>
         </div>
       </div>
@@ -1102,18 +1111,7 @@
       </div>
 
 
-      <!-- C1: Gatekeeper panel -->
-      div class="scenario-panel" id="open-calledback">
-        <div class="turn">
-          <div class="turn-role" style="color:var(--purple)"><span class="role-dot" style="background:var(--purple)"></span>Prospect</div>
-          <div class="speech them">"Hey I got a missed call from this number — did you call me?"</div>
-        </div>
-        <div class="turn">
-          <div class="turn-role" style="color:var(--green)"><span class="role-dot" style="background:var(--green)"></span>You</div>
-          <div class="speech you" contenteditable="false">"Oh yeah — yeah I did try to reach you… uh… this is [Name] from QuickGS Logistics… and uh… I'm glad you called back actually. I was wondering if you could help me out for a moment — I'm not sure if you're the right person I should be speaking with, but I was looking into dispatching-related stuff for owner-operators in your area… uh… are you the one running the trucking side?"</div>
-          <div class="tip">Returned call = much warmer than a cold call. Stay slightly uncertain but you can be more direct. Their calling back is an implicit signal of curiosity.</div>
-        </div>
-      </div>
+      <!-- duplicate calledback panel removed -->
 
       <div class="section-label">Key Principles from Jeremy Miner</div>
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.75rem;margin-bottom:1rem;">
@@ -1139,10 +1137,22 @@
             "Would you be opposed to…"
           </div>
         </div>
+    </div>
     </div><!-- end stage-10 -->
 
     <!-- ===================== STAGE 0: CONNECTION ===================== -->
     <div class="stage" id="stage-0">
+      <div id="carrier-profile-bar" style="background:var(--bg3);border:1px solid var(--border2);border-radius:var(--radius);padding:10px 14px;margin-bottom:1.25rem;font-size:12px;display:flex;flex-wrap:wrap;gap:12px;align-items:center;">
+        <span style="font-size:9px;color:var(--text3);font-family:'DM Mono',monospace;text-transform:uppercase;letter-spacing:0.1em;flex-basis:100%;margin-bottom:2px;">📋 Carrier Profile — from FMCSA data</span>
+        <span style="color:var(--text2)">🏢 <span data-token="company" style="color:var(--text);font-weight:600">[Company]</span></span>
+        <span style="color:var(--text2)">📍 <span data-token="state" style="color:var(--text)">[State]</span></span>
+        <span style="color:var(--text2)">🚛 <span data-token="trucks-label" style="color:var(--text)">[trucks]</span></span>
+        <span style="color:var(--text2)">📦 <span data-token="equipment" style="color:var(--text)">[equipment]</span></span>
+        <span style="color:var(--text2)">📅 <span data-token="age" style="color:var(--text)">[yrs in business]</span></span>
+        <span style="color:var(--text2)">🛣️ <span data-token="otr" style="color:var(--text)">[route type]</span></span>
+        <span style="color:var(--text2)">📊 <span data-token="mileage" style="color:var(--text)">[mileage]</span></span>
+        <span style="color:var(--text2)">DOT: <span data-token="dot" style="color:var(--text3);font-family:'DM Mono',monospace">[DOT]</span></span>
+      </div>
       <div class="stage-header">
         <div class="stage-badge" style="background:var(--green-dim);color:var(--green)">01</div>
         <div class="stage-info">
@@ -1210,7 +1220,7 @@
         </div>
         <div class="turn">
           <div class="turn-role" style="color:var(--green)"><span class="role-dot" style="background:var(--green)"></span>You</div>
-          <div class="speech you" contenteditable="false">"That's totally fair to ask — I'm [Name] from QuickGS Logistics, we work with owner-operators in your area. I got your info from [FMCSA / referral / load board]. I'm not trying to waste your time at all — would you be okay if I just asked you one quick question to see if this even applies to you?"</div>
+          <div class="speech you" contenteditable="false">"That's totally fair to ask — I'm [Name] from QuickGS Logistics, we work with carriers and owner-operators across the lower 48. I got your info from the FMCSA public carrier database — you're registered as <span data-token="company">[Company]</span> and your DOT is <span data-token="dot">[DOT]</span>. I'm not trying to waste your time at all — would you be okay if I just asked you one quick question to see if this even applies to you?"</div>
           <div class="tip">Be direct and transparent. Hiding how you got the number creates distrust. Name the source calmly and pivot back to permission.</div>
         </div>
       </div>
@@ -1288,6 +1298,14 @@
 
     <!-- ===================== STAGE 1: SITUATION ===================== -->
     <div class="stage" id="stage-1">
+      <div style="background:var(--bg3);border:1px solid var(--border);border-radius:var(--radius-sm);padding:6px 12px;margin-bottom:1rem;font-size:11px;display:flex;flex-wrap:wrap;gap:10px;align-items:center;color:var(--text3);">
+        <span>🚛 <span data-token="company" style="color:var(--text2)">[Co]</span></span>
+        <span><span data-token="trucks-label">[trucks]</span></span>
+        <span><span data-token="equipment">[equip]</span></span>
+        <span>📍 <span data-token="state">[state]</span></span>
+        <span><span data-token="otr">[route]</span></span>
+        <span><span data-token="age">[age]</span></span>
+      </div>
       <div class="stage-header">
         <div class="stage-badge" style="background:var(--bg3);color:var(--text2)">02</div>
         <div class="stage-info">
@@ -1300,6 +1318,8 @@
       <div class="turn">
         <div class="turn-role" style="color:var(--green)"><span class="role-dot" style="background:var(--green)"></span>You</div>
         <div class="speech you" contenteditable="false">"So just to get a better picture — <span class="hl">how many trucks are you running right now?</span>"</div>
+      <div id="mileage-insight" style="display:none;font-size:11.5px;color:var(--text3);padding:4px 0 4px 3px;font-style:italic;border-left:2px solid var(--orange);padding-left:8px;margin:4px 0;"></div>
+      <div class="tip" id="trucks-prefill-tip" style="display:none">You already know they have <strong><span data-token="trucks-label">[X trucks]</span></strong> — skip this question or confirm: <em>"I see you're running <span data-token="trucks-label">[X trucks]</span> — is that still the case?"</em></div>
       </div>
 
       <div class="scenario-group">
@@ -1322,7 +1342,7 @@
         <div class="turn">
           <div class="turn-role" style="color:var(--green)"><span class="role-dot" style="background:var(--green)"></span>You</div>
           <div class="speech you" contenteditable="false">"Got it. And how are you currently handling your dispatching — are you doing it all yourself, or do you have someone helping with that?"</div>
-          <div class="tip">Don't assume. Let them describe it. The more they explain, the more invested they become in the conversation.</div>
+          <div class="tip">You already know their equipment is <strong><span data-token="equipment">[Equipment]</span></strong> — use that: <em>"with <span data-token="trucks-label">[trucks]</span> running <span data-token="equipment">[equipment]</span>, are you handling all the dispatch yourself?"</em> — shows immediate knowledge. Don't assume. Let them describe it. The more they explain, the more invested they become in the conversation.</div>
         </div>
         <div class="turn">
           <div class="turn-role" style="color:var(--purple)"><span class="role-dot" style="background:var(--purple)"></span>Prospect</div>
@@ -1425,7 +1445,7 @@
         <div class="turn">
           <div class="turn-role" style="color:var(--green)"><span class="role-dot" style="background:var(--green)"></span>You</div>
           <div class="speech you" contenteditable="false">"That's a solid operation. And with ten trucks inbound — how's your dispatching team set up? Do you have dedicated dispatchers for each truck or are they covering multiple?"</div>
-          <div class="tip">At this size the conversation shifts to operational efficiency and dispatcher quality, not just doing it yourself. Their pain is management overhead, not time.</div>
+          <div class="tip">At this size the conversation shifts to operational efficiency and dispatcher quality. Their pain is management overhead and load consistency across multiple trucks — not just time. Pitch dispatcher as a scalable solution: "we can cover all your trucks under one dispatcher or assign dedicated dispatchers per truck depending on volume."</div>
         </div>
         <div class="turn">
           <div class="turn-role" style="color:var(--purple)"><span class="role-dot" style="background:var(--purple)"></span>Prospect</div>
@@ -1434,12 +1454,21 @@
         <div class="turn">
           <div class="turn-role" style="color:var(--green)"><span class="role-dot" style="background:var(--green)"></span>You</div>
           <div class="speech you" contenteditable="false">"Yeah, one dispatcher for eight trucks is a lot. And when they're stretched like that — <span class="hl">where does the quality start slipping first?</span> Is it the rates, the turnaround time on finding loads, or something else?"</div>
+          <div class="tip">Reference their mileage if you have it: <em>"I see you're running about <span data-token="mileage">[mileage]</span> — that's a lot of miles to keep covered with one person."</em></div>
         </div>
       </div>
     </div>
 
     <!-- ===================== STAGE 2: PROBLEM AWARENESS ===================== -->
     <div class="stage" id="stage-2">
+      <div style="background:var(--bg3);border:1px solid var(--border);border-radius:var(--radius-sm);padding:6px 12px;margin-bottom:1rem;font-size:11px;display:flex;flex-wrap:wrap;gap:10px;align-items:center;color:var(--text3);">
+        <span>🚛 <span data-token="company" style="color:var(--text2)">[Co]</span></span>
+        <span><span data-token="trucks-label">[trucks]</span></span>
+        <span><span data-token="equipment">[equip]</span></span>
+        <span>📍 <span data-token="state">[state]</span></span>
+        <span><span data-token="otr">[route]</span></span>
+        <span><span data-token="age">[age]</span></span>
+      </div>
       <div class="stage-header">
         <div class="stage-badge" style="background:var(--orange-dim);color:var(--orange)">03</div>
         <div class="stage-info">
@@ -1582,6 +1611,14 @@
 
     <!-- ===================== STAGE 3: SOLUTION AWARENESS ===================== -->
     <div class="stage" id="stage-3">
+      <div style="background:var(--bg3);border:1px solid var(--border);border-radius:var(--radius-sm);padding:6px 12px;margin-bottom:1rem;font-size:11px;display:flex;flex-wrap:wrap;gap:10px;align-items:center;color:var(--text3);">
+        <span>🚛 <span data-token="company" style="color:var(--text2)">[Co]</span></span>
+        <span><span data-token="trucks-label">[trucks]</span></span>
+        <span><span data-token="equipment">[equip]</span></span>
+        <span>📍 <span data-token="state">[state]</span></span>
+        <span><span data-token="otr">[route]</span></span>
+        <span><span data-token="age">[age]</span></span>
+      </div>
       <div class="stage-header">
         <div class="stage-badge" style="background:var(--purple-dim);color:var(--purple)">04</div>
         <div class="stage-info">
@@ -1715,6 +1752,14 @@
 
     <!-- ===================== STAGE 4: CONSEQUENCE ===================== -->
     <div class="stage" id="stage-4">
+      <div style="background:var(--bg3);border:1px solid var(--border);border-radius:var(--radius-sm);padding:6px 12px;margin-bottom:1rem;font-size:11px;display:flex;flex-wrap:wrap;gap:10px;align-items:center;color:var(--text3);">
+        <span>🚛 <span data-token="company" style="color:var(--text2)">[Co]</span></span>
+        <span><span data-token="trucks-label">[trucks]</span></span>
+        <span><span data-token="equipment">[equip]</span></span>
+        <span>📍 <span data-token="state">[state]</span></span>
+        <span><span data-token="otr">[route]</span></span>
+        <span><span data-token="age">[age]</span></span>
+      </div>
       <div class="stage-header">
         <div class="stage-badge" style="background:var(--red-dim);color:var(--red)">05</div>
         <div class="stage-info">
@@ -1727,6 +1772,7 @@
       <div class="turn">
         <div class="turn-role" style="color:var(--green)"><span class="role-dot" style="background:var(--green)"></span>You</div>
         <div class="speech you" contenteditable="false">"So you've been wanting that fourth truck for about a year now… <span class="hl">what do you think has been getting in the way</span> of making that happen?"</div>
+      <div class="tip">If you have their carrier age — <em>"You've been in business <span data-token="age">[X years]</span> — that's a solid operation. So what's been the main thing holding back that next truck?"</em> — acknowledges their tenure and builds respect before the consequence question.</div>
         <div class="tip">Don't fill this in for them. Pause. Let them arrive at the answer on their own. The silence is intentional.</div>
       </div>
       <div class="turn">
@@ -1751,12 +1797,6 @@
         <div class="turn-role" style="color:var(--purple)"><span class="role-dot" style="background:var(--purple)"></span>Prospect</div>
         <div class="speech them">"Honestly, probably same spot. That's what I'm trying to avoid."</div>
       </div>
-      <div class="turn">
-        <div class="turn-role" style="color:var(--green)"><span class="role-dot" style="background:var(--green)"></span>You</div>
-        <div class="speech you" contenteditable="false">"Right. And is that something you're okay with… or is <span class="hl">changing that actually important to you?</span>"</div>
-        <div class="tip">The commitment seed. Forces them to take a verbal position.</div>
-      </div
-
       <div class="scenario-group">
         <div class="scenario-group-label">Their response to future-pacing</div>
         <div class="scenario-btns">
@@ -1792,10 +1832,17 @@
         </div>
       </div>
     </div>
-      </div><!-- close cons-doingwell -->
 
     <!-- ===================== STAGE 5: COMMITMENT ===================== -->
     <div class="stage" id="stage-5">
+      <div style="background:var(--bg3);border:1px solid var(--border);border-radius:var(--radius-sm);padding:6px 12px;margin-bottom:1rem;font-size:11px;display:flex;flex-wrap:wrap;gap:10px;align-items:center;color:var(--text3);">
+        <span>🚛 <span data-token="company" style="color:var(--text2)">[Co]</span></span>
+        <span><span data-token="trucks-label">[trucks]</span></span>
+        <span><span data-token="equipment">[equip]</span></span>
+        <span>📍 <span data-token="state">[state]</span></span>
+        <span><span data-token="otr">[route]</span></span>
+        <span><span data-token="age">[age]</span></span>
+      </div>
       <div class="stage-header">
         <div class="stage-badge" style="background:var(--green-dim);color:var(--green)">06</div>
         <div class="stage-info">
@@ -1868,6 +1915,14 @@
 
     <!-- ===================== STAGE 6: PRESENTATION ===================== -->
     <div class="stage" id="stage-6">
+      <div style="background:var(--bg3);border:1px solid var(--border);border-radius:var(--radius-sm);padding:6px 12px;margin-bottom:1rem;font-size:11px;display:flex;flex-wrap:wrap;gap:10px;align-items:center;color:var(--text3);">
+        <span>🚛 <span data-token="company" style="color:var(--text2)">[Co]</span></span>
+        <span><span data-token="trucks-label">[trucks]</span></span>
+        <span><span data-token="equipment">[equip]</span></span>
+        <span>📍 <span data-token="state">[state]</span></span>
+        <span><span data-token="otr">[route]</span></span>
+        <span><span data-token="age">[age]</span></span>
+      </div>
       <div class="info-callout" style="margin-bottom:1.5rem;cursor:pointer;" onclick="goTo(8)">
         💡 Prospect throws an objection? <strong style="color:var(--teal)">→ Jump to Objection Handling</strong>
       </div>
@@ -1882,7 +1937,7 @@
 
       <div class="turn">
         <div class="turn-role" style="color:var(--green)"><span class="role-dot" style="background:var(--green)"></span>You</div>
-        <div class="speech you" contenteditable="false">"So what we do at QuickGS is pretty simple. You said you want to just drive — <span class="hl-g">that's exactly the idea</span>. We take everything off your plate: finding loads, negotiating rates with brokers, handling BOLs, invoicing, and following up on payments. You focus on the road, we handle the business side."</div>
+        <div class="speech you" contenteditable="false">"So what we do at QuickGS is pretty simple. You said you want to <span class="hl-g">just drive / focus on growing the fleet</span> — that's exactly the idea. And with <span data-token="trucks-label">[trucks]</span> running <span data-token="equipment">[equipment]</span> out of <span data-token="state">[state]</span>, We take everything off your plate: finding loads, negotiating rates with brokers, handling BOLs, invoicing, and following up on payments. You focus on operations, we handle the business side."</div>
         <div class="tip">Use their exact words back at them. "You said you want to just drive" — that's a mirror technique. They feel deeply understood.</div>
       </div>
 
@@ -1893,12 +1948,12 @@
 
       <div class="turn">
         <div class="turn-role" style="color:var(--green)"><span class="role-dot" style="background:var(--green)"></span>You</div>
-        <div class="speech you" contenteditable="false">"And on the payment side — <span class="hl-g">we stay on brokers so you're not chasing invoices</span> at 60 or 90 days. We keep your cash flow moving so you can think about that fourth truck instead of wondering when you're getting paid."</div>
+        <div class="speech you" contenteditable="false">"And on the payment side — <span class="hl-g">we stay on brokers so you're not chasing invoices</span> at 60 or 90 days. We keep your cash flow moving so you can think about growing the operation instead of wondering when you're getting paid."</div>
       </div>
 
       <div class="turn">
         <div class="turn-role" style="color:var(--green)"><span class="role-dot" style="background:var(--green)"></span>You — Check-in</div>
-        <div class="speech you" contenteditable="false">"Does that sound like <span class="hl">it actually addresses what you were describing</span> — or is there something specific you'd want to know more about?"</div>
+        <div class="speech you" contenteditable="false">"Does that sound like <span class="hl">it actually addresses what you were describing</span> — or is there something specific you'd want to know more about? And if you want to look us up while we're talking — it's <span class="hl-g">quickgslogistics.com</span> — everything's on there."</div>
         <div class="tip">Check-in question every 2–3 points. If you monologue, you become every other salesperson. Stay in dialogue mode the entire time.</div>
       </div>
 
@@ -1920,7 +1975,7 @@
         </div>
         <div class="turn">
           <div class="turn-role" style="color:var(--green)"><span class="role-dot" style="background:var(--green)"></span>You</div>
-          <div class="speech you" contenteditable="false">"Simple setup — we assign you a dedicated dispatcher. They learn your lanes, your preferences, and handle everything from load search to broker negotiation to paperwork. You just drive and approve loads. We handle the rest."</div>
+          <div class="speech you" contenteditable="false">"Simple setup — we assign you a dedicated dispatcher. They learn your lanes, your preferences, and handle everything from load search to broker negotiation to paperwork. <span class="hl-g">You focus on the road — or on growing your fleet — and we handle the rest.</span>"</div>
         </div>
       </div>
 
@@ -1931,7 +1986,7 @@
         </div>
         <div class="turn">
           <div class="turn-role" style="color:var(--green)"><span class="role-dot" style="background:var(--green)"></span>You</div>
-          <div class="speech you" contenteditable="false">"We cover all 48 states, but your dispatcher would focus specifically on your preferred lanes. So if you're running Midwest corridors — Chicago, Detroit, St. Louis, Kansas City — we know exactly what those lanes should pay and we push for it. <span class="hl">Is Midwest mainly where your trucks run, or do you go further out sometimes?</span>"</div>
+          <div class="speech you" contenteditable="false">"We cover all 48 states, but your dispatcher would focus specifically on your preferred lanes. So if you're running out of <span data-token="state">[State]</span> — Chicago, Detroit, St. Louis, Kansas City — we know exactly what those lanes should pay and we push for it. <span class="hl">Is Midwest mainly where your trucks run, or do you go further out sometimes?</span>"</div>
           <div class="tip">Answer the question directly, then bounce back with a question. Keeps the dialogue going and shows you actually know the market.</div>
         </div>
       </div>
@@ -1956,8 +2011,11 @@
         </div>
         <div class="turn">
           <div class="turn-role" style="color:var(--green)"><span class="role-dot" style="background:var(--green)"></span>You</div>
-          <div class="speech you" contenteditable="false">"Happy to get into that. We charge [X%] per load — so we only make money when you make money. No upfront fees, no monthly retainer. And based on what you said about the rates you're currently getting — most carriers find the better rates alone more than cover what we charge. <span class="hl">Does that feel like it would pencil out for your situation?</span>"</div>
-          <div class="tip">Tie the fee directly to the pain they described. "We only make money when you make money" is alignment — not a sales line. Say it and mean it.</div>
+          <div class="speech you" contenteditable="false">"Happy to get into that. We work on a percentage per load — so we only make money when you make money. No monthly retainer on dispatch. And based on what you said about the rates you're currently getting — most carriers find the better rates alone more than cover what we charge. <span class="hl">Does that feel like it would pencil out for your situation?</span>"</div>
+          <div class="tip">Tie the fee directly to the pain they described. "We only make money when you make money" is alignment — not a sales line. Say it and mean it. Always have the plans page open before calling: quickgslogistics.com/carrier-dispatching-package</div>
+          <div class="info-callout" style="margin-top:0.75rem;cursor:pointer;" onclick="window.open('https://quickgslogistics.com/carrier-dispatching-package/','_blank')">
+            💡 <strong>QuickGS Plans Reference</strong> — click to open pricing page. Review before each session so you can answer pricing questions with exact numbers and confidence.
+          </div>
         </div>
       </div>
 
@@ -1977,6 +2035,14 @@
 
     <!-- ===================== STAGE 7: OBJECTIONS ===================== -->
     <div class="stage" id="stage-7">
+      <div style="background:var(--bg3);border:1px solid var(--border);border-radius:var(--radius-sm);padding:6px 12px;margin-bottom:1rem;font-size:11px;display:flex;flex-wrap:wrap;gap:10px;align-items:center;color:var(--text3);">
+        <span>🚛 <span data-token="company" style="color:var(--text2)">[Co]</span></span>
+        <span><span data-token="trucks-label">[trucks]</span></span>
+        <span><span data-token="equipment">[equip]</span></span>
+        <span>📍 <span data-token="state">[state]</span></span>
+        <span><span data-token="otr">[route]</span></span>
+        <span><span data-token="age">[age]</span></span>
+      </div>
       <div class="stage-header">
         <div class="stage-badge" style="background:var(--orange-dim);color:var(--orange)">08</div>
         <div class="stage-info">
@@ -2022,7 +2088,7 @@
           <div class="obj-layers">
             <div class="obj-layer"><div class="layer-num">L1</div><div><div class="layer-text" contenteditable="false">"That's a fair question and I'll absolutely get into that. Before I do — I just want to make sure what we do even makes sense for your setup first."</div><div class="layer-note">↳ Defer price without dodging. Keeps context before numbers.</div></div></div>
             <div class="obj-layer"><div class="layer-num">L2</div><div><div class="layer-text" contenteditable="false">"If the numbers ended up working out — and most of our carriers find it pays for itself in the first couple weeks through better rates — would pricing still be the main thing holding you back?"</div><div class="layer-note">↳ Conditional close. Isolate whether price is actually the issue.</div></div></div>
-            <div class="obj-layer"><div class="layer-num">L3</div><div><div class="layer-text" contenteditable="false">"We charge [X%] per load. Given everything you said about what you're currently losing in underpriced loads and slow payments — does that feel like it would actually be a net positive for you?"</div><div class="layer-note">↳ Now reveal price — framed against their stated losses. ROI becomes obvious.</div></div></div>
+            <div class="obj-layer"><div class="layer-num">L3</div><div><div class="layer-text" contenteditable="false">"We work on a per-load percentage — no upfront fees. Given everything you said about what you're currently losing in underpriced loads and slow payments — does that feel like it would actually be a net positive for you?"</div><div class="layer-note">↳ Now reveal price — framed against their stated losses. ROI becomes obvious.</div></div></div>
           </div>
         </div>
       </div>
@@ -2101,8 +2167,7 @@
         </div>
       </div>
 
-      <!-- NEW: I know brokers already -->
-
+      <!-- Objection 9 — I already have my broker relationships (content follows obj-10 in DOM but panel is targeted by button) -->
       <!-- C3: Leased to carrier objection -->
       <div class="scenario-panel" id="obj-10">
         <div class="section-label">Objection 10 — "I'm leased to a carrier / I have a company dispatcher"</div>
@@ -2145,6 +2210,14 @@
 
     <!-- ===================== STAGE 8: CLOSE + SMS ===================== -->
     <div class="stage" id="stage-8">
+      <div style="background:var(--bg3);border:1px solid var(--border);border-radius:var(--radius-sm);padding:6px 12px;margin-bottom:1rem;font-size:11px;display:flex;flex-wrap:wrap;gap:10px;align-items:center;color:var(--text3);">
+        <span>🚛 <span data-token="company" style="color:var(--text2)">[Co]</span></span>
+        <span><span data-token="trucks-label">[trucks]</span></span>
+        <span><span data-token="equipment">[equip]</span></span>
+        <span>📍 <span data-token="state">[state]</span></span>
+        <span><span data-token="otr">[route]</span></span>
+        <span><span data-token="age">[age]</span></span>
+      </div>
       <div class="stage-header">
         <div class="stage-badge" style="background:var(--green-dim);color:var(--green)">09</div>
         <div class="stage-info">
@@ -2402,7 +2475,6 @@
           </div>
         </div>
       </div>
-    </div>
 
 
 
@@ -2563,6 +2635,10 @@
     addObjHandledButtons();
     addScenarioKeyboardNav();
     addTurnRoleClickHighlight();
+    updateDynamicSpeeches();
+    // Show truck prefill tip if trucks data available
+    const tip = document.getElementById('trucks-prefill-tip');
+    if (tip) tip.style.display = selectedTrucks ? 'flex' : 'none';
   }
 
   function changeStage(dir) {
@@ -2732,6 +2808,7 @@ const originalTexts = new Map(); // key = element, value = original innerHTML
         scenarioState['sit'] = targetScenario;
       }
     }
+    updateDynamicSpeeches();
   }
 
   // ===== CALL NOTES PANEL =====
@@ -2834,9 +2911,13 @@ const originalTexts = new Map(); // key = element, value = original innerHTML
   function getCallCountKey() { return 'quickgs_callcount_' + new Date().toDateString(); }
 
   function clearProspectBar() {
-    ['pfName','pfCompany','pfPhone','pfBoard','pfState'].forEach(id => { document.getElementById(id).value = ''; });
+    ['pfName','pfCompany','pfPhone','pfBoard','pfState','pfEquipment','pfMileage','pfCarrierAge','pfOTR','pfDOT'].forEach(id => {
+      const el = document.getElementById(id);
+      if (el) el.value = '';
+    });
     selectedTrucks = null;
     document.querySelectorAll('.truck-btn').forEach(b => b.classList.remove('on'));
+    updateDynamicSpeeches();
   }
 
   function loadCallCount() {
@@ -2941,7 +3022,12 @@ const originalTexts = new Map(); // key = element, value = original innerHTML
       phone: document.getElementById('pfPhone').value,
       board: document.getElementById('pfBoard').value,
       state: document.getElementById('pfState').value,
-      trucks: selectedTrucks
+      trucks: selectedTrucks,
+      equipment: document.getElementById('pfEquipment').value,
+      mileage: document.getElementById('pfMileage').value,
+      carrierAge: document.getElementById('pfCarrierAge').value,
+      otr: document.getElementById('pfOTR').value,
+      dot: document.getElementById('pfDOT').value,
     };
     localStorage.setItem('quickgs_prospect_preset', JSON.stringify(data));
     showToast('✓ Prospect saved');
@@ -2955,6 +3041,11 @@ const originalTexts = new Map(); // key = element, value = original innerHTML
       document.getElementById('pfPhone').value = data.phone || '';
       document.getElementById('pfBoard').value = data.board || '';
       document.getElementById('pfState').value = data.state || '';
+      if (document.getElementById('pfEquipment')) document.getElementById('pfEquipment').value = data.equipment || '';
+      if (document.getElementById('pfMileage')) document.getElementById('pfMileage').value = data.mileage || '';
+      if (document.getElementById('pfCarrierAge')) document.getElementById('pfCarrierAge').value = data.carrierAge || '';
+      if (document.getElementById('pfOTR')) document.getElementById('pfOTR').value = data.otr || '';
+      if (document.getElementById('pfDOT')) document.getElementById('pfDOT').value = data.dot || '';
       if (data.trucks) setTrucks(data.trucks);
       updateTopbarSub();
       showToast('✓ Prospect loaded');
@@ -3028,6 +3119,75 @@ const originalTexts = new Map(); // key = element, value = original innerHTML
         }
       });
     });
+  }
+
+  // ===== DYNAMIC SPEECH SYSTEM =====
+  // Replaces tokens in speech blocks with live prospect data from the bar
+  // Tokens: {name}, {company}, {state}, {trucks}, {equipment}, {mileage}, {age}, {otr}, {dot}
+
+  function getProspectData() {
+    return {
+      name      : document.getElementById('pfName').value.trim()       || '[Owner Name]',
+      company   : document.getElementById('pfCompany').value.trim()    || '[Company]',
+      state     : document.getElementById('pfState').value.trim()      || 'your area',
+      trucks    : selectedTrucks ? selectedTrucks.toString()           : '[X]',
+      equipment : document.getElementById('pfEquipment').value.trim()  || 'dry van',
+      mileage   : document.getElementById('pfMileage').value.trim()    || '',
+      age       : document.getElementById('pfCarrierAge').value.trim() || '',
+      otr       : document.getElementById('pfOTR').value.trim().toUpperCase() || '',
+      dot       : document.getElementById('pfDOT').value.trim()        || '',
+      board     : document.getElementById('pfBoard').value.trim()      || 'load boards',
+    };
+  }
+
+  function updateDynamicSpeeches() {
+    const d = getProspectData();
+
+    // Update all [data-token] spans across ALL stages (not just active)
+    document.querySelectorAll('[data-token]').forEach(span => {
+      const token = span.dataset.token;
+      let val = '';
+      switch(token) {
+        case 'name':      val = d.name; break;
+        case 'company':   val = d.company; break;
+        case 'state':     val = d.state; break;
+        case 'trucks':    val = d.trucks; break;
+        case 'equipment': val = d.equipment; break;
+        case 'mileage':   val = d.mileage ? Number(d.mileage).toLocaleString() + ' miles/yr' : ''; break;
+        case 'age':       val = d.age ? d.age + ' years in business' : ''; break;
+        case 'otr':       val = d.otr === 'Y' || d.otr === 'YES' ? 'OTR runs' : 'regional runs'; break;
+        case 'board':     val = d.board; break;
+        case 'dot':       val = d.dot; break;
+        case 'trucks-label':
+          const n = parseInt(d.trucks);
+          if (!isNaN(n)) val = n === 1 ? 'your truck' : n + ' trucks';
+          else val = 'your trucks';
+          break;
+      }
+      if (val) {
+        span.textContent = val;
+        span.style.color = 'var(--green)';
+        span.style.fontWeight = '600';
+      } else {
+        span.style.color = 'var(--text3)';
+        span.style.fontWeight = '';
+      }
+    });
+
+    // Show/hide mileage insight badge
+    const mileageBadge = document.getElementById('mileage-insight');
+    if (mileageBadge && d.mileage) {
+      const m = parseInt(d.mileage.replace(/,/g, ''));
+      if (m >= 100000) {
+        mileageBadge.textContent = '→ High mileage carrier — actively running. Good signal.';
+        mileageBadge.style.display = 'block';
+      } else if (m > 0) {
+        mileageBadge.textContent = '→ Lower mileage — probe whether they're running consistently.';
+        mileageBadge.style.display = 'block';
+      } else {
+        mileageBadge.style.display = 'none';
+      }
+    }
   }
 
   function updateTopbarSub() {
@@ -3191,6 +3351,7 @@ const originalTexts = new Map(); // key = element, value = original innerHTML
 
   function toggleNotes() {
     document.getElementById('notesPanel').classList.toggle('open');
+    document.body.classList.toggle('notes-open', document.getElementById('notesPanel').classList.contains('open'));
   }
 
   let currentOutcome = null;
@@ -3434,7 +3595,43 @@ Reach out anytime we're here when you're ready! 🙎`;
     }
   }, { passive: true });
 
+  // ===== AUTO-FILL FROM URL PARAMS (when opened from Google Sheets) =====
+  (function() {
+    try {
+      const p = new URLSearchParams(window.location.search);
+      const fill = (id, val) => { const el = document.getElementById(id); if (el && val) el.value = decodeURIComponent(val); };
+      fill('pfName',       p.get('name'));
+      fill('pfCompany',    p.get('company'));
+      fill('pfPhone',      p.get('phone'));
+      fill('pfState',      p.get('state'));
+      fill('pfBoard',      p.get('board'));
+      fill('pfEquipment',  p.get('equipment'));
+      fill('pfMileage',    p.get('mileage'));
+      fill('pfCarrierAge', p.get('age'));
+      fill('pfOTR',        p.get('otr'));
+      fill('pfDOT',        p.get('dot'));
+      if (p.get('trucks')) {
+        const t = p.get('trucks');
+        const n = parseInt(t);
+        if (!isNaN(n)) setTrucks(n <= 5 ? n : '5+');
+      }
+      if (p.get('name') || p.get('company')) {
+        // Show a welcome banner
+        const banner = document.createElement('div');
+        banner.style.cssText = 'position:fixed;top:0;left:0;right:0;z-index:9999;background:var(--green);color:#000;font-size:12px;font-weight:600;padding:7px 16px;text-align:center;font-family:DM Sans,sans-serif;animation:toastAnim 4s ease forwards;';
+        banner.textContent = '✅ Carrier loaded: ' + decodeURIComponent(p.get('name') || '') + (p.get('company') ? ' — ' + decodeURIComponent(p.get('company')) : '');
+        document.body.appendChild(banner);
+        setTimeout(() => banner.remove(), 4000);
+        updateTopbarSub();
+        updateSmsPreview();
+        updateDynamicSpeeches();
+      }
+    } catch(e) { console.warn('URL param fill error:', e); }
+  })();
+
   buildPhrasesList();
+  loadRepName();
+  document.getElementById('lastUpdated').textContent = new Date().toLocaleDateString('en-US', {month:'short', day:'numeric', year:'numeric'});
   loadSidebarState();
   loadColorMode();
   if (typeof loadCallCount === 'function') loadCallCount();
@@ -3449,6 +3646,7 @@ Reach out anytime we're here when you're ready! 🙎`;
   updateSmsPreview();
   addScenarioKeyboardNav();
   addTurnRoleClickHighlight();
+  updateDynamicSpeeches();
   updateUI();
 </script>
 </body>
