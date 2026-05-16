@@ -907,7 +907,7 @@
       <button class="btn" onclick="togglePhrases()" id="phrasesBtn" title="Quick phrases">💬 Phrases</button>
       <button class="btn" onclick="toggleNotes()" id="notesBtn">📋 Notes</button>
       <button class="btn btn-hide-mobile" onclick="toggleFocusMode()" id="focusBtn" title="Focus mode — hides tips/labels">⚡ Focus</button>
-        <button class="btn btn-hide-mobile" onclick="cycleFontSize()" id="fontBtn" title="Font size">A</button>
+        <button class="btn btn-hide-mobile" onclick="decreaseFontSize()" id="fontBtnMinus" title="Decrease font size" style="padding:5px 8px;font-weight:700;">A−</button><button class="btn btn-hide-mobile" onclick="increaseFontSize()" id="fontBtnPlus" title="Increase font size" style="padding:5px 8px;font-weight:700;">A+</button>
         <button class="btn btn-hide-mobile" onclick="toggleTips()" id="tipsBtn" title="Toggle tips (T)">💡 Tips</button>
         <button class="btn" onclick="toggleEdit()" id="editBtn">✏️ Edit Script</button>
       <button class="btn btn-hide-mobile" onclick="window.print()" title="Print">🖨️</button>
@@ -3055,18 +3055,27 @@ const originalTexts = new Map(); // key = element, value = original innerHTML
   }
 
 
-  const fontSizes = [13, 15, 17];
-  let fontIdx = 1;
-  function cycleFontSize() {
-    fontIdx = (fontIdx + 1) % fontSizes.length;
+  const fontSizes = [10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 24, 26, 28];
+  let fontIdx = 2; // default = 13px
+  function applyFontSize() {
     document.documentElement.style.fontSize = fontSizes[fontIdx] + 'px';
-    document.getElementById('fontBtn').textContent = 'A' + (fontIdx === 0 ? '−' : fontIdx === 1 ? '' : '+');
     localStorage.setItem('quickgs_fontsize', fontIdx);
+    const minus = document.getElementById('fontBtnMinus');
+    const plus  = document.getElementById('fontBtnPlus');
+    if (minus) minus.style.opacity = fontIdx === 0 ? '0.3' : '1';
+    if (plus)  plus.style.opacity  = fontIdx === fontSizes.length - 1 ? '0.3' : '1';
   }
+  function decreaseFontSize() {
+    if (fontIdx > 0) { fontIdx--; applyFontSize(); }
+  }
+  function increaseFontSize() {
+    if (fontIdx < fontSizes.length - 1) { fontIdx++; applyFontSize(); }
+  }
+  function cycleFontSize() { increaseFontSize(); } // legacy alias
   function loadFontSize() {
     const saved = parseInt(localStorage.getItem('quickgs_fontsize') || '1');
-    fontIdx = saved - 1;
-    cycleFontSize();
+    fontIdx = Math.max(0, Math.min(fontSizes.length - 1, saved));
+    applyFontSize();
   }
 
 
