@@ -908,11 +908,15 @@
     <input class="pf-field" id="pfMileage" placeholder="Annual miles" style="width:clamp(80px,105px,16vw)" oninput="updateTopbarSub(); updateSmsPreview(); updateDynamicSpeeches();">
     <input class="pf-field" id="pfCarrierAge" placeholder="Yrs in business" style="width:clamp(75px,100px,15vw)" oninput="updateTopbarSub(); updateSmsPreview(); updateDynamicSpeeches();">
     <input class="pf-field" id="pfOTR" placeholder="OTR? (Y/N)" style="width:clamp(65px,80px,12vw)" oninput="updateTopbarSub(); updateSmsPreview(); updateDynamicSpeeches();">
+    <input type="hidden" id="pfScore">
+    <input type="hidden" id="pfPotential">
+    <input type="hidden" id="pfType">
     <input class="pf-field" id="pfDOT" placeholder="DOT #" style="width:clamp(65px,85px,13vw)" oninput="updateTopbarSub(); updateSmsPreview(); updateDynamicSpeeches();">
         <button onclick="saveProspectPreset()" title="Save prospect" style="background:var(--bg3);border:1px solid var(--border2);color:var(--text3);border-radius:4px;padding:4px 9px;font-size:11px;cursor:pointer;flex-shrink:0;transition:all 0.13s;" onmouseover="this.style.color='var(--blue)'" onmouseout="this.style.color='var(--text3)'">💾</button>
     <button onclick="loadProspectPreset()" title="Load last prospect" style="background:var(--bg3);border:1px solid var(--border2);color:var(--text3);border-radius:4px;padding:4px 9px;font-size:11px;cursor:pointer;flex-shrink:0;transition:all 0.13s;" onmouseover="this.style.color='var(--blue)'" onmouseout="this.style.color='var(--text3)'">📂</button>
     <button onclick="clearProspectBar()" title="Clear all fields" style="background:var(--bg3);border:1px solid var(--border2);color:var(--text3);border-radius:4px;padding:4px 9px;font-size:11px;cursor:pointer;flex-shrink:0;transition:all 0.13s;" onmouseover="this.style.color='var(--red)'" onmouseout="this.style.color='var(--text3)'">✕ Clear</button>
   </div>
+  <div id="dynamic-insights" style="display:none;flex-wrap:wrap;gap:6px;padding:6px 16px 8px;background:var(--bg2);border-bottom:1px solid var(--border);"></div>
 
   <div class="stage-flow-bar" id="stageFlowBar"></div>
   <!-- CONTENT -->
@@ -920,6 +924,24 @@
 
     <!-- ===================== STAGE 10: COLD OPEN ===================== -->
     <div class="stage active" id="stage-10">
+      
+      <div id="precall-intel" style="background:var(--bg3);border:1.5px solid var(--border2);border-radius:var(--radius);padding:12px 16px;margin-bottom:1.25rem;display:none;">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;">
+          <span style="font-size:10px;color:var(--text3);text-transform:uppercase;letter-spacing:0.1em;font-family:'DM Mono',monospace;">📋 Pre-Call Intel — from FMCSA record</span>
+          <span id="score-badge" style="display:none;font-size:11px;font-weight:700;padding:2px 8px;border-radius:20px;"></span>
+        </div>
+        <div style="display:flex;flex-wrap:wrap;gap:8px 20px;font-size:12.5px;">
+          <span>👤 <strong><span data-token="name">[Name]</span></strong></span>
+          <span>🏢 <span data-token="company">[Company]</span></span>
+          <span>🚛 <span data-token="trucks-or-fleet">[trucks]</span></span>
+          <span>📦 <span data-token="equipment">[Equipment]</span></span>
+          <span>📍 <span data-token="state">[State]</span></span>
+          <span>🛣️ <span data-token="otr">[OTR]</span></span>
+          <span>📊 <span data-token="mileage">[Mileage]</span></span>
+          <span>📅 <span data-token="age">[Age]</span> in business</span>
+          <span style="color:var(--text3);">DOT: <span data-token="dot" style="font-family:'DM Mono',monospace">[DOT]</span></span>
+        </div>
+      </div>
       <div class="stage-header">
         <div class="stage-badge" style="background:var(--yellow-dim);color:var(--yellow)">00</div>
         <div class="stage-info">
@@ -933,7 +955,7 @@
 
       <div class="turn">
         <div class="turn-role" style="color:var(--green)"><span class="role-dot" style="background:var(--green)"></span>You</div>
-        <div class="speech you" contenteditable="false">"Yeah… is this uh… is this <span class="hl" data-token="name">[Owner's Name]</span>?"</div>
+        <div class="speech you" contenteditable="false">"Yeah… is this uh… is this <span class="hl" data-token="first-name">[First Name]</span>?"</div>
         <div class="tip">Upward inflection — like you're not sure you have the right person. This alone stops the "not interested" reflex before it starts.</div>
       </div>
 
@@ -983,7 +1005,7 @@
         </div>
         <div class="turn">
           <div class="turn-role" style="color:var(--green)"><span class="role-dot" style="background:var(--green)"></span>You</div>
-          <div class="speech you" contenteditable="false">"Oh good… yeah so um… we work with carriers and owner-operators like <span data-token="company">[Company]</span> on the dispatching side — finding loads, negotiating rates, handling all the paperwork… uh… I'm not even sure if what we do would make sense for your setup or if you've already got that covered… would you be opposed to me asking you just a couple questions to find out?"</div>
+          <div class="speech you" contenteditable="false">"Oh good… yeah so um… we work with <span data-token="equipment-adj">[equipment]</span> carriers like <span data-token="company">[Company]</span> out of <span data-token="state-short">[state]</span> on the dispatching side — finding loads, negotiating rates, handling all the paperwork… uh… I'm not even sure if what we do would make sense for <span data-token="trucks-or-fleet">[trucks]</span> or if you've already got that covered… would you be opposed to me asking you just a couple questions to find out?"</div>
           <div class="tip">"I'm not even sure if what we do would make sense" = push them away → they pull you back. "Would you be opposed" = uses their instinct to say no in your favor. → Move to Stage 1: Connection.</div>
         </div>
       </div>
@@ -1153,6 +1175,9 @@
         <span style="color:var(--text2)">📊 <span data-token="mileage" style="color:var(--text)">[mileage]</span></span>
         <span style="color:var(--text2)">DOT: <span data-token="dot" style="color:var(--text3);font-family:'DM Mono',monospace">[DOT]</span></span>
       </div>
+            <div class="tip" style="margin-bottom:1rem;border-left:3px solid var(--green);padding-left:10px;font-size:12px;background:var(--bg3);border-radius:0 var(--radius-sm) var(--radius-sm) 0;padding:10px 12px 10px 14px;">
+        💡 <strong>You know their operation before they say a word.</strong> <span data-token="company">[Company]</span> — <span data-token="trucks-or-fleet">[trucks]</span> running <span data-token="equipment-adj">[equipment]</span> out of <span data-token="state-short">[state]</span>, <span data-token="age">[X years]</span> in business. Reference specifics early and naturally — it builds authority and separates you from every other cold caller they've heard.
+      </div>
       <div class="stage-header">
         <div class="stage-badge" style="background:var(--green-dim);color:var(--green)">01</div>
         <div class="stage-info">
@@ -1220,7 +1245,7 @@
         </div>
         <div class="turn">
           <div class="turn-role" style="color:var(--green)"><span class="role-dot" style="background:var(--green)"></span>You</div>
-          <div class="speech you" contenteditable="false">"That's totally fair to ask — I'm [Name] from QuickGS Logistics, we work with carriers and owner-operators across the lower 48. I got your info from the FMCSA public carrier database — you're registered as <span data-token="company">[Company]</span> and your DOT is <span data-token="dot">[DOT]</span>. I'm not trying to waste your time at all — would you be okay if I just asked you one quick question to see if this even applies to you?"</div>
+          <div class="speech you" contenteditable="false">"That's totally fair to ask — I'm [Your Name] from QuickGS Logistics. We work with <span data-token="equipment-adj">[equipment]</span> carriers in <span data-token="state-short">[state]</span> and across the lower 48. I was actually looking at your operation — you're registered as <span data-token="company">[Company]</span>, DOT <span data-token="dot">[DOT]</span>, <span data-token="trucks-or-fleet">[trucks]</span> — I'm not trying to waste your time at all — would you be okay if I just asked you one quick question to see if this even applies to you?"</div>
           <div class="tip">Be direct and transparent. Hiding how you got the number creates distrust. Name the source calmly and pivot back to permission.</div>
         </div>
       </div>
@@ -1319,7 +1344,7 @@
         <div class="turn-role" style="color:var(--green)"><span class="role-dot" style="background:var(--green)"></span>You</div>
         <div class="speech you" contenteditable="false">"So just to get a better picture — <span class="hl">how many trucks are you running right now?</span>"</div>
       <div id="mileage-insight" style="display:none;font-size:11.5px;color:var(--text3);padding:4px 0 4px 3px;font-style:italic;border-left:2px solid var(--orange);padding-left:8px;margin:4px 0;"></div>
-      <div class="tip" id="trucks-prefill-tip" style="display:none">You already know they have <strong><span data-token="trucks-label">[X trucks]</span></strong> — skip this question or confirm: <em>"I see you're running <span data-token="trucks-label">[X trucks]</span> — is that still the case?"</em></div>
+      <div class="tip" id="trucks-prefill-tip" style="display:none">You already know they have <strong><span data-token="trucks-label">[X trucks]</span></strong>. Skip this question — instead say: <em>"I see you're running <span data-token="trucks-or-fleet">[X trucks]</span> out of <span data-token="state-short">[state]</span> — is that still the case?"</em> This signals you did your homework.</div>
       </div>
 
       <div class="scenario-group">
@@ -1341,8 +1366,8 @@
         </div>
         <div class="turn">
           <div class="turn-role" style="color:var(--green)"><span class="role-dot" style="background:var(--green)"></span>You</div>
-          <div class="speech you" contenteditable="false">"Got it. And how are you currently handling your dispatching — are you doing it all yourself, or do you have someone helping with that?"</div>
-          <div class="tip">You already know their equipment is <strong><span data-token="equipment">[Equipment]</span></strong> — use that: <em>"with <span data-token="trucks-label">[trucks]</span> running <span data-token="equipment">[equipment]</span>, are you handling all the dispatch yourself?"</em> — shows immediate knowledge. Don't assume. Let them describe it. The more they explain, the more invested they become in the conversation.</div>
+          <div class="speech you" contenteditable="false">"Got it. And with <span data-token="trucks-or-fleet">[trucks]</span> running <span data-token="equipment-adj">[equipment]</span> out of <span data-token="state-short">[state]</span> — are you handling all the dispatching yourself, or do you have someone helping with that?"</div>
+          <div class="tip">This version already uses their data. If they seem surprised you know — that's good. Just say: "I was reviewing your FMCSA profile before calling." Shows professionalism and preparation. The more they explain, the more invested they become in the conversation.</div>
         </div>
         <div class="turn">
           <div class="turn-role" style="color:var(--purple)"><span class="role-dot" style="background:var(--purple)"></span>Prospect</div>
@@ -1350,7 +1375,7 @@
         </div>
         <div class="turn">
           <div class="turn-role" style="color:var(--green)"><span class="role-dot" style="background:var(--green)"></span>You</div>
-          <div class="speech you" contenteditable="false">"Okay. And for finding loads — are you mainly using the load boards yourself, working through brokers, or a mix of both?"</div>
+          <div class="speech you" contenteditable="false">"Okay. And for finding loads out of <span data-token="state-short">[state]</span> — are you mainly using <span data-token="board">[load boards]</span> yourself, working through brokers, or a mix of both?"</div>
         </div>
         <div class="turn">
           <div class="turn-role" style="color:var(--purple)"><span class="role-dot" style="background:var(--purple)"></span>Prospect</div>
@@ -1454,7 +1479,7 @@
         <div class="turn">
           <div class="turn-role" style="color:var(--green)"><span class="role-dot" style="background:var(--green)"></span>You</div>
           <div class="speech you" contenteditable="false">"Yeah, one dispatcher for eight trucks is a lot. And when they're stretched like that — <span class="hl">where does the quality start slipping first?</span> Is it the rates, the turnaround time on finding loads, or something else?"</div>
-          <div class="tip">Reference their mileage if you have it: <em>"I see you're running about <span data-token="mileage">[mileage]</span> — that's a lot of miles to keep covered with one person."</em></div>
+          <div class="tip">Reference their mileage: <em>"I see <span data-token="company">[Company]</span> reported about <span data-token="mileage">[mileage]</span> last year — that's a lot of <span data-token="equipment-adj">[equipment]</span> miles to keep fully dispatched with one person."</em> — FMCSA data shows this, say it with confidence.</div>
         </div>
       </div>
     </div>
@@ -1480,7 +1505,7 @@
 
       <div class="turn">
         <div class="turn-role" style="color:var(--green)"><span class="role-dot" style="background:var(--green)"></span>You</div>
-        <div class="speech you" contenteditable="false">"And with all that time you're putting in — <span class="hl">how's that been working for you overall?</span> Like are you getting the rates you want, or does it feel like you're leaving some money on the table sometimes?"</div>
+        <div class="speech you" contenteditable="false">"And with all that time you're putting in on <span data-token="trucks-or-fleet">[trucks]</span> — <span class="hl">how's that been working for you overall?</span> Like with <span data-token="equipment-adj">[equipment]</span> out of <span data-token="state-short">[state]</span> — are you getting the rates you want, or does it feel like you're leaving some money on the table sometimes?"</div>
         <div class="tip">"How's that been working for you" is the most powerful NEPQ opener. It sounds conversational but opens the floodgates.</div>
       </div>
 
@@ -1630,7 +1655,7 @@
 
       <div class="turn">
         <div class="turn-role" style="color:var(--green)"><span class="role-dot" style="background:var(--green)"></span>You</div>
-        <div class="speech you" contenteditable="false">"So let me ask you something — <span class="hl">what would it look like for you</span> if all of that was just… handled? The load finding, the broker calls, the paperwork, the invoicing — if someone was doing all of that for you — what changes for you day to day?"</div>
+        <div class="speech you" contenteditable="false">"So let me ask you something — <span class="hl">what would it look like for you</span> if all of that was just… handled? The <span data-token="equipment-adj">[equipment]</span> load finding for <span data-token="trucks-or-fleet">[trucks]</span>, the broker calls, the paperwork, the invoicing — if someone was doing all of that for you — what changes for you day to day?"</div>
         <div class="tip">This is the pivot question of the entire call. Pause after you say it. Give them space. Their answer will be more powerful than any pitch you could deliver.</div>
       </div>
 
@@ -1652,7 +1677,7 @@
         </div>
         <div class="turn">
           <div class="turn-role" style="color:var(--green)"><span class="role-dot" style="background:var(--green)"></span>You</div>
-          <div class="speech you" contenteditable="false">"That makes total sense. And if you had someone actually negotiating rates on your behalf — someone who knows what every lane is worth and pushes back on brokers — <span class="hl">do you think that would make a meaningful difference on your revenue</span> every week?"</div>
+          <div class="speech you" contenteditable="false">"That makes total sense. And if you had someone negotiating <span data-token="equipment-adj">[equipment]</span> rates on your behalf out of <span data-token="state-short">[state]</span> — someone who knows what every lane is worth and pushes back on brokers — <span class="hl">do you think that would make a meaningful difference on your revenue</span> every week?"</div>
         </div>
         <div class="turn">
           <div class="turn-role" style="color:var(--purple)"><span class="role-dot" style="background:var(--purple)"></span>Prospect</div>
@@ -1771,8 +1796,8 @@
 
       <div class="turn">
         <div class="turn-role" style="color:var(--green)"><span class="role-dot" style="background:var(--green)"></span>You</div>
-        <div class="speech you" contenteditable="false">"So you've been wanting that fourth truck for about a year now… <span class="hl">what do you think has been getting in the way</span> of making that happen?"</div>
-      <div class="tip">If you have their carrier age — <em>"You've been in business <span data-token="age">[X years]</span> — that's a solid operation. So what's been the main thing holding back that next truck?"</em> — acknowledges their tenure and builds respect before the consequence question.</div>
+        <div class="speech you" contenteditable="false">"So you've been wanting that next truck for a while now — with <span data-token="trucks-or-fleet">[trucks]</span> in <span data-token="state-short">[state]</span>… <span class="hl">what do you think has been getting in the way</span> of making that happen?"</div>
+      <div class="tip">Reference their history: <em>"<span data-token="company">[Company]</span> has been running <span data-token="equipment-adj">[equipment]</span> for <span data-token="age">[X years]</span> — that's a real operation. So what's been the main thing holding back that next truck out of <span data-token="state-short">[state]</span>?"</em> — combining age + equipment + location builds instant credibility.</div>
         <div class="tip">Don't fill this in for them. Pause. Let them arrive at the answer on their own. The silence is intentional.</div>
       </div>
       <div class="turn">
@@ -1781,7 +1806,7 @@
       </div>
       <div class="turn">
         <div class="turn-role" style="color:var(--green)"><span class="role-dot" style="background:var(--green)"></span>You</div>
-        <div class="speech you" contenteditable="false">"Yeah that makes sense. And just thinking about the last few months — <span class="hl">if you had to put a rough number on it</span> — how much do you think you've lost in underpriced loads, deadhead miles, and slow-paying brokers? Just a ballpark."</div>
+        <div class="speech you" contenteditable="false">"Yeah that makes sense. And just thinking about the last few months — <span data-token="mileage">[mileage]</span> of <span data-token="equipment-adj">[equipment]</span> with <span data-token="trucks-or-fleet">[trucks]</span> — <span class="hl">if you had to put a rough number on it</span> — how much do you think you've lost in underpriced loads, deadhead miles, and slow-paying brokers? Just a ballpark."</div>
         <div class="tip">Don't give them a number. Make them calculate it. Their number will always be more credible and more emotionally real than yours.</div>
       </div>
       <div class="turn">
@@ -1926,6 +1951,7 @@
       <div class="info-callout" style="margin-bottom:1.5rem;cursor:pointer;" onclick="goTo(8)">
         💡 Prospect throws an objection? <strong style="color:var(--teal)">→ Jump to Objection Handling</strong>
       </div>
+      <div id="pres-dynamic-tip" style="margin-bottom:1rem;padding:9px 13px;border-radius:var(--radius-sm);font-size:12px;border-left:3px solid var(--border2);background:var(--bg3);display:none;"></div>
       <div class="stage-header">
         <div class="stage-badge" style="background:var(--green-dim);color:var(--green)">07</div>
         <div class="stage-info">
@@ -1937,7 +1963,7 @@
 
       <div class="turn">
         <div class="turn-role" style="color:var(--green)"><span class="role-dot" style="background:var(--green)"></span>You</div>
-        <div class="speech you" contenteditable="false">"So what we do at QuickGS is pretty simple. You said you want to <span class="hl-g">just drive / focus on growing the fleet</span> — that's exactly the idea. And with <span data-token="trucks-label">[trucks]</span> running <span data-token="equipment">[equipment]</span> out of <span data-token="state">[state]</span>, We take everything off your plate: finding loads, negotiating rates with brokers, handling BOLs, invoicing, and following up on payments. You focus on operations, we handle the business side."</div>
+        <div class="speech you" contenteditable="false">"So here's what we do at QuickGS — and this is relevant for <span data-token="trucks-or-fleet">[trucks]</span> running <span data-token="equipment-adj">[equipment]</span> out of <span data-token="state-short">[state]</span>. You want to <span class="hl-g">focus on the road, not the phone calls</span> — that's exactly the idea. And with We take everything off your plate: finding loads, negotiating rates with brokers, handling BOLs, invoicing, and following up on payments. You focus on operations, we handle the business side."</div>
         <div class="tip">Use their exact words back at them. "You said you want to just drive" — that's a mirror technique. They feel deeply understood.</div>
       </div>
 
@@ -1986,7 +2012,7 @@
         </div>
         <div class="turn">
           <div class="turn-role" style="color:var(--green)"><span class="role-dot" style="background:var(--green)"></span>You</div>
-          <div class="speech you" contenteditable="false">"We cover all 48 states, but your dispatcher would focus specifically on your preferred lanes. So if you're running out of <span data-token="state">[State]</span> — Chicago, Detroit, St. Louis, Kansas City — we know exactly what those lanes should pay and we push for it. <span class="hl">Is Midwest mainly where your trucks run, or do you go further out sometimes?</span>"</div>
+          <div class="speech you" contenteditable="false">"We cover all 48 states, but your dispatcher would specialize in <span data-token="equipment-adj">[equipment]</span> loads specifically — so if you're running <span data-token="otr">OTR long-haul</span> out of <span data-token="state">[State]</span>, we know exactly what those lanes should pay and we push for it. <span class="hl">Is Midwest mainly where your trucks run, or do you go further out sometimes?</span>"</div>
           <div class="tip">Answer the question directly, then bounce back with a question. Keeps the dialogue going and shows you actually know the market.</div>
         </div>
       </div>
@@ -2011,7 +2037,7 @@
         </div>
         <div class="turn">
           <div class="turn-role" style="color:var(--green)"><span class="role-dot" style="background:var(--green)"></span>You</div>
-          <div class="speech you" contenteditable="false">"Happy to get into that. We work on a percentage per load — so we only make money when you make money. No monthly retainer on dispatch. And based on what you said about the rates you're currently getting — most carriers find the better rates alone more than cover what we charge. <span class="hl">Does that feel like it would pencil out for your situation?</span>"</div>
+          <div class="speech you" contenteditable="false">"Happy to get into that. For <span data-token="equipment-adj">[equipment]</span> carriers like you in <span data-token="state-short">[state]</span> — we work on a percentage per load — so we only make money when you make money. No monthly retainer on dispatch. And based on what you said about the rates you're currently getting with <span data-token="trucks-or-fleet">[trucks]</span> — most carriers find the better rates alone more than cover what we charge. <span class="hl">Does that feel like it would pencil out for your situation?</span>"</div>
           <div class="tip">Tie the fee directly to the pain they described. "We only make money when you make money" is alignment — not a sales line. Say it and mean it. Always have the plans page open before calling: quickgslogistics.com/carrier-dispatching-package</div>
           <div class="info-callout" style="margin-top:0.75rem;cursor:pointer;" onclick="window.open('https://quickgslogistics.com/carrier-dispatching-package/','_blank')">
             💡 <strong>QuickGS Plans Reference</strong> — click to open pricing page. Review before each session so you can answer pricing questions with exact numbers and confidence.
@@ -2229,7 +2255,7 @@
 
       <div class="turn">
         <div class="turn-role" style="color:var(--green)"><span class="role-dot" style="background:var(--green)"></span>You — Emotional Check</div>
-        <div class="speech you" contenteditable="false">"So based on everything we've talked about — <span class="hl">does this feel like something</span> that could actually move the needle for you?"</div>
+        <div class="speech you" contenteditable="false">"So based on everything we've talked about — <span class="hl">does this feel like something</span> that could actually move the needle for <span data-token="company">[Company]</span>?"</div>
         <div class="tip">"Feel like" = emotional language. Not "do you want to sign up." Let them respond emotionally first before you ask for a commitment.</div>
       </div>
 
@@ -2257,7 +2283,7 @@
         </div>
         <div class="turn">
           <div class="turn-role" style="color:var(--green)"><span class="role-dot" style="background:var(--green)"></span>You — Binary Choice Close</div>
-          <div class="speech you" contenteditable="false">"Perfect. What I'll do right now is <span class="hl-b">send you a quick text</span> with our booking link, the onboarding form, and all our contact info — so you have everything in one place. What's the best number to reach you?"</div>
+          <div class="speech you" contenteditable="false">"Perfect. What I'll do right now is <span class="hl-b">send <span data-token="first-name">[Name]</span> a quick text</span> with our booking link and onboarding form — so <span data-token="company">[Company]</span> has everything in one place. What's the best number to reach you?"</div>
           <div class="tip">Always close with the SMS. Even when they're ready — confirm their number, send the text, and let the digital trail do the follow-up work.</div>
         </div>
 
@@ -2270,7 +2296,7 @@
         </div>
         <div class="turn">
           <div class="turn-role" style="color:var(--green)"><span class="role-dot" style="background:var(--green)"></span>You — Trial Close</div>
-          <div class="speech you" contenteditable="false">"Here's what I'd suggest — let's get you set up with a <span class="hl-g">no-risk trial load</span>. We find you a load, negotiate the rate, handle all the paperwork, and you see exactly what it looks like in practice. If it goes well, we talk about working together on a regular basis. If not, no hard feelings — you owe us nothing. <span class="hl">Would you be opposed to trying that?</span>"</div>
+          <div class="speech you" contenteditable="false">"Here's what I'd suggest — let's get <span data-token="company">[Company]</span> set up with a <span class="hl-g">no-risk trial <span data-token="equipment-adj">[equipment]</span> load</span>. We find you a load, negotiate the rate, handle all the paperwork, and you see exactly what it looks like in practice. If it goes well, we talk about working together on a regular basis. If not, no hard feelings — you owe us nothing. <span class="hl">Would you be opposed to trying that?</span>"</div>
           <div class="tip">"Would you be opposed" — closes the loop using their instinct to say no. The trial eliminates every risk objection in one sentence.</div>
         </div>
         <div class="turn">
@@ -2911,7 +2937,7 @@ const originalTexts = new Map(); // key = element, value = original innerHTML
   function getCallCountKey() { return 'quickgs_callcount_' + new Date().toDateString(); }
 
   function clearProspectBar() {
-    ['pfName','pfCompany','pfPhone','pfBoard','pfState','pfEquipment','pfMileage','pfCarrierAge','pfOTR','pfDOT'].forEach(id => {
+    ['pfName','pfCompany','pfPhone','pfBoard','pfState','pfEquipment','pfMileage','pfCarrierAge','pfOTR','pfDOT','pfScore','pfPotential','pfType'].forEach(id => {
       const el = document.getElementById(id);
       if (el) el.value = '';
     });
@@ -3027,7 +3053,10 @@ const originalTexts = new Map(); // key = element, value = original innerHTML
       mileage: document.getElementById('pfMileage').value,
       carrierAge: document.getElementById('pfCarrierAge').value,
       otr: document.getElementById('pfOTR').value,
-      dot: document.getElementById('pfDOT').value,
+      dot       : document.getElementById('pfDOT').value,
+      score     : document.getElementById('pfScore')     ? document.getElementById('pfScore').value     : '',
+      potential : document.getElementById('pfPotential') ? document.getElementById('pfPotential').value : '',
+      type      : document.getElementById('pfType')      ? document.getElementById('pfType').value      : '',
     };
     localStorage.setItem('quickgs_prospect_preset', JSON.stringify(data));
     showToast('✓ Prospect saved');
@@ -3045,7 +3074,10 @@ const originalTexts = new Map(); // key = element, value = original innerHTML
       if (document.getElementById('pfMileage')) document.getElementById('pfMileage').value = data.mileage || '';
       if (document.getElementById('pfCarrierAge')) document.getElementById('pfCarrierAge').value = data.carrierAge || '';
       if (document.getElementById('pfOTR')) document.getElementById('pfOTR').value = data.otr || '';
-      if (document.getElementById('pfDOT')) document.getElementById('pfDOT').value = data.dot || '';
+      if (document.getElementById('pfDOT'))       document.getElementById('pfDOT').value       = data.dot       || '';
+      if (document.getElementById('pfScore'))     document.getElementById('pfScore').value     = data.score     || '';
+      if (document.getElementById('pfPotential')) document.getElementById('pfPotential').value = data.potential  || '';
+      if (document.getElementById('pfType'))      document.getElementById('pfType').value      = data.type      || '';
       if (data.trucks) setTrucks(data.trucks);
       updateTopbarSub();
       showToast('✓ Prospect loaded');
@@ -3126,17 +3158,73 @@ const originalTexts = new Map(); // key = element, value = original innerHTML
   // Tokens: {name}, {company}, {state}, {trucks}, {equipment}, {mileage}, {age}, {otr}, {dot}
 
   function getProspectData() {
+    const rawName  = document.getElementById('pfName').value.trim();
+    const rawState = document.getElementById('pfState').value.trim();
+    const rawEquip = document.getElementById('pfEquipment').value.trim();
+    const trucks   = selectedTrucks ? selectedTrucks.toString() : '';
+    const trucksN  = parseInt(trucks) || 0;
+    const otr      = document.getElementById('pfOTR').value.trim().toUpperCase();
+
+    // Derived values
+    const firstName = rawName ? rawName.split(' ')[0] : '[Name]';
+    const city      = rawState.includes(',') ? rawState.split(',')[0].trim() : rawState;
+    const stateShort= rawState.includes(',') ? rawState.split(',').pop().trim() : rawState;
+
+    // Equipment adjective (lowercase, no suffix)
+    const equipMap = {
+      'Reefer':'reefer','Dry Van':'dry van','Flatbed/Heavy':'flatbed',
+      'Tanker':'tanker','Auto Transport':'auto transport','Intermodal':'intermodal',
+      'Oilfield':'oilfield','Construction':'construction','Moving/HHG':'household goods'
+    };
+    const equipAdj = equipMap[rawEquip] || (rawEquip ? rawEquip.toLowerCase() : 'freight');
+
+    // Trucks-or-fleet: "your truck" / "your 2-truck operation" / "your fleet of 12"
+    let trucksOrFleet = 'your trucks';
+    if (trucksN === 1)       trucksOrFleet = 'your truck';
+    else if (trucksN <= 4)   trucksOrFleet = 'your ' + trucksN + '-truck operation';
+    else if (trucksN <= 9)   trucksOrFleet = 'your ' + trucksN + '-truck fleet';
+    else if (trucksN >= 10)  trucksOrFleet = 'your fleet of ' + trucksN;
+
+    // Fleet size adjective
+    let fleetAdj = 'carrier';
+    if (trucksN === 1)       fleetAdj = 'owner-operator';
+    else if (trucksN <= 4)   fleetAdj = 'small carrier';
+    else if (trucksN <= 9)   fleetAdj = 'growing fleet';
+    else if (trucksN >= 10)  fleetAdj = 'fleet operation';
+
+    // Years label
+    const ageRaw = document.getElementById('pfCarrierAge').value.trim();
+    const ageN   = parseFloat(ageRaw) || 0;
+    const ageLabel = ageN >= 1 ? Math.floor(ageN) + (Math.floor(ageN) === 1 ? ' year' : ' years') : '';
+
+    // Mileage label
+    const milRaw = document.getElementById('pfMileage').value.trim();
+    const milN   = parseInt(milRaw.replace(/\D/g,'')) || 0;
+    const milLabel = milN > 0 ? Number(milN).toLocaleString() + ' miles/yr' : '';
+
     return {
-      name      : document.getElementById('pfName').value.trim()       || '[Owner Name]',
-      company   : document.getElementById('pfCompany').value.trim()    || '[Company]',
-      state     : document.getElementById('pfState').value.trim()      || 'your area',
-      trucks    : selectedTrucks ? selectedTrucks.toString()           : '[X]',
-      equipment : document.getElementById('pfEquipment').value.trim()  || 'dry van',
-      mileage   : document.getElementById('pfMileage').value.trim()    || '',
-      age       : document.getElementById('pfCarrierAge').value.trim() || '',
-      otr       : document.getElementById('pfOTR').value.trim().toUpperCase() || '',
-      dot       : document.getElementById('pfDOT').value.trim()        || '',
-      board     : document.getElementById('pfBoard').value.trim()      || 'load boards',
+      name          : rawName      || '[Owner Name]',
+      'first-name'  : firstName,
+      company       : document.getElementById('pfCompany').value.trim() || '[Company]',
+      state         : rawState     || 'your area',
+      'state-short' : stateShort   || 'your state',
+      city          : city         || 'your area',
+      trucks        : trucks       || '[X]',
+      'trucks-label': trucksN === 1 ? 'your truck' : (trucksN > 1 ? trucksN + ' trucks' : '[X] trucks'),
+      'trucks-or-fleet': trucksOrFleet,
+      equipment     : rawEquip     || 'freight',
+      'equipment-adj': equipAdj,
+      'fleet-adj'   : fleetAdj,
+      mileage       : milLabel,
+      'mileage-raw' : milRaw,
+      age           : ageLabel,
+      'age-raw'     : ageRaw,
+      otr           : otr,
+      dot           : document.getElementById('pfDOT').value.trim() || '',
+      board         : document.getElementById('pfBoard').value.trim() || 'load boards',
+      score         : document.getElementById('pfScore')     ? document.getElementById('pfScore').value.trim()     : '',
+      potential     : document.getElementById('pfPotential') ? document.getElementById('pfPotential').value.trim() : '',
+      type          : document.getElementById('pfType')      ? document.getElementById('pfType').value.trim()      : '',
     };
   }
 
@@ -3148,22 +3236,28 @@ const originalTexts = new Map(); // key = element, value = original innerHTML
       const token = span.dataset.token;
       let val = '';
       switch(token) {
-        case 'name':      val = d.name; break;
-        case 'company':   val = d.company; break;
-        case 'state':     val = d.state; break;
-        case 'trucks':    val = d.trucks; break;
-        case 'equipment': val = d.equipment; break;
-        case 'mileage':   val = d.mileage ? Number(d.mileage).toLocaleString() + ' miles/yr' : ''; break;
-        case 'age':       val = d.age ? d.age + ' years in business' : ''; break;
-        case 'otr':       val = d.otr === 'Y' || d.otr === 'YES' ? 'OTR runs' : 'regional runs'; break;
-        case 'board':     val = d.board; break;
-        case 'dot':       val = d.dot; break;
-        case 'trucks-label': {
-          const n = parseInt(d.trucks);
-          if (!isNaN(n)) val = n === 1 ? 'your truck' : n + ' trucks';
-          else val = 'your trucks';
-          break;
-        }
+        case 'name':            val = d.name; break;
+        case 'first-name':      val = d['first-name']; break;
+        case 'company':         val = d.company; break;
+        case 'state':           val = d.state; break;
+        case 'state-short':     val = d['state-short']; break;
+        case 'city':            val = d.city; break;
+        case 'trucks':          val = d.trucks; break;
+        case 'trucks-label':    val = d['trucks-label']; break;
+        case 'trucks-or-fleet': val = d['trucks-or-fleet']; break;
+        case 'equipment':       val = d.equipment; break;
+        case 'equipment-adj':   val = d['equipment-adj']; break;
+        case 'fleet-adj':       val = d['fleet-adj']; break;
+        case 'mileage':         val = d.mileage; break;
+        case 'age':             val = d.age; break;
+        case 'otr':             val = d.otr === 'Y' || d.otr === 'YES' ? 'OTR long-haul' : 'regional runs'; break;
+        case 'board':           val = d.board; break;
+        case 'dot':             val = d.dot; break;
+        case 'board':           val = d.board; break;
+        case 'mileage-raw':     val = d['mileage-raw']; break;
+        case 'score':           val = d.score || ''; break;
+        case 'potential':       val = d.potential || ''; break;
+        case 'fleet-type':      val = d.type || ''; break;
       }
       if (val) {
         span.textContent = val;
@@ -3174,6 +3268,95 @@ const originalTexts = new Map(); // key = element, value = original innerHTML
         span.style.fontWeight = '';
       }
     });
+
+    // Show pre-call intel box when carrier data is loaded
+    const intelBox = document.getElementById('precall-intel');
+    const hasData = d.name !== '[Owner Name]' || d.company !== '[Company]' || d.dot !== '';
+    if (intelBox) intelBox.style.display = hasData ? 'block' : 'none';
+
+    // Score/potential badge
+    const scoreBadge = document.getElementById('score-badge');
+    if (scoreBadge && d.score) {
+      const scoreN = parseInt(d.score) || 0;
+      scoreBadge.style.display = 'inline-block';
+      if (d.potential === 'HIGH') {
+        scoreBadge.textContent = '⭐ HIGH — ' + d.score + '/100';
+        scoreBadge.style.background = '#1B5E20'; scoreBadge.style.color = '#fff';
+      } else if (d.potential === 'MEDIUM-HIGH') {
+        scoreBadge.textContent = '👍 MEDIUM-HIGH — ' + d.score + '/100';
+        scoreBadge.style.background = '#B9F6CA'; scoreBadge.style.color = '#1B5E20';
+      } else if (d.potential === 'MEDIUM') {
+        scoreBadge.textContent = '👌 MEDIUM — ' + d.score + '/100';
+        scoreBadge.style.background = '#FF6D00'; scoreBadge.style.color = '#fff';
+      } else {
+        scoreBadge.textContent = '👎 LOW — ' + d.score + '/100';
+        scoreBadge.style.background = '#FFF176'; scoreBadge.style.color = '#333';
+      }
+    } else if (scoreBadge) {
+      scoreBadge.style.display = 'none';
+    }
+
+    // Contextual insight badges
+    const insightBar = document.getElementById('dynamic-insights');
+    if (insightBar && hasData) {
+      const insights = [];
+      const milN = parseInt((d['mileage-raw'] || '').replace(/\D/g,'')) || 0;
+      const ageN  = parseFloat(d['age-raw'] || '') || 0;
+      const trN   = parseInt(d.trucks) || 0;
+      const otrY  = d.otr === 'Y' || d.otr === 'YES';
+
+      if (milN >= 200000) insights.push({ text: "🔥 High-mileage carrier — actively running, needs consistent loads", color: "#E8F5E9", border: "#2E7D32" });
+      else if (milN >= 50000) insights.push({ text: "✅ Active carrier — " + Number(milN).toLocaleString() + " miles reported", color: "#F1F8E9", border: "#558B2F" });
+
+      if (ageN >= 10) insights.push({ text: "🏆 Established carrier — " + Math.floor(ageN) + " years in business. Respect their experience. They know what they want.", color: "#E3F2FD", border: "#1565C0" });
+      else if (ageN >= 5) insights.push({ text: "📅 " + Math.floor(ageN) + " years in business — experienced enough to know their pain points.", color: "#F3E5F5", border: "#6A1B9A" });
+
+      if (d.equipment === "Reefer") insights.push({ text: "🌡️ Reefer carrier — premium rates (+15-25% over dry van). Lead with rate maximization. Mention temp control compliance, produce lanes, seasonal demand.", color: "#E0F7FA", border: "#00838F" });
+      if (d.equipment === "Tanker") insights.push({ text: "🛢️ Tanker carrier — specialized, high-demand, limited competition. Lead with lane availability and specialized broker network.", color: "#FFF8E1", border: "#F57F17" });
+      if (d.equipment === "Flatbed/Heavy") insights.push({ text: "🏗️ Flatbed/Heavy carrier — oversized permits, project freight. Lead with permit expertise and specialized load sourcing.", color: "#FCE4EC", border: "#AD1457" });
+      if (d.equipment === "Oilfield") insights.push({ text: "⛽ Oilfield carrier — energy sector freight, premium rates. Lead with oilfield broker network and consistent volume.", color: "#FFF3E0", border: "#E65100" });
+
+      if (!otrY) insights.push({ text: "📍 Intrastate/Regional carrier — adjust pitch: skip OTR lane talk. Focus on local rate optimization, backhaul efficiency, and regional broker relationships.", color: "#FFEBEE", border: "#C62828" });
+
+      if (trN === 1) insights.push({ text: "🔵 Owner-Operator — they ARE the driver. Pain = time off the road. Lead with: 'You should not be doing both — driving AND dispatching.'", color: "#E8EAF6", border: "#3949AB" });
+      else if (trN >= 10) insights.push({ text: "🔴 Fleet operation — has overhead, payroll, fixed costs. Pain = load consistency & rate variance. Lead with volume and rate floor guarantees.", color: "#E8F5E9", border: "#1B5E20" });
+
+      insightBar.innerHTML = '';
+      if (insights.length > 0) {
+        insightBar.style.display = 'flex';
+        insights.forEach(ins => {
+          const div = document.createElement('div');
+          div.style.cssText = 'font-size:11.5px;padding:7px 10px;border-radius:var(--radius-sm);border-left:3px solid ' + ins.border + ';background:' + ins.color + ';color:#333;line-height:1.4;flex:1;min-width:200px;';
+          div.textContent = ins.text;
+          insightBar.appendChild(div);
+        });
+      } else {
+        insightBar.style.display = 'none';
+      }
+    }
+
+    // Presentation adaptive tip based on carrier profile
+    const presTip = document.getElementById('pres-dynamic-tip');
+    if (presTip && hasData) {
+      const ageN2  = parseFloat(d['age-raw'] || '') || 0;
+      const trN2   = parseInt(d.trucks) || 0;
+      const equip  = d.equipment || '';
+      let tipText = '';
+      if (ageN2 >= 10) {
+        tipText = "🏆 " + Math.floor(ageN2) + "-year carrier — don't oversell. They've heard it all. Lead with specificity: exact " + (d["equipment-adj"] || "freight") + " lane knowledge, concrete rate examples. Let results speak.";
+      } else if (trN2 >= 10) {
+        tipText = "🔴 Fleet presentation — focus on scalability and consistency: \"We can cover all " + trN2 + " trucks under one dispatcher or assign dedicated dispatchers per truck depending on your volume.\"";
+      } else if (equip === 'Reefer') {
+        tipText = '🌡️ Reefer pitch — lead with: seasonal demand management, produce lane premiums, temp-controlled broker network, and how we protect their reefer fuel cost with optimized backhauls.';
+      } else if (equip === 'Tanker') {
+        tipText = '🛢️ Tanker pitch — emphasize: HAZMAT-certified broker relationships, consistent tank wash coordination, port/terminal lane expertise.';
+      } else if (equip === 'Flatbed/Heavy') {
+        tipText = '🏗️ Flatbed pitch — lead with permit expertise, oversize load sourcing, and construction/project freight network.';
+      } else {
+        tipText = "💡 Standard pitch — personalize with their " + (d["equipment-adj"] || "freight") + " specialization and " + (d["state-short"] || "regional") + " lanes.";
+      }
+      if (tipText) { presTip.style.display = 'block'; presTip.textContent = tipText; }
+    }
 
     // Show/hide mileage insight badge
     const mileageBadge = document.getElementById('mileage-insight');
@@ -3632,6 +3815,9 @@ Reach out anytime we're here when you're ready! 🙎`;
       fill('pfCarrierAge', p.get('age')       || '');
       fill('pfOTR',        p.get('otr')       || '');
       fill('pfDOT',        p.get('dot')       || '');
+      fill('pfScore',     p.get('score')     || '');
+      fill('pfPotential', p.get('potential') || '');
+      fill('pfType',      p.get('type')      || '');
       if (p.get('trucks')) {
         const n = parseInt(p.get('trucks'));
         if (!isNaN(n) && n >= 1) setTrucks(n);
