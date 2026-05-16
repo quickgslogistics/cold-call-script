@@ -3158,11 +3158,12 @@ const originalTexts = new Map(); // key = element, value = original innerHTML
         case 'otr':       val = d.otr === 'Y' || d.otr === 'YES' ? 'OTR runs' : 'regional runs'; break;
         case 'board':     val = d.board; break;
         case 'dot':       val = d.dot; break;
-        case 'trucks-label':
+        case 'trucks-label': {
           const n = parseInt(d.trucks);
           if (!isNaN(n)) val = n === 1 ? 'your truck' : n + ' trucks';
           else val = 'your trucks';
           break;
+        }
       }
       if (val) {
         span.textContent = val;
@@ -3182,7 +3183,7 @@ const originalTexts = new Map(); // key = element, value = original innerHTML
         mileageBadge.textContent = '→ High mileage carrier — actively running. Good signal.';
         mileageBadge.style.display = 'block';
       } else if (m > 0) {
-        mileageBadge.textContent = '→ Lower mileage — probe whether they're running consistently.';
+        mileageBadge.textContent = "→ Lower mileage — probe whether they're running consistently.";
         mileageBadge.style.display = 'block';
       } else {
         mileageBadge.style.display = 'none';
@@ -3595,40 +3596,6 @@ Reach out anytime we're here when you're ready! 🙎`;
     }
   }, { passive: true });
 
-  // ===== AUTO-FILL FROM URL PARAMS (when opened from Google Sheets) =====
-  (function() {
-    try {
-      const p = new URLSearchParams(window.location.search);
-      const fill = (id, val) => { const el = document.getElementById(id); if (el && val) el.value = decodeURIComponent(val); };
-      fill('pfName',       p.get('name'));
-      fill('pfCompany',    p.get('company'));
-      fill('pfPhone',      p.get('phone'));
-      fill('pfState',      p.get('state'));
-      fill('pfBoard',      p.get('board'));
-      fill('pfEquipment',  p.get('equipment'));
-      fill('pfMileage',    p.get('mileage'));
-      fill('pfCarrierAge', p.get('age'));
-      fill('pfOTR',        p.get('otr'));
-      fill('pfDOT',        p.get('dot'));
-      if (p.get('trucks')) {
-        const t = p.get('trucks');
-        const n = parseInt(t);
-        if (!isNaN(n)) setTrucks(n <= 5 ? n : '5+');
-      }
-      if (p.get('name') || p.get('company')) {
-        // Show a welcome banner
-        const banner = document.createElement('div');
-        banner.style.cssText = 'position:fixed;top:0;left:0;right:0;z-index:9999;background:var(--green);color:#000;font-size:12px;font-weight:600;padding:7px 16px;text-align:center;font-family:DM Sans,sans-serif;animation:toastAnim 4s ease forwards;';
-        banner.textContent = '✅ Carrier loaded: ' + decodeURIComponent(p.get('name') || '') + (p.get('company') ? ' — ' + decodeURIComponent(p.get('company')) : '');
-        document.body.appendChild(banner);
-        setTimeout(() => banner.remove(), 4000);
-        updateTopbarSub();
-        updateSmsPreview();
-        updateDynamicSpeeches();
-      }
-    } catch(e) { console.warn('URL param fill error:', e); }
-  })();
-
   buildPhrasesList();
   loadRepName();
   document.getElementById('lastUpdated').textContent = new Date().toLocaleDateString('en-US', {month:'short', day:'numeric', year:'numeric'});
@@ -3648,6 +3615,40 @@ Reach out anytime we're here when you're ready! 🙎`;
   addTurnRoleClickHighlight();
   updateDynamicSpeeches();
   updateUI();
+
+  // ===== AUTO-FILL FROM URL PARAMS (when opened from Google Sheets) =====
+  // Runs LAST so all functions are defined and DOM is ready
+  (function() {
+    try {
+      const p = new URLSearchParams(window.location.search);
+      if (!p.get('name') && !p.get('company') && !p.get('dot')) return; // no params, skip
+      const fill = (id, val) => { const el = document.getElementById(id); if (el && val) el.value = val; };
+      fill('pfName',       p.get('name')      || '');
+      fill('pfCompany',    p.get('company')   || '');
+      fill('pfPhone',      p.get('phone')     || '');
+      fill('pfState',      p.get('state')     || '');
+      fill('pfEquipment',  p.get('equipment') || '');
+      fill('pfMileage',    p.get('mileage')   || '');
+      fill('pfCarrierAge', p.get('age')       || '');
+      fill('pfOTR',        p.get('otr')       || '');
+      fill('pfDOT',        p.get('dot')       || '');
+      if (p.get('trucks')) {
+        const n = parseInt(p.get('trucks'));
+        if (!isNaN(n) && n >= 1) setTrucks(n);
+      }
+      // Update all dynamic displays
+      updateTopbarSub();
+      updateSmsPreview();
+      updateDynamicSpeeches();
+      // Show banner
+      const banner = document.createElement('div');
+      banner.style.cssText = 'position:fixed;top:0;left:0;right:0;z-index:9999;background:var(--green);color:#000;font-size:12px;font-weight:600;padding:7px 16px;text-align:center;font-family:DM Sans,sans-serif;';
+      banner.textContent = '✅ Carrier loaded: ' + (p.get('name') || '') + (p.get('company') ? ' — ' + p.get('company') : '') + (p.get('dot') ? ' | DOT: ' + p.get('dot') : '');
+      document.body.appendChild(banner);
+      setTimeout(() => banner.style.opacity = '0', 3500);
+      setTimeout(() => banner.remove(), 4000);
+    } catch(e) { console.warn('URL param fill error:', e); }
+  })();
 </script>
 </body>
 </html>
