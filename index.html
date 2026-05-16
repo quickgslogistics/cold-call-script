@@ -195,7 +195,7 @@
   .truck-btn.on { background: var(--green-dim); border-color: rgba(46,204,138,0.4); color: var(--green); }
 
   /* CONTENT */
-  .content { padding: 2rem; flex: 1; max-width: 880px; overscroll-behavior-y: contain; }
+  .content { padding: 2rem 2.5rem; flex: 1; max-width: 1400px; width: 100%; overscroll-behavior-y: contain; }
 
   /* EDIT BADGE */
   .edit-badge {
@@ -225,7 +225,7 @@
   }
 
   .stage-info h2 { font-size: 19px; font-weight: 600; color: var(--text); margin-bottom: 4px; letter-spacing: -0.01em; }
-  .stage-info .goal { font-size: 13px; color: var(--text2); line-height: 1.65; max-width: 620px; }
+  .stage-info .goal { font-size: 13px; color: var(--text2); line-height: 1.65; max-width: 100%; }
   .stage-info .tonality-pill {
     display: inline-flex; align-items: center; gap: 5px; margin-top: 8px;
     padding: 3px 9px; border-radius: 20px; font-size: 10.5px; font-weight: 500;
@@ -429,6 +429,32 @@
   .stage { display: none; }
   .stage.active { display: block; }
   @keyframes stageFadeIn { from { opacity: 0; transform: translateY(3px); } to { opacity: 1; transform: translateY(0); } }
+
+  /* Wide screen layout — speech left, tips right as sidebar column */
+  @media (min-width: 1100px) {
+    .turn {
+      display: grid;
+      grid-template-columns: 1fr 360px;
+      column-gap: 1.5rem;
+      align-items: start;
+    }
+    .turn-role { grid-column: 1 / -1; }
+    .speech { grid-column: 1; }
+    .tip {
+      grid-column: 2;
+      margin-top: 0 !important;
+      font-style: normal;
+      font-size: 11.5px;
+      color: var(--text3);
+      background: var(--bg3);
+      border-radius: var(--radius-sm);
+      padding: 8px 10px;
+      border-left: 2px solid var(--border2);
+      line-height: 1.55;
+    }
+    /* Info callouts and section labels span full width */
+    .info-callout, .section-label, .scenario-group { grid-column: 1 / -1; }
+  }
   .stage.active { animation: stageFadeIn 0.18s ease; }
 
 
