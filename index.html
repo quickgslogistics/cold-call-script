@@ -268,7 +268,7 @@
   .speech[contenteditable="true"]:focus { border-left-color: var(--blue) !important; background: var(--bg3); box-shadow: 0 0 0 1px rgba(91,168,255,0.15); }
   .speech[contenteditable="true"]:hover:not(:focus) { border-left-color: var(--text3) !important; }
 
-  .hl { background: rgba(245,166,35,0.14); color: var(--orange-bright); padding: 1px 5px; border-radius: 3px; font-size: 13px; }
+  .hl { background: rgba(56,189,248,0.10); color: #38BDF8; padding: 1px 5px; border-radius: 3px; font-size: 13px; }
   .hl-g { background: rgba(46,204,138,0.12); color: var(--green); padding: 1px 5px; border-radius: 3px; font-size: 13px; }
   .hl-p { background: rgba(155,143,239,0.14); color: var(--purple); padding: 1px 5px; border-radius: 3px; font-size: 13px; }
   .hl-b { background: rgba(91,168,255,0.13); color: var(--blue); padding: 1px 5px; border-radius: 3px; font-size: 13px; }
@@ -1232,6 +1232,11 @@
           </div>
         </div>
     </div>
+
+      <div class="stage-bridge" data-bridge-stage="0" style="display:none;background:var(--bg2);border:1px solid #1E88E5;border-radius:var(--radius);padding:12px 16px;margin:1.5rem 0 0.5rem;">
+        <div style="font-size:10px;color:#1565C0;text-transform:uppercase;letter-spacing:0.1em;margin-bottom:6px;font-weight:700;">🌉 BRIDGE → Connection</div>
+        <div style="font-size:12.5px;color:var(--text2);line-height:1.6;">Closing question to open the connection: <em>"Would you be opposed to me asking you just a couple questions to see if what we do even applies to you?"</em> — low threat, gives them control.</div>
+      </div>
     </div><!-- end stage-10 -->
 
     <!-- ===================== STAGE 0: CONNECTION ===================== -->
@@ -1449,7 +1454,12 @@
           <div class="tip">Honesty combined with humor disarms the reflex. You're not denying it — you're reframing it. "I haven't told you what it's about yet" resets them.</div>
         </div>
       </div>
-    </div>
+    
+      <div class="stage-bridge" data-bridge-stage="1" style="display:none;background:var(--bg2);border:1px solid #AB47BC;border-radius:var(--radius);padding:12px 16px;margin:1.5rem 0 0.5rem;">
+        <div style="font-size:10px;color:#6A1B9A;text-transform:uppercase;letter-spacing:0.1em;margin-bottom:6px;font-weight:700;">🌉 BRIDGE → Situation</div>
+        <div style="font-size:12.5px;color:var(--text2);line-height:1.6;">Transition line: <em>"So let me ask you — just so I understand your situation better…"</em> — signals a shift from rapport to discovery without breaking the flow.</div>
+      </div>
+</div>
 
     <!-- ===================== STAGE 1: SITUATION ===================== -->
     <div class="stage" id="stage-1">
@@ -1505,7 +1515,7 @@
         </div>
         <div class="turn">
           <div class="turn-role" style="color:var(--green)"><span class="role-dot" style="background:var(--green)"></span>You</div>
-          <div class="speech you" contenteditable="false">"Okay. And for finding loads out of <span data-token="state-short">[state]</span> — are you mainly using <span data-token="board">[load boards]</span> yourself, working through brokers, or a mix of both?"</div>
+          <div class="speech you" contenteditable="false">"Okay. And for finding <span data-token="equipment-adj">[equipment]</span> loads out of <span data-token="state-short">[state]</span> — are you mainly on <span data-token="board">[load boards]</span> yourself, working through brokers, or a mix of both?"</div>
         </div>
         <div class="turn">
           <div class="turn-role" style="color:var(--purple)"><span class="role-dot" style="background:var(--purple)"></span>Prospect</div>
@@ -1613,8 +1623,8 @@
         </div>
       </div>
     </div>
-      <div style="background:linear-gradient(135deg,var(--bg3),var(--bg2));border:1px solid var(--border2);border-radius:var(--radius);padding:12px 16px;margin:1.5rem 0 0.5rem;">
-        <div style="font-size:10px;color:var(--text3);text-transform:uppercase;letter-spacing:0.1em;margin-bottom:6px;">🌉 BRIDGE → Problem Awareness</div>
+      <div class="stage-bridge" data-bridge-stage="2" style="display:none;background:var(--bg2);border:1px solid #FF7043;border-radius:var(--radius);padding:12px 16px;margin:1.5rem 0 0.5rem;">
+        <div style="font-size:10px;color:#E65100;text-transform:uppercase;letter-spacing:0.1em;margin-bottom:6px;font-weight:700;">🌉 BRIDGE → Problem Awareness</div>
         <div style="font-size:12.5px;color:var(--text2);line-height:1.6;">Closing question to transition: <em>"And with everything you just described — the dispatching, finding loads, handling brokers — how's that been working out for you overall?"</em> — this opens the door to the pain.</div>
       </div>
 
@@ -1768,8 +1778,8 @@
         </div>
       </div>
     </div>
-      <div style="background:linear-gradient(135deg,var(--bg3),var(--bg2));border:1px solid var(--border2);border-radius:var(--radius);padding:12px 16px;margin:1.5rem 0 0.5rem;">
-        <div style="font-size:10px;color:var(--text3);text-transform:uppercase;letter-spacing:0.1em;margin-bottom:6px;">🌉 BRIDGE → Solution Awareness</div>
+      <div class="stage-bridge" data-bridge-stage="3" style="display:none;background:var(--bg2);border:1px solid #26A69A;border-radius:var(--radius);padding:12px 16px;margin:1.5rem 0 0.5rem;">
+        <div style="font-size:10px;color:#00695C;text-transform:uppercase;letter-spacing:0.1em;margin-bottom:6px;font-weight:700;">🌉 BRIDGE → Solution Awareness</div>
         <div style="font-size:12.5px;color:var(--text2);line-height:1.6;">Closing question to transition: <em>"So based on what you're describing — if you had someone handling all of that for <span data-token="trucks-or-fleet">[trucks]</span>, what would that actually change for you?"</em></div>
       </div>
 
@@ -1825,7 +1835,7 @@
         </div>
         <div class="turn">
           <div class="turn-role" style="color:var(--green)"><span class="role-dot" style="background:var(--green)"></span>You</div>
-          <div class="speech you" contenteditable="false">"And what about your time — if you got back <span data-token="time-cost">[time-cost]</span> that you're currently spending on dispatching and admin for <span data-token="trucks-or-fleet">[trucks]</span> — <span class="hl">what would you actually do with that time?</span>"</div>
+          <div class="speech you" contenteditable="false">"And what about your time — you're spending roughly <span data-token="time-cost">[time-cost]</span> on dispatching and admin for <span data-token="trucks-or-fleet">[trucks]</span> — <span class="hl">what would you actually do with that time?</span>"</div>
           <div class="tip">Opportunity cost question. Shifts their thinking from "savings" to "growth."</div>
         </div>
         <div class="turn">
@@ -1914,8 +1924,8 @@
         </div>
       </div>
     </div>
-      <div style="background:linear-gradient(135deg,var(--bg3),var(--bg2));border:1px solid var(--border2);border-radius:var(--radius);padding:12px 16px;margin:1.5rem 0 0.5rem;">
-        <div style="font-size:10px;color:var(--text3);text-transform:uppercase;letter-spacing:0.1em;margin-bottom:6px;">🌉 BRIDGE → Consequence</div>
+      <div class="stage-bridge" data-bridge-stage="4" style="display:none;background:var(--bg2);border:1px solid #EF5350;border-radius:var(--radius);padding:12px 16px;margin:1.5rem 0 0.5rem;">
+        <div style="font-size:10px;color:#BF360C;text-transform:uppercase;letter-spacing:0.1em;margin-bottom:6px;font-weight:700;">🌉 BRIDGE → Consequence</div>
         <div style="font-size:12.5px;color:var(--text2);line-height:1.6;">Closing question to transition: <em>"And how long has it been like this — running <span data-token="equipment-adj">[equipment]</span> out of <span data-token="state-short">[state]</span> and handling all of this yourself?"</em></div>
       </div>
 
@@ -1951,7 +1961,7 @@
       </div>
       <div class="turn">
         <div class="turn-role" style="color:var(--green)"><span class="role-dot" style="background:var(--green)"></span>You</div>
-        <div class="speech you" contenteditable="false">"Yeah that makes sense. And just thinking about the last few months — <span data-token="mileage">[mileage]</span> of <span data-token="equipment-adj">[equipment]</span> with <span data-token="trucks-or-fleet">[trucks]</span> — on an operation that could be generating <span data-token="est-revenue">[est-revenue]</span>, <span class="hl">if you had to put a rough number on it</span> — how much do you think you've lost in underpriced loads, deadhead miles, and slow-paying brokers? Just a ballpark."</div>
+        <div class="speech you" contenteditable="false">"Yeah that makes sense. And thinking about the last few months — <span data-token="mileage">[mileage]</span> of <span data-token="equipment-adj">[equipment]</span> with <span data-token="trucks-or-fleet">[trucks]</span> — a <span data-token="rate-upside">[rate-upside]</span>/yr improvement in rates is sitting on the table — <span class="hl">if you had to put a rough number on it</span> — how much do you think you've lost in underpriced loads, deadhead miles, and slow-paying brokers? Just a ballpark."</div>
         <div class="tip">Don't give them a number. Make them calculate it. Their number will always be more credible and more emotionally real than yours.</div>
       </div>
       <div class="turn">
@@ -2002,8 +2012,8 @@
         </div>
       </div>
     </div>
-      <div style="background:linear-gradient(135deg,var(--bg3),var(--bg2));border:1px solid var(--border2);border-radius:var(--radius);padding:12px 16px;margin:1.5rem 0 0.5rem;">
-        <div style="font-size:10px;color:var(--text3);text-transform:uppercase;letter-spacing:0.1em;margin-bottom:6px;">🌉 BRIDGE → Commitment</div>
+      <div class="stage-bridge" data-bridge-stage="5" style="display:none;background:var(--bg2);border:1px solid #FFA726;border-radius:var(--radius);padding:12px 16px;margin:1.5rem 0 0.5rem;">
+        <div style="font-size:10px;color:#F57F17;text-transform:uppercase;letter-spacing:0.1em;margin-bottom:6px;font-weight:700;">🌉 BRIDGE → Commitment</div>
         <div style="font-size:12.5px;color:var(--text2);line-height:1.6;">Closing question to transition: <em>"So based on everything you've described — is changing this actually important to you, or is it something you're okay with staying the way it is?"</em> — force a verbal position.</div>
       </div>
 
@@ -2029,7 +2039,7 @@
 
       <div class="turn">
         <div class="turn-role" style="color:var(--green)"><span class="role-dot" style="background:var(--green)"></span>You</div>
-        <div class="speech you" contenteditable="false">"So based on everything you just shared — the time you're spending, the rates you're missing, the slow payments, the fourth truck being on hold for a year — <span class="hl">would you say solving this is actually a priority for you right now</span>, or more of a 'someday when I get around to it' thing?"</div>
+        <div class="speech you" contenteditable="false">"So based on everything you just shared — <span data-token="trucks-or-fleet">[trucks]</span> on <span data-token="equipment-adj">[equipment]</span>, the time you're spending, <span data-token="rate-upside">[rate-upside]</span>/yr in rate improvement sitting on the table — <span class="hl">would you say solving this is actually a priority for you right now</span>, or more of a 'someday when I get around to it' thing?"</div>
         <div class="tip">"Priority vs someday" — makes them self-categorize. If they say someday, gracefully disqualify and move on. Don't chase maybes.</div>
       </div>
 
@@ -2087,7 +2097,7 @@
         </div>
       </div>
     </div>
-      <div style="background:linear-gradient(135deg,var(--bg3),var(--bg2));border:1px solid var(--border2);border-radius:var(--radius);padding:12px 16px;margin:1.5rem 0 0.5rem;">
+      <div class="stage-bridge" data-bridge-stage="6" style="display:none;background:var(--bg2);border:1px solid #66BB6A;border-radius:var(--radius);padding:12px 16px;margin:1.5rem 0 0.5rem;">
         <div style="font-size:10px;color:var(--text3);text-transform:uppercase;letter-spacing:0.1em;margin-bottom:6px;">🌉 BRIDGE → Presentation</div>
         <div style="font-size:12.5px;color:var(--text2);line-height:1.6;">Transition line: <em>"Okay — so let me tell you exactly how we'd handle that for <span data-token="company">[Company]</span>…"</em> — short, direct, no fanfare.</div>
       </div>
@@ -2212,7 +2222,12 @@
           <div class="tip">Momentum close. They asked about speed — use that energy. The onboarding form ask is natural here.</div>
         </div>
       </div>
-    </div>
+    
+      <div class="stage-bridge" data-bridge-stage="7" style="display:none;background:var(--bg2);border:1px solid #5C6BC0;border-radius:var(--radius);padding:12px 16px;margin:1.5rem 0 0.5rem;">
+        <div style="font-size:10px;color:#283593;text-transform:uppercase;letter-spacing:0.1em;margin-bottom:6px;font-weight:700;">🌉 BRIDGE → Objection Handling</div>
+        <div style="font-size:12.5px;color:var(--text2);line-height:1.6;">Check-in before closing: <em>"Does that sound like it actually addresses what you were describing with <span data-token='trucks-or-fleet'>[trucks]</span> in <span data-token='state-short'>[state]</span>? Or is there something you'd want to think through first?"</em> — invite objections proactively. It's safer to surface them now.</div>
+      </div>
+</div>
 
     <!-- ===================== STAGE 7: OBJECTIONS ===================== -->
     <div class="stage" id="stage-7">
@@ -2303,7 +2318,7 @@
         <div class="obj-card">
           <div class="obj-q">I don't know if I can afford it right now.</div>
           <div class="obj-layers">
-            <div class="obj-layer"><div class="layer-num">L1</div><div><div class="layer-text" contenteditable="false">"That's a real concern and I respect that. Can I ask — is it more of a cash flow issue right now, or is it more that you're not sure the value would be there?"</div><div class="layer-note">↳ Separate cash flow from value doubt.</div></div></div>
+            <div class="obj-layer"><div class="layer-num">L1</div><div><div class="layer-text" contenteditable="false">"That's a real concern — for a <span data-token="fleet-adj">[fleet-adj]</span> like <span data-token="company">[Company]</span>, I get it. Can I ask — is it more of a cash flow issue right now, or is it more that you're not sure the value would be there?"</div><div class="layer-note">↳ Separate cash flow from value doubt.</div></div></div>
             <div class="obj-layer"><div class="layer-num">L2</div><div><div class="layer-text" contenteditable="false">"You mentioned losing money on underpriced <span data-token="equipment-adj">[equipment]</span> loads and slow payments out of <span data-token="state-short">[state]</span>. If what we charge you ended up being less than that — would cost still be the issue?"</div><div class="layer-note">↳ ROI reframe using their own number from the consequence stage.</div></div></div>
             <div class="obj-layer"><div class="layer-num">L3</div><div><div class="layer-text" contenteditable="false">"What if we started with just one truck on a trial basis, zero upfront — you only pay once we get you a load? That way there's no risk and you can see the value before committing anything."</div><div class="layer-note">↳ Reduce the perceived risk to near-zero. Start small, prove value, expand naturally.</div></div></div>
           </div>
@@ -2388,8 +2403,8 @@
         </div>
       </div>
     </div>
-      <div style="background:linear-gradient(135deg,var(--bg3),var(--bg2));border:1px solid var(--border2);border-radius:var(--radius);padding:12px 16px;margin:1.5rem 0 0.5rem;">
-        <div style="font-size:10px;color:var(--text3);text-transform:uppercase;letter-spacing:0.1em;margin-bottom:6px;">🌉 BRIDGE → Close</div>
+      <div class="stage-bridge" data-bridge-stage="8" style="display:none;background:var(--bg2);border:1px solid #43A047;border-radius:var(--radius);padding:12px 16px;margin:1.5rem 0 0.5rem;">
+        <div style="font-size:10px;color:#1B5E20;text-transform:uppercase;letter-spacing:0.1em;margin-bottom:6px;font-weight:700;">🌉 BRIDGE → Close</div>
         <div style="font-size:12.5px;color:var(--text2);line-height:1.6;">Closing check-in: <em>"Does that sound like it actually addresses what you were describing with <span data-token="trucks-or-fleet">[trucks]</span> in <span data-token="state-short">[state]</span>?"</em> — get a yes before asking for the close.</div>
       </div>
 
@@ -2813,6 +2828,13 @@
     document.getElementById(stageIds[current]).classList.add('active');
     document.querySelectorAll('.nav-item').forEach(n => n.removeAttribute('aria-current'));
     document.getElementById('nav-' + current).classList.add('active');
+    // Scroll to top so bridge from previous stage is not visible
+    const mc = document.getElementById('mainContent');
+    if (mc) mc.scrollTop = 0; else window.scrollTo(0,0);
+    // Show only the bridge for the CURRENT stage, hide all others
+    document.querySelectorAll('.stage-bridge').forEach(b => {
+      b.style.display = parseInt(b.dataset.bridgeStage) === current ? 'block' : 'none';
+    });;
     document.getElementById('nav-' + current).classList.remove('done');
     document.getElementById('nav-' + current).setAttribute('aria-current', 'step');
     updateUI();
@@ -3615,7 +3637,7 @@ const originalTexts = new Map(); // key = element, value = original innerHTML
         compEl.innerHTML =
           '<div style="color:' + (crash >= 2 ? '#B71C1C' : crash >= 1 ? '#E65100' : '#2E7D32') + '">💥 Crash rate: <strong>' + (getHidden('pfCrash') || '0.0') + '</strong>' + (crash >= 2 ? ' ⚠️ HIGH' : crash >= 1 ? ' moderate' : ' ✅ clean') + '</div>' +
           '<div>📅 ' + (ageN5 >= 10 ? '🏆' : ageN5 >= 5 ? '✅' : '🌱') + ' ' + (d.age || '—') + ' in business</div>' +
-          '<div>🛡️ Safety: <strong>' + (document.getElementById('pfScore') ? document.getElementById('pfScore').value || '—' : '—') + '/100</strong> (' + (d.potential || '—') + ')</div>';
+          '<div>⭐ Potential: <strong>' + (d.potential || '—') + '</strong> (' + (document.getElementById('pfScore') ? document.getElementById('pfScore').value || '—' : '—') + '/100)</div>';
       }
     } else if (refOp) {
       refOp.style.display = 'none';
@@ -4185,6 +4207,10 @@ Reach out anytime we're here when you're ready! 🙎`;
   addTurnRoleClickHighlight();
   updateDynamicSpeeches();
   updateUI();
+  // Show bridge for initial stage (Cold Open = 0)
+  document.querySelectorAll('.stage-bridge').forEach(b => {
+    b.style.display = parseInt(b.dataset.bridgeStage) === current ? 'block' : 'none';
+  });
 
   // ===== AUTO-FILL FROM URL PARAMS (when opened from Google Sheets) =====
   // Runs LAST so all functions are defined and DOM is ready
