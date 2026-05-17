@@ -935,6 +935,35 @@
     <input class="pf-field" id="pfCarrierAge" placeholder="Yrs in business" style="width:clamp(75px,100px,15vw)" oninput="updateTopbarSub(); updateSmsPreview(); updateDynamicSpeeches();">
     <input class="pf-field" id="pfOTR" placeholder="OTR? (Y/N)" style="width:clamp(65px,80px,12vw)" oninput="updateTopbarSub(); updateSmsPreview(); updateDynamicSpeeches();">
     <input type="hidden" id="pfScore">
+    <input type="hidden" id="pfCell">
+    <input type="hidden" id="pfEmail2">
+    <input type="hidden" id="pfStreet">
+    <input type="hidden" id="pfZip">
+    <input type="hidden" id="pfMC">
+    <input type="hidden" id="pfRouteOTR">
+    <input type="hidden" id="pfRouteInter">
+    <input type="hidden" id="pfRouteIntraOTR">
+    <input type="hidden" id="pfRouteIntraLocal">
+    <input type="hidden" id="pfCargoGeneral">
+    <input type="hidden" id="pfCargoReefer">
+    <input type="hidden" id="pfCargoHazmat">
+    <input type="hidden" id="pfCargoHeavy">
+    <input type="hidden" id="pfCargoChem">
+    <input type="hidden" id="pfCargoLiquid">
+    <input type="hidden" id="pfCargoProduce">
+    <input type="hidden" id="pfCargoLivestock">
+    <input type="hidden" id="pfCargoGrain">
+    <input type="hidden" id="pfCargoAuto">
+    <input type="hidden" id="pfCargoIntermodal">
+    <input type="hidden" id="pfCargoOilfield">
+    <input type="hidden" id="pfCargoConstruct">
+    <input type="hidden" id="pfCargoDrybulk">
+    <input type="hidden" id="pfCargoHHG">
+    <input type="hidden" id="pfCrash">
+    <input type="hidden" id="pfDrivers">
+    <input type="hidden" id="pfCDL">
+    <input type="hidden" id="pfFleetSize">
+    <input type="hidden" id="pfOpType">
     <input type="hidden" id="pfPotential">
     <input type="hidden" id="pfType">
     <input class="pf-field" id="pfDOT" placeholder="DOT #" style="width:clamp(65px,85px,13vw)" oninput="updateTopbarSub(); updateSmsPreview(); updateDynamicSpeeches();">
@@ -967,6 +996,7 @@
           <span>📅 <span data-token="age">[Age]</span> in business</span>
           <span style="color:var(--text3);">DOT: <span data-token="dot" style="font-family:'DM Mono',monospace">[DOT]</span></span>
         </div>
+        <div id="intel-inferences" style="display:none;margin-top:10px;padding-top:10px;border-top:1px solid var(--border);display:flex;flex-wrap:wrap;gap:8px;"></div>
       </div>
       <div class="stage-header">
         <div class="stage-badge" style="background:var(--yellow-dim);color:var(--yellow)">00</div>
@@ -1220,8 +1250,52 @@
             <div class="tip" style="margin-bottom:1rem;border-left:3px solid var(--green);padding-left:10px;font-size:12px;background:var(--bg3);border-radius:0 var(--radius-sm) var(--radius-sm) 0;padding:10px 12px 10px 14px;">
         💡 <strong>You know their operation before they say a word.</strong> <span data-token="company">[Company]</span> — <span data-token="trucks-or-fleet">[trucks]</span> running <span data-token="equipment-adj">[equipment]</span> out of <span data-token="state-short">[state]</span>, <span data-token="age">[X years]</span> in business. Reference specifics early and naturally — it builds authority and separates you from every other cold caller they've heard.
       </div>
-      <div class="stage-header">
-        <div class="stage-badge" style="background:var(--green-dim);color:var(--green)">01</div>
+
+      <!-- ═══ CONTACT REFERENCE BLOCK ═══ -->
+      <div id="ref-contact" style="display:none;background:var(--bg3);border:1px solid var(--border);border-radius:var(--radius);padding:12px 16px;margin-bottom:0.75rem;">
+        <div style="font-size:9px;color:var(--text3);text-transform:uppercase;letter-spacing:0.1em;font-family:'DM Mono',monospace;margin-bottom:8px;">📞 Contact Info</div>
+        <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:6px 20px;font-size:12px;">
+          <div><span style="color:var(--text3)">Phone:</span> <strong id="ref-phone"></strong></div>
+          <div id="ref-cell-row" style="display:none"><span style="color:var(--text3)">Cell:</span> <strong id="ref-cell"></strong></div>
+          <div><span style="color:var(--text3)">Email:</span> <span id="ref-email" style="color:var(--teal)"></span></div>
+          <div><span style="color:var(--text3)">Address:</span> <span id="ref-address"></span></div>
+          <div><span style="color:var(--text3)">DOT:</span> <span id="ref-dot2" style="font-family:'DM Mono',monospace;color:var(--text3)"></span></div>
+          <div><span style="color:var(--text3)">MC:</span> <span id="ref-mc" style="font-family:'DM Mono',monospace;color:var(--text3)"></span></div>
+        </div>
+      </div>
+
+      <!-- ═══ OPERATION REFERENCE BLOCK ═══ -->
+      <div id="ref-operation" style="display:none;background:var(--bg3);border:1px solid var(--border);border-radius:var(--radius);padding:12px 16px;margin-bottom:0.75rem;">
+        <div style="font-size:9px;color:var(--text3);text-transform:uppercase;letter-spacing:0.1em;font-family:'DM Mono',monospace;margin-bottom:10px;">🚛 Operation Profile</div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+
+          <!-- Routes -->
+          <div>
+            <div style="font-size:10px;color:var(--text3);margin-bottom:5px;font-weight:600;text-transform:uppercase;letter-spacing:0.05em;">Routes</div>
+            <div id="ref-routes" style="display:flex;flex-wrap:wrap;gap:4px;font-size:11px;"></div>
+          </div>
+
+          <!-- Equipment & Cargo -->
+          <div>
+            <div style="font-size:10px;color:var(--text3);margin-bottom:5px;font-weight:600;text-transform:uppercase;letter-spacing:0.05em;">Cargo & Equipment</div>
+            <div id="ref-cargo" style="display:flex;flex-wrap:wrap;gap:4px;font-size:11px;"></div>
+          </div>
+
+          <!-- Fleet stats -->
+          <div>
+            <div style="font-size:10px;color:var(--text3);margin-bottom:5px;font-weight:600;text-transform:uppercase;letter-spacing:0.05em;">Fleet</div>
+            <div style="font-size:12px;line-height:1.8;" id="ref-fleet"></div>
+          </div>
+
+          <!-- Compliance signals -->
+          <div>
+            <div style="font-size:10px;color:var(--text3);margin-bottom:5px;font-weight:600;text-transform:uppercase;letter-spacing:0.05em;">Compliance Signals</div>
+            <div style="font-size:12px;line-height:1.8;" id="ref-compliance"></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="stage-header">    <div class="stage-badge" style="background:var(--green-dim);color:var(--green)">01</div>
         <div class="stage-info">
           <h2>Connection</h2>
           <p class="goal">Make them feel safe. Get permission to ask questions. Transition from curiosity to trust. They must feel you are different from every other salesperson.</p>
@@ -1400,7 +1474,7 @@
         <div class="turn-role" style="color:var(--green)"><span class="role-dot" style="background:var(--green)"></span>You</div>
         <div class="speech you" contenteditable="false">"So just to get a better picture — <span class="hl">how many trucks are you running right now?</span>"</div>
       <div id="mileage-insight" style="display:none;font-size:11.5px;color:var(--text3);padding:4px 0 4px 3px;font-style:italic;border-left:2px solid var(--orange);padding-left:8px;margin:4px 0;"></div>
-      <div class="tip" id="trucks-prefill-tip" style="display:none">You already know they have <strong><span data-token="trucks-label">[X trucks]</span></strong>. Skip this question — instead say: <em>"I see you're running <span data-token="trucks-or-fleet">[X trucks]</span> out of <span data-token="state-short">[state]</span> — is that still the case?"</em> This signals you did your homework.</div>
+      <div class="tip" id="trucks-prefill-tip" style="display:none">You already know: <strong><span data-token="trucks-label">[X trucks]</span></strong> — <span data-token="fleet-signal">[utilization]</span>. Skip this question — instead say: <em>"I see you're running <span data-token="trucks-or-fleet">[X trucks]</span> out of <span data-token="state-short">[state]</span> — is that still the case?"</em> This signals you did your homework.</div>
       </div>
 
       <div class="scenario-group">
@@ -1439,7 +1513,7 @@
         </div>
         <div class="turn">
           <div class="turn-role" style="color:var(--green)"><span class="role-dot" style="background:var(--green)"></span>You</div>
-          <div class="speech you" contenteditable="false">"Makes sense. And roughly <span class="hl">how many hours a week</span> would you say you're spending on all of that — finding loads, calling brokers, handling paperwork?"</div>
+          <div class="speech you" contenteditable="false">"Makes sense. And roughly <span class="hl">how many hours a week</span> would you say you're spending on all of that — finding loads for <span data-token="trucks-or-fleet">[trucks]</span>, calling brokers, handling paperwork? Because for a <span data-token="fleet-adj">[fleet-adj]</span>, that's usually around <span data-token="time-cost">[time-cost]</span>."</div>
           <div class="tip">Critical setup question. Their answer will feed Stage 5 (Consequence). Pause after asking — let them do the math out loud.</div>
         </div>
       </div>
@@ -1539,6 +1613,11 @@
         </div>
       </div>
     </div>
+      <div style="background:linear-gradient(135deg,var(--bg3),var(--bg2));border:1px solid var(--border2);border-radius:var(--radius);padding:12px 16px;margin:1.5rem 0 0.5rem;">
+        <div style="font-size:10px;color:var(--text3);text-transform:uppercase;letter-spacing:0.1em;margin-bottom:6px;">🌉 BRIDGE → Problem Awareness</div>
+        <div style="font-size:12.5px;color:var(--text2);line-height:1.6;">Closing question to transition: <em>"And with everything you just described — the dispatching, finding loads, handling brokers — how's that been working out for you overall?"</em> — this opens the door to the pain.</div>
+      </div>
+
 
     <!-- ===================== STAGE 2: PROBLEM AWARENESS ===================== -->
     <div class="stage" id="stage-2">
@@ -1689,6 +1768,11 @@
         </div>
       </div>
     </div>
+      <div style="background:linear-gradient(135deg,var(--bg3),var(--bg2));border:1px solid var(--border2);border-radius:var(--radius);padding:12px 16px;margin:1.5rem 0 0.5rem;">
+        <div style="font-size:10px;color:var(--text3);text-transform:uppercase;letter-spacing:0.1em;margin-bottom:6px;">🌉 BRIDGE → Solution Awareness</div>
+        <div style="font-size:12.5px;color:var(--text2);line-height:1.6;">Closing question to transition: <em>"So based on what you're describing — if you had someone handling all of that for <span data-token="trucks-or-fleet">[trucks]</span>, what would that actually change for you?"</em></div>
+      </div>
+
 
     <!-- ===================== STAGE 3: SOLUTION AWARENESS ===================== -->
     <div class="stage" id="stage-3">
@@ -1741,7 +1825,7 @@
         </div>
         <div class="turn">
           <div class="turn-role" style="color:var(--green)"><span class="role-dot" style="background:var(--green)"></span>You</div>
-          <div class="speech you" contenteditable="false">"And what about your time — if you got back, say, 15 to 20 hours a week that you're currently spending on dispatching and admin — <span class="hl">what would you do with that time?</span>"</div>
+          <div class="speech you" contenteditable="false">"And what about your time — if you got back <span data-token="time-cost">[time-cost]</span> that you're currently spending on dispatching and admin for <span data-token="trucks-or-fleet">[trucks]</span> — <span class="hl">what would you actually do with that time?</span>"</div>
           <div class="tip">Opportunity cost question. Shifts their thinking from "savings" to "growth."</div>
         </div>
         <div class="turn">
@@ -1830,6 +1914,11 @@
         </div>
       </div>
     </div>
+      <div style="background:linear-gradient(135deg,var(--bg3),var(--bg2));border:1px solid var(--border2);border-radius:var(--radius);padding:12px 16px;margin:1.5rem 0 0.5rem;">
+        <div style="font-size:10px;color:var(--text3);text-transform:uppercase;letter-spacing:0.1em;margin-bottom:6px;">🌉 BRIDGE → Consequence</div>
+        <div style="font-size:12.5px;color:var(--text2);line-height:1.6;">Closing question to transition: <em>"And how long has it been like this — running <span data-token="equipment-adj">[equipment]</span> out of <span data-token="state-short">[state]</span> and handling all of this yourself?"</em></div>
+      </div>
+
 
     <!-- ===================== STAGE 4: CONSEQUENCE ===================== -->
     <div class="stage" id="stage-4">
@@ -1862,7 +1951,7 @@
       </div>
       <div class="turn">
         <div class="turn-role" style="color:var(--green)"><span class="role-dot" style="background:var(--green)"></span>You</div>
-        <div class="speech you" contenteditable="false">"Yeah that makes sense. And just thinking about the last few months — <span data-token="mileage">[mileage]</span> of <span data-token="equipment-adj">[equipment]</span> with <span data-token="trucks-or-fleet">[trucks]</span> — <span class="hl">if you had to put a rough number on it</span> — how much do you think you've lost in underpriced loads, deadhead miles, and slow-paying brokers? Just a ballpark."</div>
+        <div class="speech you" contenteditable="false">"Yeah that makes sense. And just thinking about the last few months — <span data-token="mileage">[mileage]</span> of <span data-token="equipment-adj">[equipment]</span> with <span data-token="trucks-or-fleet">[trucks]</span> — on an operation that could be generating <span data-token="est-revenue">[est-revenue]</span>, <span class="hl">if you had to put a rough number on it</span> — how much do you think you've lost in underpriced loads, deadhead miles, and slow-paying brokers? Just a ballpark."</div>
         <div class="tip">Don't give them a number. Make them calculate it. Their number will always be more credible and more emotionally real than yours.</div>
       </div>
       <div class="turn">
@@ -1913,6 +2002,11 @@
         </div>
       </div>
     </div>
+      <div style="background:linear-gradient(135deg,var(--bg3),var(--bg2));border:1px solid var(--border2);border-radius:var(--radius);padding:12px 16px;margin:1.5rem 0 0.5rem;">
+        <div style="font-size:10px;color:var(--text3);text-transform:uppercase;letter-spacing:0.1em;margin-bottom:6px;">🌉 BRIDGE → Commitment</div>
+        <div style="font-size:12.5px;color:var(--text2);line-height:1.6;">Closing question to transition: <em>"So based on everything you've described — is changing this actually important to you, or is it something you're okay with staying the way it is?"</em> — force a verbal position.</div>
+      </div>
+
 
     <!-- ===================== STAGE 5: COMMITMENT ===================== -->
     <div class="stage" id="stage-5">
@@ -1993,6 +2087,11 @@
         </div>
       </div>
     </div>
+      <div style="background:linear-gradient(135deg,var(--bg3),var(--bg2));border:1px solid var(--border2);border-radius:var(--radius);padding:12px 16px;margin:1.5rem 0 0.5rem;">
+        <div style="font-size:10px;color:var(--text3);text-transform:uppercase;letter-spacing:0.1em;margin-bottom:6px;">🌉 BRIDGE → Presentation</div>
+        <div style="font-size:12.5px;color:var(--text2);line-height:1.6;">Transition line: <em>"Okay — so let me tell you exactly how we'd handle that for <span data-token="company">[Company]</span>…"</em> — short, direct, no fanfare.</div>
+      </div>
+
 
     <!-- ===================== STAGE 6: PRESENTATION ===================== -->
     <div class="stage" id="stage-6">
@@ -2093,7 +2192,7 @@
         </div>
         <div class="turn">
           <div class="turn-role" style="color:var(--green)"><span class="role-dot" style="background:var(--green)"></span>You</div>
-          <div class="speech you" contenteditable="false">"Happy to get into that. For <span data-token="equipment-adj">[equipment]</span> carriers like you in <span data-token="state-short">[state]</span> — we work on a percentage per load — so we only make money when you make money. No monthly retainer on dispatch. And based on what you said about the rates you're currently getting with <span data-token="trucks-or-fleet">[trucks]</span> — most carriers find the better rates alone more than cover what we charge. <span class="hl">Does that feel like it would pencil out for your situation?</span>"</div>
+          <div class="speech you" contenteditable="false">"Happy to get into that. For <span data-token="equipment-adj">[equipment]</span> carriers like you in <span data-token="state-short">[state]</span> — we work on a percentage per load — so we only make money when you make money. No monthly retainer on dispatch. Most <span data-token="equipment-adj">[equipment]</span> carriers with <span data-token="trucks-or-fleet">[trucks]</span> see a rate improvement worth <span data-token="rate-upside">[rate-upside]</span>/yr — the fee pays for itself. <span class="hl">Does that feel like it would pencil out for your situation?</span>"</div>
           <div class="tip">Tie the fee directly to the pain they described. "We only make money when you make money" is alignment — not a sales line. Say it and mean it. Always have the plans page open before calling: quickgslogistics.com/carrier-dispatching-package</div>
           <div class="info-callout" style="margin-top:0.75rem;cursor:pointer;" onclick="window.open('https://quickgslogistics.com/carrier-dispatching-package/','_blank')">
             💡 <strong>QuickGS Plans Reference</strong> — click to open pricing page. Review before each session so you can answer pricing questions with exact numbers and confidence.
@@ -2156,8 +2255,8 @@
         <div class="obj-card">
           <div class="obj-q">I already have a dispatcher — I'm good right now.</div>
           <div class="obj-layers">
-            <div class="obj-layer"><div class="layer-num">L1</div><div><div class="layer-text" contenteditable="false">"Oh totally, I wasn't assuming you didn't. And I'm genuinely not here to replace something that's working well. Can I ask — just out of curiosity — how long have you been working with them?"</div><div class="layer-note">↳ Validate + gather info. Never challenge their current situation.</div></div></div>
-            <div class="obj-layer"><div class="layer-num">L2</div><div><div class="layer-text" contenteditable="false">"And in terms of rates — do you feel like they're consistently getting you what the lane is actually worth, or is there still some room there?"</div><div class="layer-note">↳ Specific gap question. Plant the seed without attacking.</div></div></div>
+            <div class="obj-layer"><div class="layer-num">L1</div><div><div class="layer-text" contenteditable="false">"Oh totally — I wasn't assuming. And for <span data-token="trucks-or-fleet">[trucks]</span> running <span data-token="equipment-adj">[equipment]</span> out of <span data-token="state-short">[state]</span>, I'm genuinely not here to replace something that's working well. Can I ask — just out of curiosity — how long have you been working with them?"</div><div class="layer-note">↳ Validate + gather info. Never challenge their current situation.</div></div></div>
+            <div class="obj-layer"><div class="layer-num">L2</div><div><div class="layer-text" contenteditable="false">"And in terms of <span data-token="equipment-adj">[equipment]</span> rates out of <span data-token="state-short">[state]</span> — do you feel like they're consistently getting you what the lane is actually worth, or is there still some room there?"</div><div class="layer-note">↳ Specific gap question. Plant the seed without attacking.</div></div></div>
             <div class="obj-layer"><div class="layer-num">L3</div><div><div class="layer-text" contenteditable="false">"What would have to be different about what you have now for you to feel like it was working at the level you actually want?"</div><div class="layer-note">↳ Let them define the gap. If they describe it, they own it.</div></div></div>
           </div>
         </div>
@@ -2168,7 +2267,7 @@
         <div class="obj-card">
           <div class="obj-q">What's your percentage? How much do you charge?</div>
           <div class="obj-layers">
-            <div class="obj-layer"><div class="layer-num">L1</div><div><div class="layer-text" contenteditable="false">"That's a fair question and I'll absolutely get into that. Before I do — I just want to make sure what we do even makes sense for your setup first."</div><div class="layer-note">↳ Defer price without dodging. Keeps context before numbers.</div></div></div>
+            <div class="obj-layer"><div class="layer-num">L1</div><div><div class="layer-text" contenteditable="false">"That's a fair question and I'll absolutely get into that. Before I do — for <span data-token="trucks-or-fleet">[trucks]</span> running <span data-token="equipment-adj">[equipment]</span> in <span data-token="state-short">[state]</span>, I just want to make sure what we do even makes sense for your setup first."</div><div class="layer-note">↳ Defer price without dodging. Keeps context before numbers.</div></div></div>
             <div class="obj-layer"><div class="layer-num">L2</div><div><div class="layer-text" contenteditable="false">"If the numbers ended up working out — and most of our carriers find it pays for itself in the first couple weeks through better rates — would pricing still be the main thing holding you back?"</div><div class="layer-note">↳ Conditional close. Isolate whether price is actually the issue.</div></div></div>
             <div class="obj-layer"><div class="layer-num">L3</div><div><div class="layer-text" contenteditable="false">"We work on a per-load percentage — no upfront fees. Given everything you said about what you're currently losing in underpriced loads and slow payments — does that feel like it would actually be a net positive for you?"</div><div class="layer-note">↳ Now reveal price — framed against their stated losses. ROI becomes obvious.</div></div></div>
           </div>
@@ -2181,7 +2280,7 @@
           <div class="obj-q">Let me think about it… can you send me some info?</div>
           <div class="obj-layers">
             <div class="obj-layer"><div class="layer-num">L1</div><div><div class="layer-text" contenteditable="false">"Of course, and I want you to feel comfortable. I'll send that over."</div><div class="layer-note">↳ Agree first. Never resist "think about it" — it creates pressure.</div></div></div>
-            <div class="obj-layer"><div class="layer-num">L2</div><div><div class="layer-text" contenteditable="false">"Can I ask though — when you say think about it, is there something specific that's making you hesitate, or is it more just not wanting to make a quick decision?"</div><div class="layer-note">↳ Uncover the real objection. "Think about it" is almost never about thinking.</div></div></div>
+            <div class="obj-layer"><div class="layer-num">L2</div><div><div class="layer-text" contenteditable="false">"Can I ask — for <span data-token="company">[Company]</span> specifically, when you say think about it, is there something that's making you hesitate, or is it more just not wanting to make a quick decision?"</div><div class="layer-note">↳ Uncover the real objection. "Think about it" is almost never about thinking.</div></div></div>
             <div class="obj-layer"><div class="layer-num">L3</div><div><div class="layer-text" contenteditable="false">"I totally get that. What if we did this — let me set you up with one trial load, no commitment. You see exactly how we work, what rate we get you, and how we handle the paperwork. If it's not better than what you're doing now, we part ways with no hard feelings. Would you be opposed to that?"</div><div class="layer-note">↳ The trial offer removes all risk. "Opposed" framing closes the loop.</div></div></div>
           </div>
         </div>
@@ -2192,8 +2291,8 @@
         <div class="obj-card">
           <div class="obj-q">I've had bad experiences with dispatchers before.</div>
           <div class="obj-layers">
-            <div class="obj-layer"><div class="layer-num">L1</div><div><div class="layer-text" contenteditable="false">"I hear that — and honestly that's more common than it should be in this industry. I'm sorry that happened."</div><div class="layer-note">↳ Full validation. Don't be defensive. Don't say "we're different" yet.</div></div></div>
-            <div class="obj-layer"><div class="layer-num">L2</div><div><div class="layer-text" contenteditable="false">"What happened with them, if you don't mind me asking? I want to understand what went wrong — because if we have the same problem, I'd rather know now than waste your time."</div><div class="layer-note">↳ Makes them articulate the specific failure. Now you know exactly what to address.</div></div></div>
+            <div class="obj-layer"><div class="layer-num">L1</div><div><div class="layer-text" contenteditable="false">"I hear that — and for a <span data-token="exp-tier">[exp-tier]</span> like <span data-token="company">[Company]</span>, that's more common than it should be in this industry. I'm sorry that happened."</div><div class="layer-note">↳ Full validation. Don't be defensive. Don't say "we're different" yet.</div></div></div>
+            <div class="obj-layer"><div class="layer-num">L2</div><div><div class="layer-text" contenteditable="false">"What happened with them, if you don't mind me asking? I want to understand what went wrong for <span data-token="trucks-or-fleet">[trucks]</span> — because if we have the same problem, I'd rather know now than waste your time."</div><div class="layer-note">↳ Makes them articulate the specific failure. Now you know exactly what to address.</div></div></div>
             <div class="obj-layer"><div class="layer-num">L3</div><div><div class="layer-text" contenteditable="false">"So what would have to be true for you to feel confident enough to give it another shot — what does that look like for you?"</div><div class="layer-note">↳ They define what "trustworthy dispatcher" means. Now just confirm you match their criteria.</div></div></div>
           </div>
         </div>
@@ -2205,7 +2304,7 @@
           <div class="obj-q">I don't know if I can afford it right now.</div>
           <div class="obj-layers">
             <div class="obj-layer"><div class="layer-num">L1</div><div><div class="layer-text" contenteditable="false">"That's a real concern and I respect that. Can I ask — is it more of a cash flow issue right now, or is it more that you're not sure the value would be there?"</div><div class="layer-note">↳ Separate cash flow from value doubt.</div></div></div>
-            <div class="obj-layer"><div class="layer-num">L2</div><div><div class="layer-text" contenteditable="false">"You mentioned losing several thousand a month in underpriced loads and slow payments. If what we charge you ended up being less than that — would cost still be the issue?"</div><div class="layer-note">↳ ROI reframe using their own number from the consequence stage.</div></div></div>
+            <div class="obj-layer"><div class="layer-num">L2</div><div><div class="layer-text" contenteditable="false">"You mentioned losing money on underpriced <span data-token="equipment-adj">[equipment]</span> loads and slow payments out of <span data-token="state-short">[state]</span>. If what we charge you ended up being less than that — would cost still be the issue?"</div><div class="layer-note">↳ ROI reframe using their own number from the consequence stage.</div></div></div>
             <div class="obj-layer"><div class="layer-num">L3</div><div><div class="layer-text" contenteditable="false">"What if we started with just one truck on a trial basis, zero upfront — you only pay once we get you a load? That way there's no risk and you can see the value before committing anything."</div><div class="layer-note">↳ Reduce the perceived risk to near-zero. Start small, prove value, expand naturally.</div></div></div>
           </div>
         </div>
@@ -2289,6 +2388,11 @@
         </div>
       </div>
     </div>
+      <div style="background:linear-gradient(135deg,var(--bg3),var(--bg2));border:1px solid var(--border2);border-radius:var(--radius);padding:12px 16px;margin:1.5rem 0 0.5rem;">
+        <div style="font-size:10px;color:var(--text3);text-transform:uppercase;letter-spacing:0.1em;margin-bottom:6px;">🌉 BRIDGE → Close</div>
+        <div style="font-size:12.5px;color:var(--text2);line-height:1.6;">Closing check-in: <em>"Does that sound like it actually addresses what you were describing with <span data-token="trucks-or-fleet">[trucks]</span> in <span data-token="state-short">[state]</span>?"</em> — get a yes before asking for the close.</div>
+      </div>
+
 
     <!-- ===================== STAGE 8: CLOSE + SMS ===================== -->
     <div class="stage" id="stage-8">
@@ -2430,6 +2534,7 @@
 
       <!-- ===== SMS CLOSE — always send at end of every call ===== -->
       <div class="section-label" style="margin-top:2rem">📱 End of every call — send this SMS</div>
+      <div style="font-size:11px;color:var(--text3);margin-bottom:6px;padding-left:2px;">📱 Sending to: <strong><span data-token="phone">[(307) 509-5759]</span></strong></div>
       <div class="speech sms-preview" id="smsLivePreview" style="margin-bottom:0.5rem">
         <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;">
           <span style="font-size:10px;color:var(--blue);font-family:'DM Mono',monospace;text-transform:uppercase;letter-spacing:0.1em;">SMS Template</span>
@@ -3222,6 +3327,14 @@ const originalTexts = new Map(); // key = element, value = original innerHTML
   // Replaces tokens in speech blocks with live prospect data from the bar
   // Tokens: {name}, {company}, {state}, {trucks}, {equipment}, {mileage}, {age}, {otr}, {dot}
 
+  function getHidden(id) {
+    const el = document.getElementById(id);
+    return el ? el.value.trim() : '';
+  }
+  function isYes(val) {
+    return val === 'YES' || val === 'Y' || val === '1';
+  }
+
   function getProspectData() {
     const rawName  = document.getElementById('pfName').value.trim();
     const rawState = document.getElementById('pfState').value.trim();
@@ -3290,6 +3403,54 @@ const originalTexts = new Map(); // key = element, value = original innerHTML
       score         : document.getElementById('pfScore')     ? document.getElementById('pfScore').value.trim()     : '',
       potential     : document.getElementById('pfPotential') ? document.getElementById('pfPotential').value.trim() : '',
       type          : document.getElementById('pfType')      ? document.getElementById('pfType').value.trim()      : '',
+      phone         : document.getElementById('pfPhone')     ? document.getElementById('pfPhone').value.trim()     : '',
+
+      // ── INFERRED / CALCULATED ──────────────────────────────
+      // Revenue estimate (trucks × mileage × $2.20/mile avg rate)
+      get 'est-revenue'() {
+        const t = parseInt(this.trucks) || 0;
+        const m = parseInt((this['mileage-raw'] || '').replace(/\D/g,'')) || 0;
+        if (!t || !m) return '';
+        const rev = t * m * 2.20;
+        if (rev >= 1000000) return '$' + (rev/1000000).toFixed(1) + 'M/yr';
+        return '$' + Math.round(rev/1000)*1000 .toLocaleString() + '/yr';
+      },
+      // Dispatcher value (10% rate improvement)
+      get 'rate-upside'() {
+        const t = parseInt(this.trucks) || 0;
+        const m = parseInt((this['mileage-raw'] || '').replace(/\D/g,'')) || 0;
+        if (!t || !m) return '';
+        const upside = t * m * 0.22; // $0.22/mile improvement potential
+        if (upside >= 1000000) return '$' + (upside/1000000).toFixed(1) + 'M';
+        if (upside >= 1000) return '$' + Math.round(upside/1000)*1000 .toLocaleString();
+        return '$' + Math.round(upside);
+      },
+      // Time cost of self-dispatching
+      get 'time-cost'() {
+        const t = parseInt(this.trucks) || 0;
+        if (!t) return '';
+        const hrsPerWeek = t === 1 ? 15 : t <= 3 ? 20 : t <= 9 ? 30 : 40;
+        return hrsPerWeek + ' hrs/week';
+      },
+      // Experience tier label
+      get 'exp-tier'() {
+        const a = parseFloat(this['age-raw'] || '') || 0;
+        if (a >= 10) return 'veteran carrier';
+        if (a >= 5)  return 'established carrier';
+        if (a >= 2)  return 'growing carrier';
+        if (a >= 1)  return 'newer carrier';
+        return 'carrier';
+      },
+      // Fleet utilization signal
+      get 'fleet-signal'() {
+        const t = parseInt(this.trucks) || 0;
+        const m = parseInt((this['mileage-raw'] || '').replace(/\D/g,'')) || 0;
+        if (!t || !m) return '';
+        const milesPerTruck = m / t;
+        if (milesPerTruck >= 100000) return 'fully active';
+        if (milesPerTruck >= 50000)  return 'partially active';
+        return 'underutilized';
+      },
     };
   }
 
@@ -3323,6 +3484,12 @@ const originalTexts = new Map(); // key = element, value = original innerHTML
         case 'score':           val = d.score || ''; break;
         case 'potential':       val = d.potential || ''; break;
         case 'fleet-type':      val = d.type || ''; break;
+        case 'est-revenue':     val = d['est-revenue'] || ''; break;
+        case 'rate-upside':     val = d['rate-upside'] || ''; break;
+        case 'time-cost':       val = d['time-cost'] || ''; break;
+        case 'exp-tier':        val = d['exp-tier'] || ''; break;
+        case 'fleet-signal':    val = d['fleet-signal'] || ''; break;
+        case 'phone':           val = d.phone || ''; break;
       }
       if (val) {
         span.textContent = val;
@@ -3338,6 +3505,157 @@ const originalTexts = new Map(); // key = element, value = original innerHTML
     const intelBox = document.getElementById('precall-intel');
     const hasData = d.name !== '[Owner Name]' || d.company !== '[Company]' || d.dot !== '';
     if (intelBox) intelBox.style.display = hasData ? 'block' : 'none';
+
+    // ── CONTACT REFERENCE BLOCK ─────────────────────────────
+    const refContact = document.getElementById('ref-contact');
+    if (refContact && hasData) {
+      refContact.style.display = 'block';
+      const phone2 = document.getElementById('pfPhone') ? document.getElementById('pfPhone').value.trim() : '';
+      const cell2  = getHidden('pfCell');
+      const email2 = getHidden('pfEmail2') || document.getElementById('pfBoard') && '';
+      const street = getHidden('pfStreet');
+      const zip    = getHidden('pfZip');
+      const city   = d.city !== 'your area' ? d.city : '';
+      const state2 = d['state-short'];
+      const mc2    = getHidden('pfMC');
+      const addr   = [street, city, state2, zip].filter(Boolean).join(', ');
+
+      const rp = document.getElementById('ref-phone');     if (rp) rp.textContent = phone2 || d.phone || '—';
+      const rc = document.getElementById('ref-cell');      if (rc) rc.textContent = cell2;
+      const rcr= document.getElementById('ref-cell-row'); if (rcr) rcr.style.display = cell2 ? 'block' : 'none';
+      const re2= document.getElementById('ref-email');    if (re2) re2.textContent = email2 || d.email || '—';
+      const ra = document.getElementById('ref-address');  if (ra) ra.textContent = addr || '—';
+      const rd2= document.getElementById('ref-dot2');     if (rd2) rd2.textContent = d.dot || '—';
+      const rm = document.getElementById('ref-mc');       if (rm) rm.textContent = mc2 || '—';
+    } else if (refContact) {
+      refContact.style.display = 'none';
+    }
+
+    // ── OPERATION REFERENCE BLOCK ────────────────────────────
+    const refOp = document.getElementById('ref-operation');
+    if (refOp && hasData) {
+      refOp.style.display = 'block';
+
+      // Routes
+      const routeContainer = document.getElementById('ref-routes');
+      if (routeContainer) {
+        routeContainer.innerHTML = '';
+        const routes = [
+          { label: 'OTR 100+mi',        val: getHidden('pfRouteOTR'),        color: '#1B5E20', bg: '#C8E6C9' },
+          { label: 'Interstate <100mi',  val: getHidden('pfRouteInter'),      color: '#0D47A1', bg: '#BBDEFB' },
+          { label: 'Intrastate OTR',     val: getHidden('pfRouteIntraOTR'),   color: '#E65100', bg: '#FFE0B2' },
+          { label: 'Intrastate Local',   val: getHidden('pfRouteIntraLocal'), color: '#4A148C', bg: '#E1BEE7' },
+        ];
+        routes.forEach(r => {
+          const badge = document.createElement('span');
+          const active = isYes(r.val);
+          badge.style.cssText = 'padding:2px 8px;border-radius:12px;font-size:10.5px;font-weight:600;background:' +
+            (active ? r.bg : 'var(--bg2)') + ';color:' + (active ? r.color : 'var(--text3)') + ';border:1px solid ' +
+            (active ? r.color + '44' : 'var(--border)') + ';text-decoration:' + (active ? 'none' : 'line-through') + ';';
+          badge.textContent = r.label;
+          routeContainer.appendChild(badge);
+        });
+      }
+
+      // Cargo & Equipment
+      const cargoContainer = document.getElementById('ref-cargo');
+      if (cargoContainer) {
+        cargoContainer.innerHTML = '';
+        const cargos = [
+          { label: '🥩 General Freight', id: 'pfCargoGeneral' },
+          { label: '🌡️ Reefer',          id: 'pfCargoReefer' },
+          { label: '☢️ Hazmat',           id: 'pfCargoHazmat' },
+          { label: '🏗️ Heavy/Flatbed',   id: 'pfCargoHeavy' },
+          { label: '🧪 Chemicals',        id: 'pfCargoChem' },
+          { label: '🛢️ Liquid/Gas',      id: 'pfCargoLiquid' },
+          { label: '🥦 Produce',          id: 'pfCargoProduce' },
+          { label: '🐄 Livestock',        id: 'pfCargoLivestock' },
+          { label: '🌾 Grain/Feed',       id: 'pfCargoGrain' },
+          { label: '🚗 Auto Transport',   id: 'pfCargoAuto' },
+          { label: '📦 Intermodal',       id: 'pfCargoIntermodal' },
+          { label: '⛽ Oilfield',         id: 'pfCargoOilfield' },
+          { label: '🏠 Construction',     id: 'pfCargoConstruct' },
+          { label: '🪨 Dry Bulk',         id: 'pfCargoDrybulk' },
+          { label: '🛋️ HHG/Moving',      id: 'pfCargoHHG' },
+        ];
+        cargos.forEach(c => {
+          const active = isYes(getHidden(c.id));
+          if (!active) return; // only show active cargo types
+          const badge = document.createElement('span');
+          badge.style.cssText = 'padding:2px 8px;border-radius:12px;font-size:10.5px;background:var(--bg2);border:1px solid var(--border2);color:var(--text2);';
+          badge.textContent = c.label;
+          cargoContainer.appendChild(badge);
+        });
+        if (cargoContainer.children.length === 0) {
+          cargoContainer.innerHTML = '<span style="color:var(--text3);font-size:11px;">No cargo data on file</span>';
+        }
+      }
+
+      // Fleet stats
+      const fleetEl = document.getElementById('ref-fleet');
+      if (fleetEl) {
+        const drivers = getHidden('pfDrivers');
+        const cdl     = getHidden('pfCDL');
+        const fsize   = getHidden('pfFleetSize');
+        const optype  = getHidden('pfOpType');
+        const miles   = d.mileage || '—';
+        fleetEl.innerHTML =
+          (d['trucks-label'] ? '<div>🚛 <strong>' + d['trucks-label'] + '</strong></div>' : '') +
+          (drivers  ? '<div>👤 ' + drivers + ' drivers' + (cdl ? ' (' + cdl + ' CDL)' : '') + '</div>' : '') +
+          (miles    ? '<div>📊 ' + miles + '</div>' : '') +
+          (fsize    ? '<div>📋 Fleet class: ' + fsize + '</div>' : '') +
+          (optype   ? '<div>⚙️ ' + optype + '</div>' : '');
+      }
+
+      // Compliance signals
+      const compEl = document.getElementById('ref-compliance');
+      if (compEl) {
+        const crash   = parseFloat(getHidden('pfCrash')) || 0;
+        const ageN5   = parseFloat(d['age-raw'] || '') || 0;
+        compEl.innerHTML =
+          '<div style="color:' + (crash >= 2 ? '#B71C1C' : crash >= 1 ? '#E65100' : '#2E7D32') + '">💥 Crash rate: <strong>' + (getHidden('pfCrash') || '0.0') + '</strong>' + (crash >= 2 ? ' ⚠️ HIGH' : crash >= 1 ? ' moderate' : ' ✅ clean') + '</div>' +
+          '<div>📅 ' + (ageN5 >= 10 ? '🏆' : ageN5 >= 5 ? '✅' : '🌱') + ' ' + (d.age || '—') + ' in business</div>' +
+          '<div>🛡️ Safety: <strong>' + (document.getElementById('pfScore') ? document.getElementById('pfScore').value || '—' : '—') + '/100</strong> (' + (d.potential || '—') + ')</div>';
+      }
+    } else if (refOp) {
+      refOp.style.display = 'none';
+    }
+
+    // ── Inference analysis block ────────────────────────────
+    const intelInf = document.getElementById('intel-inferences');
+    if (intelInf && hasData) {
+      const inf = [];
+      const trN3  = parseInt(d.trucks) || 0;
+      const milN3 = parseInt((d['mileage-raw'] || '').replace(/\D/g,'')) || 0;
+      const ageN3 = parseFloat(d['age-raw'] || '') || 0;
+      const rev   = d['est-revenue'];
+      const upside= d['rate-upside'];
+      const tCost = d['time-cost'];
+      const fSig  = d['fleet-signal'];
+
+      if (rev)    inf.push({ icon:'💰', label:'Est. gross revenue', val: rev, color:'#E8F5E9', border:'#2E7D32' });
+      if (upside) inf.push({ icon:'📈', label:'Rate improvement potential (10%)', val: upside + '/yr extra', color:'#E3F2FD', border:'#1565C0' });
+      if (tCost)  inf.push({ icon:'⏱️', label:'Dispatch time cost', val: tCost + ' on dispatch', color:'#FFF8E1', border:'#F57F17' });
+      if (fSig === 'underutilized' && trN3 > 1)
+                  inf.push({ icon:'⚠️', label:'Fleet utilization', val: 'Low miles per truck — trucks may be idle', color:'#FFEBEE', border:'#C62828' });
+      else if (fSig === 'fully active')
+                  inf.push({ icon:'✅', label:'Fleet utilization', val: 'High activity — needs consistent loads', color:'#E8F5E9', border:'#2E7D32' });
+      if (ageN3 >= 10 && trN3 <= 3)
+                  inf.push({ icon:'🏆', label:'Key insight', val: 'Veteran owner-op — price-sensitive, values reliability over features', color:'#F3E5F5', border:'#6A1B9A' });
+
+      intelInf.innerHTML = '';
+      if (inf.length > 0) {
+        intelInf.style.display = 'flex';
+        inf.forEach(item => {
+          const span = document.createElement('div');
+          span.style.cssText = 'font-size:11px;padding:5px 9px;border-radius:4px;border-left:2px solid ' + item.border + ';background:' + item.color + ';color:#333;';
+          span.innerHTML = item.icon + ' <strong>' + item.label + ':</strong> ' + item.val;
+          intelInf.appendChild(span);
+        });
+      } else {
+        intelInf.style.display = 'none';
+      }
+    }
 
     // Score/potential badge
     const scoreBadge = document.getElementById('score-badge');
@@ -3423,15 +3741,19 @@ const originalTexts = new Map(); // key = element, value = original innerHTML
       if (tipText) { presTip.style.display = 'block'; presTip.textContent = tipText; }
     }
 
-    // Show/hide mileage insight badge
+    // Mileage insight with revenue context
     const mileageBadge = document.getElementById('mileage-insight');
-    if (mileageBadge && d.mileage) {
-      const m = parseInt(d.mileage.replace(/,/g, ''));
-      if (m >= 100000) {
-        mileageBadge.textContent = '→ High mileage carrier — actively running. Good signal.';
+    if (mileageBadge) {
+      const milRaw2 = parseInt((d['mileage-raw'] || '').replace(/[^0-9]/g,'')) || 0;
+      const trN4    = parseInt(d.trucks) || 0;
+      const rev2    = d['est-revenue'];
+      const up2     = d['rate-upside'];
+      if (milRaw2 >= 100000) {
+        mileageBadge.textContent = '→ High activity' + (rev2 ? ' — est. ' + rev2 + ' gross' : '') + (up2 ? ' | rate upside: ' + up2 + '/yr' : '') + '. Good signal.';
         mileageBadge.style.display = 'block';
-      } else if (m > 0) {
-        mileageBadge.textContent = "→ Lower mileage — probe whether they're running consistently.";
+      } else if (milRaw2 > 0) {
+        const mpt = trN4 > 1 ? Math.round(milRaw2/trN4).toLocaleString() + ' miles/truck' : milRaw2.toLocaleString() + ' miles';
+        mileageBadge.textContent = '→ ' + mpt + ' — probe whether running consistently.';
         mileageBadge.style.display = 'block';
       } else {
         mileageBadge.style.display = 'none';
@@ -3880,9 +4202,54 @@ Reach out anytime we're here when you're ready! 🙎`;
       fill('pfCarrierAge', p.get('age')       || '');
       fill('pfOTR',        p.get('otr')       || '');
       fill('pfDOT',        p.get('dot')       || '');
+      // firstname is the pre-split first name from Apps Script
+      // Override pfName first word if firstname param exists
+      if (p.get('firstname') && document.getElementById('pfName')) {
+        const fullName = document.getElementById('pfName').value.trim();
+        if (!fullName) {
+          const firstEl = document.createElement('input');
+        }
+        // firstname param used to populate first-name token directly via getProspectData
+        // pfName already filled above - firstname is redundant but we store it
+        const pfNameEl = document.getElementById('pfName');
+        if (pfNameEl && !pfNameEl.value) pfNameEl.value = p.get('firstname') || '';
+      }
       fill('pfScore',     p.get('score')     || '');
       fill('pfPotential', p.get('potential') || '');
       fill('pfType',      p.get('type')      || '');
+      // Contact extras
+      fill('pfCell',          p.get('cell')       || '');
+      fill('pfEmail2',        p.get('email')      || '');
+      fill('pfStreet',        p.get('street')     || '');
+      fill('pfZip',           p.get('zip')        || '');
+      fill('pfMC',            p.get('mc')         || '');
+      // Routes
+      fill('pfRouteOTR',      p.get('r_otr')      || '');
+      fill('pfRouteInter',    p.get('r_inter')    || '');
+      fill('pfRouteIntraOTR', p.get('r_intra_otr')|| '');
+      fill('pfRouteIntraLocal',p.get('r_intra_local')||'');
+      // Cargo
+      fill('pfCargoGeneral',  p.get('c_general')  || '');
+      fill('pfCargoReefer',   p.get('c_reefer')   || '');
+      fill('pfCargoHazmat',   p.get('c_hazmat')   || '');
+      fill('pfCargoHeavy',    p.get('c_heavy')    || '');
+      fill('pfCargoChem',     p.get('c_chem')     || '');
+      fill('pfCargoLiquid',   p.get('c_liquid')   || '');
+      fill('pfCargoProduce',  p.get('c_produce')  || '');
+      fill('pfCargoLivestock',p.get('c_livestock')|| '');
+      fill('pfCargoGrain',    p.get('c_grain')    || '');
+      fill('pfCargoAuto',     p.get('c_auto')     || '');
+      fill('pfCargoIntermodal',p.get('c_intermodal')||'');
+      fill('pfCargoOilfield', p.get('c_oilfield') || '');
+      fill('pfCargoConstruct',p.get('c_construct')|| '');
+      fill('pfCargoDrybulk',  p.get('c_drybulk')  || '');
+      fill('pfCargoHHG',      p.get('c_hhg')      || '');
+      // Operations
+      fill('pfCrash',         p.get('crash')      || '');
+      fill('pfDrivers',       p.get('drivers')    || '');
+      fill('pfCDL',           p.get('cdl')        || '');
+      fill('pfFleetSize',     p.get('fleetsize')  || '');
+      fill('pfOpType',        p.get('optype')     || '');
       if (p.get('trucks')) {
         const n = parseInt(p.get('trucks'));
         if (!isNaN(n) && n >= 1) setTrucks(n);
