@@ -273,6 +273,19 @@
   .hl-p { background: rgba(155,143,239,0.14); color: var(--purple); padding: 1px 5px; border-radius: 3px; font-size: 13px; }
   .hl-b { background: rgba(91,168,255,0.13); color: var(--blue); padding: 1px 5px; border-radius: 3px; font-size: 13px; }
 
+  /* NEPQ Tonality badges */
+  .tone-tag { display:inline-block; font-size:9px; font-weight:700; letter-spacing:0.07em;
+    text-transform:uppercase; padding:1px 7px; border-radius:3px; margin-right:4px;
+    font-family:'DM Mono',monospace; vertical-align:middle; }
+  .tone-confused   { background:rgba(155,143,239,0.15); color:#9B8FEF; border:1px solid rgba(155,143,239,0.3); }
+  .tone-curious    { background:rgba(91,168,255,0.12);  color:#5BA8FF; border:1px solid rgba(91,168,255,0.25); }
+  .tone-empathetic { background:rgba(46,204,138,0.10);  color:#2ECC8A; border:1px solid rgba(46,204,138,0.25); }
+  .tone-certain    { background:rgba(56,189,248,0.10);  color:#38BDF8; border:1px solid rgba(56,189,248,0.25); }
+  .tone-heavy      { background:rgba(239,83,80,0.10);   color:#EF5350; border:1px solid rgba(239,83,80,0.25); }
+  .tone-neutral    { background:rgba(255,255,255,0.05); color:var(--text3); border:1px solid var(--border); }
+  .pause-mark { font-size:10px; color:var(--text3); font-style:italic; margin-left:5px;
+    font-family:'DM Mono',monospace; opacity:0.6; }
+
   .tip {
     font-size: 11.5px; color: var(--text3); margin-top: 5px;
     padding-left: 3px; font-style: italic; display: flex; align-items: flex-start; gap: 6px;
@@ -1011,7 +1024,7 @@
       <div class="turn">
         <div class="turn-role" style="color:var(--green)"><span class="role-dot" style="background:var(--green)"></span>You</div>
         <div class="speech you" contenteditable="false">"Yeah… is this uh… is this <span class="hl" data-token="first-name">[First Name]</span>?"</div>
-        <div class="tip">Upward inflection — like you're not sure you have the right person. This alone stops the "not interested" reflex before it starts.</div>
+        <div class="tip">Upward inflection — confused, uncertain tone. WHY: The brain makes a hang-up decision in 0.3 seconds based on one signal: threat or no threat. Downward confident tone = salesperson = threat = hang up. Upward confused tone = no threat = curiosity. Tonality alone decides whether the conversation continues.</div>
       </div>
 
       <div class="turn">
@@ -1034,8 +1047,8 @@
 
       <div class="turn">
         <div class="turn-role" style="color:var(--green)"><span class="role-dot" style="background:var(--green)"></span>You</div>
-        <div class="speech you" contenteditable="false">"Well… and I'm not sure if you're the right person I should be talking to… but I called to see who would be responsible for… overseeing any <span class="hl">possible hidden gaps</span> in like your dispatching — like finding loads and negotiating rates with brokers — that could be causing you guys to <span class="hl">keep leaving money on the table</span> every month… uh… who should I be talking to about that?"</div>
-        <div class="tip">Works for both owner-ops (1–2 trucks) and fleets (3+ trucks). For fleets adjust to: "…causing your fleet to leave money on the table every month…"</div>
+        <div class="speech you" contenteditable="false"><span class="tone-tag tone-confused">Confused</span>"Well… and I'm not sure if you're the right person I should be talking to… but I called to see who would be responsible for… overseeing any <span class="hl">possible hidden gaps</span> in like your dispatching — like finding loads and negotiating rates with brokers — that could be causing you guys to <span class="hl">keep leaving money on the table</span> every month… uh… who should I be talking to about that?"</div>
+        <div class="tip">Works for both owner-ops and fleets. WHY: "Your area" is vague enough to not be threatening, specific enough to feel personal. Using their state/equipment instead makes it even more powerful — they feel singled out (in a good way). People respond to specificity because it signals you're talking TO them, not AT them.</div>
         <div class="tip"><strong>"Possible"</strong> = neutral word — they can't say "we don't have that" because you said possible. <strong>"Could be"</strong> = neutral, not "is." <strong>"Who should I be talking to"</strong> = if they ARE the owner, they can't say "that's not me" without looking bad. They say "that's me."</div>
       </div>
 
@@ -1050,6 +1063,8 @@
           <button class="scenario-btn alt" onclick="switchScenario('open', 'calledback', this)"><span class="s-dot"></span>"You called me back?"</button>
           <button class="scenario-btn alt" onclick="switchScenario('open', 'gatekeeper', this)"><span class="s-dot"></span>Gatekeeper answers</button>
           <button class="scenario-btn alt" onclick="switchScenario('open', 'scheduled', this)"><span class="s-dot"></span>Scheduled callback</button>
+          <button class="scenario-btn" onclick="switchScenario('open', 'probstate', this)"><span class="s-dot"></span>FMCSA data hook opener</button>
+          <button class="scenario-btn" onclick="switchScenario('open', 'cargohook', this)"><span class="s-dot"></span>Equipment curiosity hook</button>
         </div>
       </div>
 
@@ -1060,7 +1075,7 @@
         </div>
         <div class="turn">
           <div class="turn-role" style="color:var(--green)"><span class="role-dot" style="background:var(--green)"></span>You</div>
-          <div class="speech you" contenteditable="false">"Oh good… yeah so um… we work with <span data-token="equipment-adj">[equipment]</span> carriers like <span data-token="company">[Company]</span> out of <span data-token="state-short">[state]</span> on the dispatching side — finding loads, negotiating rates, handling all the paperwork… uh… I'm not even sure if what we do would make sense for <span data-token="trucks-or-fleet">[trucks]</span> or if you've already got that covered… would you be opposed to me asking you just a couple questions to find out?"</div>
+          <div class="speech you" contenteditable="false"><span class="tone-tag tone-confused">Confused</span>"Oh good… yeah so um… we work with <span data-token="equipment-adj">[equipment]</span> carriers like <span data-token="company">[Company]</span> out of <span data-token="state-short">[state]</span> on the dispatching side — finding loads, negotiating rates, handling all the paperwork… uh… I'm not even sure if what we do would make sense for <span data-token="trucks-or-fleet">[trucks]</span> or if you've already got that covered… would you be opposed to me asking you just a couple questions to find out?"</div>
           <div class="tip">"I'm not even sure if what we do would make sense" = push them away → they pull you back. "Would you be opposed" = uses their instinct to say no in your favor. → Move to Stage 1: Connection.</div>
         </div>
       </div>
@@ -1072,7 +1087,7 @@
         </div>
         <div class="turn">
           <div class="turn-role" style="color:var(--green)"><span class="role-dot" style="background:var(--green)"></span>You</div>
-          <div class="speech you" contenteditable="false">"Yeah good question… so what I mean is like… most owner-operators I talk to are spending a lot of hours every week finding loads on DAT or Truckstop, negotiating with brokers, chasing invoices… and they don't always realize how much that's costing them in rates they're not getting and time they're not driving… uh… is any of that something you're dealing with?"</div>
+          <div class="speech you" contenteditable="false"><span class="tone-tag tone-confused">Confused</span>"Yeah good question… so what I mean is like… most owner-operators I talk to are spending a lot of hours every week finding loads on DAT or Truckstop, negotiating with brokers, chasing invoices… and they don't always realize how much that's costing them in rates they're not getting and time they're not driving… uh… is any of that something you're dealing with?"</div>
           <div class="tip">Curiosity triggered ✅ — they asked YOU a question. Now describe their problem in their language. End with a yes/no question to confirm fit. → Move to Stage 1.</div>
         </div>
       </div>
@@ -1085,7 +1100,7 @@
         <div class="turn">
           <div class="turn-role" style="color:var(--green)"><span class="role-dot" style="background:var(--green)"></span>You</div>
           <div class="speech you" contenteditable="false">"Oh yeah… no that's fair… uh… I haven't even really told you what it's about yet honestly… I'm just trying to figure out if it even applies to your situation… would you be opposed to me asking you just one quick question? And if it doesn't fit I'll let you go right there."</div>
-          <div class="tip">"I haven't even told you what it's about yet" — said lightly, not defensive. They fired before hearing anything. This resets the conversation to neutral. One question is all you need.</div>
+          <div class="tip">"I haven't even told you what it's about yet." WHY: The Curiosity Gap — the brain is uncomfortable with unresolved questions. By pointing out they rejected something unknown, you create a gap they feel compelled to close. It's not pushback — it's an invitation to their own curiosity.</div>
         </div>
       </div>
 
@@ -1097,7 +1112,7 @@
         <div class="turn">
           <div class="turn-role" style="color:var(--green)"><span class="role-dot" style="background:var(--green)"></span>You</div>
           <div class="speech you" contenteditable="false">"Oh no, totally… uh… when would be a better time to reach you — is later today okay or is tomorrow better for you?"</div>
-          <div class="tip">Binary callback — never "I'll try you another time." Two options, both move forward. Most people pick one. Note the time immediately.</div>
+          <div class="tip">Binary callback — always two specific options. WHY: "I'll call you later" is forgettable. Two concrete options force a decision and create a commitment. The prospect's brain registers a specific time as a kept appointment, not a maybe. NEPQ principle: a scheduled callback is 5x more likely to convert than an open-ended one.</div>
         </div>
       </div>
 
@@ -1110,7 +1125,7 @@
         <div class="turn">
           <div class="turn-role" style="color:var(--green)"><span class="role-dot" style="background:var(--green)"></span>You</div>
           <div class="speech you" contenteditable="false">"Oh got it — thanks for letting me know. Is there any chance you could put me through to them? Or if they're not available, I can leave a voicemail and they can reach me when it's a good time."</div>
-          <div class="tip">Always try for the transfer first. The person answering may actually have more influence than you think — be respectful and professional with them.</div>
+          <div class="tip">Always try for the transfer first. WHY: The gatekeeper is a potential ally, not just an obstacle. Treating them with curiosity and respect ("could you put me through?") works because people are wired to help those who treat them with dignity. Dismissing them creates an enemy with power to block you permanently.</div>
         </div>
         <div class="turn">
           <div class="turn-role" style="color:var(--green)"><span class="role-dot" style="background:var(--green)"></span>You (if they transfer)</div>
@@ -1122,7 +1137,7 @@
         <div class="turn-role" style="color:var(--green)"><span class="role-dot" style="background:var(--green)"></span>You</div>
         <div class="speech you" contenteditable="false">"Hey [Owner Name]… this is [Your Name] from QuickGS. [first name] mentioned you're the one running the operation at <span data-token="company">[Company]</span>. I had a specific question — not a sales pitch — about how <span data-token="trucks-or-fleet">[trucks]</span> on <span data-token="equipment-adj">[equipment]</span> out of <span data-token="state-short">[state]</span> are currently getting their loads covered. Takes 2 minutes. My number is (307) 509-5759 — again, (307) 509-5759. I'll try you back. No pressure."</div>
         <div class="tip">
-          Keep it under 20 seconds. Don't mention what you do or what you're selling — curiosity is the hook.
+          Voicemail: under 20 seconds, never reveal what you sell. WHY: Voicemails that mention the product/service get deleted before they're finished. The brain hears "dispatcher" and thinks "sales call" — delete. A curiosity gap ("specific idea for your operation") forces them to wonder what it is. Curiosity is the only emotion that makes people call strangers back.
           The double number repetition is intentional — they're usually driving. Key elements: their name twice, colleague reference for credibility, specific but vague hook ("dispatching side"), number twice, promise to call back so they know this isn't a one-shot robocall.
           <br><br>
           📞 <strong>QuickGS contact info to include in follow-up text:</strong><br>
@@ -1205,6 +1220,50 @@
 
 
       <!-- duplicate calledback panel removed -->
+
+      <div class="scenario-panel" id="open-probstate">
+        <div class="section-label">C2: Problem Statement Opener — FMCSA data hook</div>
+        <div class="turn">
+          <div class="turn-role" style="color:var(--purple)"><span class="role-dot" style="background:var(--purple)"></span>Prospect</div>
+          <div class="speech them">"Hello?"</div>
+        </div>
+        <div class="turn">
+          <div class="turn-role" style="color:var(--green)"><span class="role-dot" style="background:var(--green)"></span>You</div>
+          <div class="speech you" contenteditable="false"><span class="tone-tag tone-confused">Confused</span>"Oh hey… yeah… this is [Your Name]… uh… I was looking at <span data-token="company">[Company]</span>'s FMCSA profile — you're running <span data-token="trucks-or-fleet">[trucks]</span> on <span data-token="equipment-adj">[equipment]</span> out of <span data-token="state-short">[state]</span> — and I noticed something on the dispatching side that I had a quick question about… uh… is this <span data-token="first-name">[Name]</span> by any chance?"</div>
+          <div class="tip">The FMCSA data hook pattern interrupt. "I noticed something" creates immediate curiosity without revealing what you do. Their name + company + fleet details signal you're not a robocall. Works best with carriers who have HIGH scores — shows you specifically chose them.</div>
+        </div>
+        <div class="turn">
+          <div class="turn-role" style="color:var(--purple)"><span class="role-dot" style="background:var(--purple)"></span>Prospect</div>
+          <div class="speech them">"Yeah… what did you notice?"</div>
+        </div>
+        <div class="turn">
+          <div class="turn-role" style="color:var(--green)"><span class="role-dot" style="background:var(--green)"></span>You</div>
+          <div class="speech you" contenteditable="false"><span class="tone-tag tone-confused">Confused</span>"Well… that's kind of what I was calling about — uh… I work with carriers like you on the dispatching side and I was wondering… with <span data-token="trucks-or-fleet">[trucks]</span> running <span data-token="equipment-adj">[equipment]</span>, is there a chance you might have some gaps there that are causing you to leave money on the table? I'm honestly not even sure if it applies to you yet…"</div>
+          <div class="tip">Answer the curiosity with a problem statement, not a pitch. "I'm not sure if it applies" keeps threat level zero.</div>
+        </div>
+      </div>
+
+      <div class="scenario-panel" id="open-cargohook">
+        <div class="section-label">C3: Curiosity Hook — Equipment-specific opener</div>
+        <div class="turn">
+          <div class="turn-role" style="color:var(--purple)"><span class="role-dot" style="background:var(--purple)"></span>Prospect</div>
+          <div class="speech them">"Hello?"</div>
+        </div>
+        <div class="turn">
+          <div class="turn-role" style="color:var(--green)"><span class="role-dot" style="background:var(--green)"></span>You</div>
+          <div class="speech you" contenteditable="false"><span class="tone-tag tone-confused">Confused</span>"Hey… yeah… this is [Your Name]… uh… I work with <span data-token="equipment-adj">[equipment]</span> carriers specifically in <span data-token="state-short">[state]</span> — and I had a quick question… uh… I was wondering if you could possibly help me out for a second… is this the owner of <span data-token="company">[Company]</span>?"</div>
+          <div class="tip">Equipment + State specificity is the hook. "<span data-token="equipment-adj">[equipment]</span> carriers in <span data-token="state-short">[state]</span>" immediately signals you know their business, not a generic call. High curiosity, zero threat.</div>
+        </div>
+        <div class="turn">
+          <div class="turn-role" style="color:var(--purple)"><span class="role-dot" style="background:var(--purple)"></span>Prospect</div>
+          <div class="speech them">"Yeah, this is him. What's this about?"</div>
+        </div>
+        <div class="turn">
+          <div class="turn-role" style="color:var(--green)"><span class="role-dot" style="background:var(--green)"></span>You</div>
+          <div class="speech you" contenteditable="false"><span class="tone-tag tone-confused">Confused</span>"Yeah… so… I specialize in working with <span data-token="equipment-adj">[equipment]</span> carriers like yourself and I had a specific question about — uh — whether the dispatch side of things for <span data-token="trucks-or-fleet">[trucks]</span> is something you're handling yourself or if there might be any gaps there causing you to miss on rates… would you be opposed to me asking you just a couple questions?"</div>
+          <div class="tip">Tie the equipment specialization directly to their specific pain. "Would you be opposed" = NEPQ permission question. Non-threatening, non-pushy.</div>
+        </div>
+      </div>
 
       <div class="section-label">Key Principles from Jeremy Miner</div>
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.75rem;margin-bottom:1rem;">
@@ -1314,7 +1373,7 @@
       <div class="turn">
         <div class="turn-role" style="color:var(--green)"><span class="role-dot" style="background:var(--green)"></span>You</div>
         <div class="speech you" contenteditable="false">"Yeah… and honestly, <span class="hl">before I get into anything</span> — I want to make sure I'm even talking to the right person, and that what we do would actually make sense for your situation. Would you be okay if I just asked you a couple quick questions first?"</div>
-        <div class="tip">This signals you're not in pitch mode. Asking permission is disarming — almost nobody says no to this.</div>
+        <div class="tip">This signals you're not in pitch mode. WHY: The NEPQ Permission Principle — humans have an instinctive need for autonomy. When you give them the choice to say no, they almost never do. But when you push forward without permission, resistance activates. "Would you be opposed" uses this instinct: to say yes to your question, they have to say no to it — and most people don't want to say no.</div>
       </div>
 
       <!-- SCENARIO BUTTONS -->
@@ -1327,6 +1386,7 @@
           <button class="scenario-btn alt" onclick="switchScenario('conn', 'wrongperson', this)"><span class="s-dot"></span>Wrong person / Not me</button>
           <button class="scenario-btn alt" onclick="switchScenario('conn', 'callbackreq', this)"><span class="s-dot"></span>Call me back later</button>
           <button class="scenario-btn alt" onclick="switchScenario('conn', 'suspicious', this)"><span class="s-dot"></span>Is this a sales call?</button>
+          <button class="scenario-btn alt" onclick="switchScenario('conn', 'stall', this)"><span class="s-dot"></span>🔄 Stall / one-word answers</button>
         </div>
       </div>
 
@@ -1481,7 +1541,7 @@
 
       <div class="turn">
         <div class="turn-role" style="color:var(--green)"><span class="role-dot" style="background:var(--green)"></span>You</div>
-        <div class="speech you" contenteditable="false">"So just to get a better picture — <span class="hl">how many trucks are you running right now?</span>"</div>
+        <div class="speech you" contenteditable="false"><span class="tone-tag tone-curious">Curious</span>"So just to get a better picture — <span class="hl">how many trucks are you running right now?</span>"</div>
       <div id="mileage-insight" style="display:none;font-size:11.5px;color:var(--text3);padding:4px 0 4px 3px;font-style:italic;border-left:2px solid var(--orange);padding-left:8px;margin:4px 0;"></div>
       <div class="tip" id="trucks-prefill-tip" style="display:none">You already know: <strong><span data-token="trucks-label">[X trucks]</span></strong> — <span data-token="fleet-signal">[utilization]</span>. Skip this question — instead say: <em>"I see you're running <span data-token="trucks-or-fleet">[X trucks]</span> out of <span data-token="state-short">[state]</span> — is that still the case?"</em> This signals you did your homework.</div>
       </div>
@@ -1505,8 +1565,8 @@
         </div>
         <div class="turn">
           <div class="turn-role" style="color:var(--green)"><span class="role-dot" style="background:var(--green)"></span>You</div>
-          <div class="speech you" contenteditable="false">"Got it. And with <span data-token="trucks-or-fleet">[trucks]</span> running <span data-token="equipment-adj">[equipment]</span> out of <span data-token="state-short">[state]</span> — are you handling all the dispatching yourself, or do you have someone helping with that?"</div>
-          <div class="tip">This version already uses their data. If they seem surprised you know — that's good. Just say: "I was reviewing your FMCSA profile before calling." Shows professionalism and preparation. The more they explain, the more invested they become in the conversation.</div>
+          <div class="speech you" contenteditable="false"><span class="tone-tag tone-curious">Curious</span>"Got it. And with <span data-token="trucks-or-fleet">[trucks]</span> running <span data-token="equipment-adj">[equipment]</span> out of <span data-token="state-short">[state]</span> — are you handling all the dispatching yourself, or do you have someone helping with that?"</div>
+          <div class="tip">Use their FMCSA data in the question — don't ask what you already know. WHY: Two reasons. First, it proves you did research = credibility signal = they feel respected, not generic-called. Second, skipping questions they've answered a hundred times on cold calls breaks the expected sales pattern. When you already know details, you sound like a partner, not a vendor. NEPQ calls this "pattern interrupt through knowledge." The more they explain, the more invested they become in the conversation.</div>
         </div>
         <div class="turn">
           <div class="turn-role" style="color:var(--purple)"><span class="role-dot" style="background:var(--purple)"></span>Prospect</div>
@@ -1522,8 +1582,8 @@
         </div>
         <div class="turn">
           <div class="turn-role" style="color:var(--green)"><span class="role-dot" style="background:var(--green)"></span>You</div>
-          <div class="speech you" contenteditable="false">"Makes sense. And roughly <span class="hl">how many hours a week</span> would you say you're spending on all of that — finding loads for <span data-token="trucks-or-fleet">[trucks]</span>, calling brokers, handling paperwork? Because for a <span data-token="fleet-adj">[fleet-adj]</span>, that's usually around <span data-token="time-cost">[time-cost]</span>."</div>
-          <div class="tip">Critical setup question. Their answer will feed Stage 5 (Consequence). Pause after asking — let them do the math out loud.</div>
+          <div class="speech you" contenteditable="false"><span class="tone-tag tone-curious">Curious</span>"Makes sense. And roughly <span class="hl">how many hours a week</span> would you say you're spending<span class="pause-mark">?…[PAUSE]</span> on all of that — finding loads for <span data-token="trucks-or-fleet">[trucks]</span>, calling brokers, handling paperwork? Because for a <span data-token="fleet-adj">[fleet-adj]</span>, that's usually around <span data-token="time-cost">[time-cost]</span>."</div>
+          <div class="tip">Critical setup question — feed everything into Stage 5. WHY: Stage 2 is data collection for Stage 5. Every hour, rate problem, and frustration they reveal is a future consequence point. Pause and let them talk freely — their words will be more powerful than any number you give them when used as mirrors in the consequence stage.</div>
         </div>
       </div>
 
@@ -1543,7 +1603,7 @@
         <div class="turn">
           <div class="turn-role" style="color:var(--green)"><span class="role-dot" style="background:var(--green)"></span>You</div>
           <div class="speech you" contenteditable="false">"Yep that's super common when you're at that size. And in terms of the load mix — are you mainly on load boards, direct shippers, or a combination?"</div>
-          <div class="tip">At 4–6 trucks they're at the inflection point. The pain of managing growth is real. Lean into that in Stage 3.</div>
+          <div class="tip">At 4–6 trucks: maximum pain inflection point. WHY: Cognitive overload hits hardest here. Too big to manage alone, too small for systems. The owner is simultaneously driver, dispatcher, accountant, and HR. This is when burnout is highest and openness to change is strongest. NEPQ principle: maximum pain = maximum motivation to change.</div>
         </div>
       </div>
 
@@ -1563,7 +1623,7 @@
         <div class="turn">
           <div class="turn-role" style="color:var(--green)"><span class="role-dot" style="background:var(--green)"></span>You</div>
           <div class="speech you" contenteditable="false">"I bet. And when you're on the road — are you able to be actively looking for loads at the same time, or does one always take a backseat to the other?"</div>
-          <div class="tip">For solo operators the time/driving conflict is their core pain. That's your entire Stage 3 angle.</div>
+          <div class="tip">For owner-ops: time/driving conflict is the core pain. WHY: An owner-operator physically cannot drive and dispatch simultaneously. This is a structural impossibility — not a preference problem. When you make them articulate this conflict, they realize they're choosing between earning (driving) and finding future earnings (dispatching). That's an unsolvable problem without help.</div>
         </div>
       </div>
 
@@ -1575,7 +1635,7 @@
         <div class="turn">
           <div class="turn-role" style="color:var(--green)"><span class="role-dot" style="background:var(--green)"></span>You</div>
           <div class="speech you" contenteditable="false">"Makes sense — a lot of guys at your stage are in the same spot. And when it comes to load boards — do you feel like you're getting good visibility on the right lanes, or does it feel like you're kind of fishing in the dark sometimes?"</div>
-          <div class="tip">Validate the no-dispatcher setup before probing. Never make them feel wrong for how they're operating.</div>
+          <div class="tip">Validate their current setup before probing. WHY: Judgment triggers defensiveness immediately. If they feel you're implying they're doing it wrong, they'll defend their approach — even if they know it's suboptimal. Validation ("a lot of carriers handle it themselves at your stage") removes the threat and creates safety to be honest about the problems.</div>
         </div>
       </div>
 
@@ -1638,6 +1698,8 @@
         <span><span data-token="otr">[route]</span></span>
         <span><span data-token="age">[age]</span></span>
       </div>
+      
+
       <div class="stage-header">
         <div class="stage-badge" style="background:var(--orange-dim);color:var(--orange)">03</div>
         <div class="stage-info">
@@ -1647,9 +1709,22 @@
         </div>
       </div>
 
+      <!-- NEPQ Problem Stage — Advanced Questions -->
+      <div class="section-label" style="margin-top:1.5rem;">NEPQ Advanced — Third Party &amp; Social Proof</div>
       <div class="turn">
         <div class="turn-role" style="color:var(--green)"><span class="role-dot" style="background:var(--green)"></span>You</div>
-        <div class="speech you" contenteditable="false">"And with all that time you're putting in on <span data-token="trucks-or-fleet">[trucks]</span> — <span class="hl">how's that been working for you overall?</span> Like with <span data-token="equipment-adj">[equipment]</span> out of <span data-token="state-short">[state]</span> — are you getting the rates you want, or does it feel like you're leaving some money on the table sometimes?"</div>
+        <div class="speech you" contenteditable="false"><span class="tone-tag tone-curious">Curious</span>"Let me ask you something — if a friend of yours was running <span data-token="trucks-or-fleet">[trucks]</span> on <span data-token="equipment-adj">[equipment]</span>, same situation as you, same rates, same hours… what would you tell them to do?"<span class="pause-mark">…[PAUSE — they'll answer for themselves]</span></div>
+        <div class="tip">The NEPQ Third-Party Question. Removes ego and defensiveness. They can't be wrong advising a "friend." Whatever they say, they're prescribing the solution for themselves. Extremely powerful when they're stuck in problem awareness.</div>
+      </div>
+      <div class="turn">
+        <div class="turn-role" style="color:var(--green)"><span class="role-dot" style="background:var(--green)"></span>You</div>
+        <div class="speech you" contenteditable="false"><span class="tone-tag tone-empathetic">Empathetic</span>"You know, I talk to a lot of <span data-token="equipment-adj">[equipment]</span> carriers in <span data-token="state-short">[state]</span> and what I hear most often is exactly what you just described — the rates feel like a ceiling you can't break through no matter how hard you work. Does that resonate with where you're at?"<span class="pause-mark">…[PAUSE]</span></div>
+        <div class="tip">The NEPQ Social Proof Validation. WHY: "Carriers like you" normalizes their problem. "Does that resonate?" invites confirmation — building agreement momentum toward the solution.</div>
+      </div>
+
+      <div class="turn">
+        <div class="turn-role" style="color:var(--green)"><span class="role-dot" style="background:var(--green)"></span>You</div>
+        <div class="speech you" contenteditable="false"><span class="tone-tag tone-curious">Curious</span>"And with all that time you're putting in on <span data-token="trucks-or-fleet">[trucks]</span> — <span class="hl">how's that been working for you overall?</span> Like with <span data-token="equipment-adj">[equipment]</span> out of <span data-token="state-short">[state]</span> — are you getting the rates you want, or does it feel like you're leaving some money on the table sometimes?"</div>
         <div class="tip">"How's that been working for you" is the most powerful NEPQ opener. It sounds conversational but opens the floodgates.</div>
       </div>
 
@@ -1671,7 +1746,7 @@
         </div>
         <div class="turn">
           <div class="turn-role" style="color:var(--green)"><span class="role-dot" style="background:var(--green)"></span>You</div>
-          <div class="speech you" contenteditable="false">"Yeah, I hear that. When the rates are low like that — <span class="hl">what do you usually end up doing?</span> Do you take the load anyway just to keep rolling, or do you sit and wait?"</div>
+          <div class="speech you" contenteditable="false"><span class="tone-tag tone-empathetic">Empathetic</span>"Yeah, I hear that. When the rates are low like that — <span class="hl">what do you usually end up doing?</span> Do you take the load anyway just to keep rolling, or do you sit and wait?"</div>
         </div>
         <div class="turn">
           <div class="turn-role" style="color:var(--purple)"><span class="role-dot" style="background:var(--purple)"></span>Prospect</div>
@@ -1703,7 +1778,7 @@
         <div class="turn">
           <div class="turn-role" style="color:var(--green)"><span class="role-dot" style="background:var(--green)"></span>You</div>
           <div class="speech you" contenteditable="false">"Good to hear. And when you say okay — like are you hitting the revenue targets you set for yourself, or is it more like 'okay for now, but I know there's more out there'?"</div>
-          <div class="tip">Never accept "okay" as the final answer. There's almost always a gap between "okay" and "what I actually want." This question finds it without creating friction.</div>
+          <div class="tip">Never accept "okay" or "it's fine." WHY: "Okay" is a social defense mechanism — it's what people say to avoid vulnerability. In NEPQ, your job is to find the gap between their stated situation and their desired situation. "Okay" means they haven't trusted you enough yet to reveal the real pain. The follow-up question "like are you hitting the targets you set?" uses the power of specificity to make "okay" unsustainable as an answer. This question finds it without creating friction.</div>
         </div>
         <div class="turn">
           <div class="turn-role" style="color:var(--purple)"><span class="role-dot" style="background:var(--purple)"></span>Prospect</div>
@@ -1743,8 +1818,8 @@
         </div>
         <div class="turn">
           <div class="turn-role" style="color:var(--green)"><span class="role-dot" style="background:var(--green)"></span>You</div>
-          <div class="speech you" contenteditable="false">"That's a real cash flow killer. And when you say forever — are we talking 30 days, 60 days, or even longer? What's the worst one you've dealt with?"</div>
-          <div class="tip">Get them to quantify the pain. The bigger the number, the easier the ROI conversation in Stage 6.</div>
+          <div class="speech you" contenteditable="false"><span class="tone-tag tone-empathetic">Empathetic</span>"That's a real cash flow killer. And when you say forever — are we talking 30 days, 60 days, or even longer? What's the worst one you've dealt with?"</div>
+          <div class="tip">Get them to put a number on the pain. WHY: Vague pain is easy to dismiss. Quantified pain is impossible to ignore. When they say "I lose maybe $3,000 a month on slow payments" — that's their number, not yours. And when YOUR fee is less than their stated loss, the math closes the sale for you. NEPQ rule: never do the math for them. Their calculation is always more credible to themselves than yours.</div>
         </div>
         <div class="turn">
           <div class="turn-role" style="color:var(--purple)"><span class="role-dot" style="background:var(--purple)"></span>Prospect</div>
@@ -1765,7 +1840,7 @@
         <div class="turn">
           <div class="turn-role" style="color:var(--green)"><span class="role-dot" style="background:var(--green)"></span>You</div>
           <div class="speech you" contenteditable="false">"That's eating into your margins bad. And when you're repositioning — is that usually because you couldn't find a backhaul, or because the backhauls available were just not worth the rate?"</div>
-          <div class="tip">Deadhead pain leads directly into the value of a dispatcher who specializes in lane optimization. Stay in curiosity mode.</div>
+          <div class="tip">Deadhead pain → lane optimization value. WHY: Stay in curiosity mode — don't jump to solution yet. If you solve too early, you rob them of the emotional build-up that makes them want to change. NEPQ rule: the longer they sit in the pain, the stronger the motivation. Every question that deepens the problem is building pressure toward the solution.</div>
         </div>
         <div class="turn">
           <div class="turn-role" style="color:var(--purple)"><span class="role-dot" style="background:var(--purple)"></span>Prospect</div>
@@ -1777,6 +1852,7 @@
         </div>
       </div>
     </div>
+
       <div class="stage-bridge" data-bridge-stage="3" style="display:none;background:var(--bg2);border:1px solid #26A69A;border-radius:var(--radius);padding:12px 16px;margin:1.5rem 0 0.5rem;">
         <div style="font-size:10px;color:#00695C;text-transform:uppercase;letter-spacing:0.1em;margin-bottom:6px;font-weight:700;">🌉 BRIDGE → Solution Awareness</div>
         <div style="font-size:12.5px;color:var(--text2);line-height:1.6;">Closing question to transition: <em>"So based on what you're describing — if you had someone handling all of that for <span data-token="trucks-or-fleet">[trucks]</span>, what would that actually change for you?"</em></div>
@@ -1804,7 +1880,7 @@
 
       <div class="turn">
         <div class="turn-role" style="color:var(--green)"><span class="role-dot" style="background:var(--green)"></span>You</div>
-        <div class="speech you" contenteditable="false">"So let me ask you something — <span class="hl">what would it look like for you</span> if all of that was just… handled? The <span data-token="equipment-adj">[equipment]</span> load finding for <span data-token="trucks-or-fleet">[trucks]</span>, the broker calls, the paperwork, the invoicing — if someone was doing all of that for you — what changes for you day to day?"</div>
+        <div class="speech you" contenteditable="false"><span class="tone-tag tone-curious">Curious</span>"So let me ask you something — <span class="hl">what would it look like for you</span> if all of that was just… handled?<span class="pause-mark">…[PAUSE]</span> The <span data-token="equipment-adj">[equipment]</span> load finding for <span data-token="trucks-or-fleet">[trucks]</span>, the broker calls, the paperwork, the invoicing — if someone was doing all of that for you — what changes for you day to day?"</div>
         <div class="tip">This is the pivot question of the entire call. Pause after you say it. Give them space. Their answer will be more powerful than any pitch you could deliver.</div>
       </div>
 
@@ -1834,8 +1910,8 @@
         </div>
         <div class="turn">
           <div class="turn-role" style="color:var(--green)"><span class="role-dot" style="background:var(--green)"></span>You</div>
-          <div class="speech you" contenteditable="false">"And what about your time — you're spending roughly <span data-token="time-cost">[time-cost]</span> on dispatching and admin for <span data-token="trucks-or-fleet">[trucks]</span> — <span class="hl">what would you actually do with that time?</span>"</div>
-          <div class="tip">Opportunity cost question. Shifts their thinking from "savings" to "growth."</div>
+          <div class="speech you" contenteditable="false"><span class="tone-tag tone-curious">Curious</span>"And what about your time — you're spending roughly <span data-token="time-cost">[time-cost]</span> on dispatching and admin for <span data-token="trucks-or-fleet">[trucks]</span> — <span class="hl">what would you actually do with that time?</span>"</div>
+          <div class="tip">Opportunity cost question — shifts thinking from savings to growth. WHY: People are motivated more by potential gain than by avoiding loss at this stage. "What would you do with 20 extra hours?" forces them to envision a better future state — which NEPQ calls "Solution Awareness." They must feel the pull of the upside, not just the push of the pain. The bigger and more specific their vision, the stronger the pull toward change.</div>
         </div>
         <div class="turn">
           <div class="turn-role" style="color:var(--purple)"><span class="role-dot" style="background:var(--purple)"></span>Prospect</div>
@@ -1870,7 +1946,7 @@
         <div class="turn">
           <div class="turn-role" style="color:var(--green)"><span class="role-dot" style="background:var(--green)"></span>You</div>
           <div class="speech you" contenteditable="false">"Less stress — that actually says a lot. Where's most of the stress coming from right now? Like if you had to point to one thing, what is it?"</div>
-          <div class="tip">Vague answers mean they haven't fully felt the pain yet. Help them locate it specifically. Don't move to Stage 4 until you have a concrete problem they've named themselves.</div>
+          <div class="tip">Vague answer = pain not felt deeply enough yet. WHY: Specific pain is emotionally real; vague pain is intellectually acknowledged. "I lose money on rates" is dismissible. "I leave $2,000 per load on the table because I take whatever the broker first offers" is felt. Use specificity questions to help them locate and name the exact pain — named pain is owned pain, and owned pain creates buying urgency.</div>
         </div>
         <div class="turn">
           <div class="turn-role" style="color:var(--purple)"><span class="role-dot" style="background:var(--purple)"></span>Prospect</div>
@@ -1891,7 +1967,7 @@
         <div class="turn">
           <div class="turn-role" style="color:var(--green)"><span class="role-dot" style="background:var(--green)"></span>You</div>
           <div class="speech you" contenteditable="false">"That's real. And when you say always working — is it the driving itself, or is it more the admin stuff that bleeds into your personal time?"</div>
-          <div class="tip">Personal pain is actually more powerful than business pain. Don't redirect to business logic — stay in this emotional territory. It converts higher.</div>
+          <div class="tip">Personal/emotional pain is more powerful than business pain. WHY: Business decisions are rationalized after emotional ones. Logic makes people think; emotion makes people act. When a carrier says "I'm exhausted" or "I haven't taken a vacation in 3 years" — that's the real motivator. NEPQ calls this "personal consequence" — it connects the business problem to the person's life, health, and identity. It converts higher.</div>
         </div>
         <div class="turn">
           <div class="turn-role" style="color:var(--purple)"><span class="role-dot" style="background:var(--purple)"></span>Prospect</div>
@@ -1939,6 +2015,8 @@
         <span><span data-token="otr">[route]</span></span>
         <span><span data-token="age">[age]</span></span>
       </div>
+      
+
       <div class="stage-header">
         <div class="stage-badge" style="background:var(--red-dim);color:var(--red)">05</div>
         <div class="stage-info">
@@ -1948,36 +2026,89 @@
         </div>
       </div>
 
+      <!-- NEPQ Consequence Stacking -->
+      <div class="section-label" style="margin-top:1.5rem;">Consequence Stacking — Layer the pain</div>
+      <div class="tip" style="margin-bottom:0.75rem;font-style:normal;color:var(--text2);">NEPQ rule: stack 3-5 consequences before asking for commitment. Each question should make the cost of inaction heavier. Go: Financial → Time → Personal → Future identity → Emotional.</div>
+
       <div class="turn">
         <div class="turn-role" style="color:var(--green)"><span class="role-dot" style="background:var(--green)"></span>You</div>
-        <div class="speech you" contenteditable="false">"So you've been wanting that next truck for a while now — with <span data-token="trucks-or-fleet">[trucks]</span> in <span data-token="state-short">[state]</span>… <span class="hl">what do you think has been getting in the way</span> of making that happen?"</div>
-      <div class="tip">Reference their history: <em>"<span data-token="company">[Company]</span> has been running <span data-token="equipment-adj">[equipment]</span> for <span data-token="age">[X years]</span> — that's a real operation. So what's been the main thing holding back that next truck out of <span data-token="state-short">[state]</span>?"</em> — combining age + equipment + location builds instant credibility.</div>
-        <div class="tip">Don't fill this in for them. Pause. Let them arrive at the answer on their own. The silence is intentional.</div>
+        <div class="speech you" contenteditable="false"><span class="tone-tag tone-heavy">Heavy</span>"And beyond the rate side — how much time per week would you say is going into all the dispatch work for <span data-token="trucks-or-fleet">[trucks]</span>? Because that time has a cost too, right?"<span class="pause-mark">…[PAUSE]</span></div>
+        <div class="tip">Stack #2 — Time consequence. Pile on after financial pain. Don't rush to the next question.</div>
       </div>
-      <div class="turn">
-        <div class="turn-role" style="color:var(--purple)"><span class="role-dot" style="background:var(--purple)"></span>Prospect</div>
-        <div class="speech them">"Time and money, honestly. I'm so busy keeping these three running I never have a clear enough picture to make the move."</div>
-      </div>
+
       <div class="turn">
         <div class="turn-role" style="color:var(--green)"><span class="role-dot" style="background:var(--green)"></span>You</div>
-        <div class="speech you" contenteditable="false">"Yeah that makes sense. And thinking about the last few months — <span data-token="mileage">[mileage]</span> of <span data-token="equipment-adj">[equipment]</span> with <span data-token="trucks-or-fleet">[trucks]</span> — a <span data-token="rate-upside">[rate-upside]</span>/yr improvement in rates is sitting on the table — <span class="hl">if you had to put a rough number on it</span> — how much do you think you've lost in underpriced loads, deadhead miles, and slow-paying brokers? Just a ballpark."</div>
-        <div class="tip">Don't give them a number. Make them calculate it. Their number will always be more credible and more emotionally real than yours.</div>
+        <div class="speech you" contenteditable="false"><span class="tone-tag tone-heavy">Heavy</span>"And what does that do to you personally — like when you're sitting at the end of a long week and you've been running <span data-token="equipment-adj">[equipment]</span> AND doing all the admin work… how do you feel about where the business is heading?"<span class="pause-mark">…[PAUSE 4s]</span></div>
+        <div class="tip">Stack #3 — Personal/emotional consequence. The NEPQ emotional consequence question. This one hits hardest. Let silence work.</div>
       </div>
-      <div class="turn">
-        <div class="turn-role" style="color:var(--purple)"><span class="role-dot" style="background:var(--purple)"></span>Prospect</div>
-        <div class="speech them">"Ugh… honestly it could be several thousand a month. I don't even want to think about it."</div>
-      </div>
+
       <div class="turn">
         <div class="turn-role" style="color:var(--green)"><span class="role-dot" style="background:var(--green)"></span>You</div>
-        <div class="speech you" contenteditable="false">"I get it. And if nothing changes — <span class="hl">where do you see yourself with the business in the next 12 months?</span> Still at three trucks, or…?"</div>
-        <div class="tip">Future-pacing. The "or…" trailing off gives them space to complete it.</div>
+        <div class="speech you" contenteditable="false"><span class="tone-tag tone-heavy">Heavy</span>"And when you think about where you want <span data-token="company">[Company]</span> to be in 3 years — does this current situation move you toward that, or does it keep you stuck in the same place?"<span class="pause-mark">…[PAUSE — do NOT break it]</span></div>
+        <div class="tip">Stack #4 — Future identity. The NEPQ future-self question. They must verbalize the gap between where they are and where they want to be. This is the most powerful moment in the call.</div>
       </div>
+
       <div class="turn">
-        <div class="turn-role" style="color:var(--purple)"><span class="role-dot" style="background:var(--purple)"></span>Prospect</div>
-        <div class="speech them">"Honestly, probably same spot. That's what I'm trying to avoid."</div>
+        <div class="turn-role" style="color:var(--green)"><span class="role-dot" style="background:var(--green)"></span>You</div>
+        <div class="speech you" contenteditable="false"><span class="tone-tag tone-heavy">Heavy</span>"I have to ask — and I'm asking because I genuinely want to understand — if you're <span data-token="age">[X years]</span> into this, and the situation is still the same… does that ever get to you? Like is there a moment where you think 'something needs to change'?"<span class="pause-mark">…[LONGEST PAUSE — 5-7s]</span></div>
+        <div class="tip">Stack #5 — Emotional consequence. The NEPQ "gut punch" question. Only use if they're deeply engaged. This forces them to connect emotionally with the cost of staying stuck. After their answer → go to Commitment immediately.</div>
       </div>
+
+      <!-- Consequence opener — select what matches what you heard in Situation -->
       <div class="scenario-group">
-        <div class="scenario-group-label">Their response to future-pacing</div>
+        <div class="scenario-group-label">What did they tell you they want? Select the scenario that matches.</div>
+        <div class="scenario-btns">
+          <button class="scenario-btn" onclick="switchScenario('cons', 'growtruck', this)"><span class="s-dot"></span>They want more trucks / scale the fleet</button>
+          <button class="scenario-btn" onclick="switchScenario('cons', 'betterrates', this)"><span class="s-dot"></span>They want better rates / more money per load</button>
+          <button class="scenario-btn" onclick="switchScenario('cons', 'lesswork', this)"><span class="s-dot"></span>They want less admin / more time driving</button>
+          <button class="scenario-btn" onclick="switchScenario('cons', 'consistent', this)"><span class="s-dot"></span>They want consistent loads / no dry spells</button>
+          <button class="scenario-btn" onclick="switchScenario('cons', 'cashflow', this)"><span class="s-dot"></span>They want faster payments / better cash flow</button>
+          <button class="scenario-btn" onclick="switchScenario('cons', 'nodream', this)"><span class="s-dot"></span>They haven't stated a specific goal</button>
+        </div>
+      </div>
+
+      <div class="scenario-panel" id="cons-growtruck">
+        <div class="turn">
+          <div class="turn-role" style="color:var(--green)"><span class="role-dot" style="background:var(--green)"></span>You</div>
+          <div class="speech you" contenteditable="false"><span class="tone-tag tone-heavy">Heavy</span>"So you've been wanting to grow <span data-token="company">[Company]</span> beyond <span data-token="trucks-or-fleet">[trucks]</span> for a while now… <span class="hl">what do you think has been the main thing getting in the way</span> of making that move?"<span class="pause-mark">…[PAUSE — do not fill it]</span></div>
+          <div class="tip">They said they want growth — so anchor the consequence to THAT goal. WHY: Connecting the pain to their stated desire creates cognitive dissonance: "I want X but my current situation prevents X." That gap IS the motivation. Don't invent what they want — use what they told you.</div>
+        </div>
+      </div>
+
+      <div class="scenario-panel" id="cons-betterrates">
+        <div class="turn">
+          <div class="turn-role" style="color:var(--green)"><span class="role-dot" style="background:var(--green)"></span>You</div>
+          <div class="speech you" contenteditable="false"><span class="tone-tag tone-heavy">Heavy</span>"So you've been running <span data-token="trucks-or-fleet">[trucks]</span> on <span data-token="equipment-adj">[equipment]</span> out of <span data-token="state-short">[state]</span> — and feeling like the rates aren't where they should be for a while now… <span class="hl">what do you think has been stopping you from getting the rates you actually deserve?</span>"<span class="pause-mark">…[PAUSE 4-5s]</span></div>
+          <div class="tip">"Rates you actually deserve" is intentional language. WHY: It frames their current rate as unjust — not just low. Injustice is more emotionally activating than gap analysis. It also subtly positions you as an ally against a shared adversary (brokers), not as another vendor.</div>
+        </div>
+      </div>
+
+      <div class="scenario-panel" id="cons-lesswork">
+        <div class="turn">
+          <div class="turn-role" style="color:var(--green)"><span class="role-dot" style="background:var(--green)"></span>You</div>
+          <div class="speech you" contenteditable="false"><span class="tone-tag tone-heavy">Heavy</span>"So you've been wanting to just <em>drive</em> — without the phones, the paperwork, the broker calls — for a while now with <span data-token="trucks-or-fleet">[trucks]</span>… <span class="hl">what's kept that from actually happening?</span>"<span class="pause-mark">…[PAUSE — let them sit with it]</span></div>
+          <div class="tip">They told you they want to drive, not dispatch. Mirror that exactly. WHY: When you use their exact words ("just drive") they recognize themselves in the conversation. It signals you were listening, not collecting data. Recognition = trust = willingness to go deeper into the pain.</div>
+        </div>
+      </div>
+
+      <div class="scenario-panel" id="cons-consistent">
+        <div class="turn">
+          <div class="turn-role" style="color:var(--green)"><span class="role-dot" style="background:var(--green)"></span>You</div>
+          <div class="speech you" contenteditable="false"><span class="tone-tag tone-heavy">Heavy</span>"So you've been dealing with inconsistent loads for a while now — some weeks full, some weeks empty — with <span data-token="trucks-or-fleet">[trucks]</span> sitting in <span data-token="state-short">[state]</span>… <span class="hl">what does a dead week actually cost you?</span> Not just the missed revenue — the whole picture."<span class="pause-mark">…[PAUSE]</span></div>
+          <div class="tip">"Not just the missed revenue — the whole picture" is a NEPQ expansion prompt. WHY: You're inviting them to calculate the full cost: idle trucks, fixed expenses (insurance, payments, fuel standby), driver pay, stress. Each item they add is a pain they own. Owned pain is owned motivation.</div>
+        </div>
+      </div>
+
+      <div class="scenario-panel" id="cons-cashflow">
+        <div class="turn">
+          <div class="turn-role" style="color:var(--green)"><span class="role-dot" style="background:var(--green)"></span>You</div>
+          <div class="speech you" contenteditable="false"><span class="tone-tag tone-heavy">Heavy</span>"So you've been running <span data-token="trucks-or-fleet">[trucks]</span> and waiting 45, 60, sometimes 90 days to get paid — for a while now… <span class="hl">what does that do to the operation</span> when that money is sitting somewhere it shouldn't be?"<span class="pause-mark">…[PAUSE 4-5s — heaviest question so far]</span></div>
+          <div class="tip">Cash flow pain is visceral. WHY: Unlike rate pain (abstract) or time pain (relative), late payment pain is felt every single day when a bill is due and the money isn't there. "What does that DO to the operation" forces them to enumerate the downstream effects: driver pay stress, fuel on credit, can't take on new equipment. Each effect is a stacked consequence.</div>
+        </div>
+      </div>
+
+      <div class="scenario-group">
+        <div class="scenario-group-label">Their response to future-pacing ("where do you see yourself in 12 months?")</div>
         <div class="scenario-btns">
           <button class="scenario-btn active" onclick="switchScenario('cons', 'painstayed', this)"><span class="s-dot"></span>Same spot / want to change</button>
           <button class="scenario-btn alt" onclick="switchScenario('cons', 'doingwell', this)"><span class="s-dot"></span>"Actually doing well"</button>
@@ -2010,7 +2141,163 @@
           <div class="tip">Plant a 60-90 day seed. These callbacks convert surprisingly well — situations change fast in trucking.</div>
         </div>
       </div>
-    </div>
+      <div class="scenario-panel" id="cons-nodream">
+        <div class="turn">
+          <div class="turn-role" style="color:var(--green)"><span class="role-dot" style="background:var(--green)"></span>You</div>
+          <div class="speech you" contenteditable="false"><span class="tone-tag tone-curious">Curious</span>"Let me ask you — when you think about where you want the business to be in the next year or two… what does that actually look like for you?"<span class="pause-mark">…[PAUSE — let them define the goal]</span></div>
+          <div class="tip">When they haven't stated a specific goal, don't invent one. Help them surface it. WHY: You can't anchor a consequence to a goal they haven't told you. This question gets them to self-define the target — then you can tie everything else to it.</div>
+        </div>
+      </div>
+
+      <!-- PER-SCENARIO FOLLOW-UP FLOWS -->
+      <!-- After the opener, the prospect responds — select what you hear -->
+      <div class="scenario-group" id="consf-section" style="display:none;">
+        <div class="scenario-group-label">What do they say after your opener? Select to continue.</div>
+        <div class="scenario-btns">
+          <button class="scenario-btn" onclick="switchScenario('consf', 'grow', this)"><span class="s-dot"></span>They confirmed: want to grow / more trucks</button>
+          <button class="scenario-btn" onclick="switchScenario('consf', 'rates', this)"><span class="s-dot"></span>They confirmed: rates / money is the pain</button>
+          <button class="scenario-btn" onclick="switchScenario('consf', 'time', this)"><span class="s-dot"></span>They confirmed: time / admin is the pain</button>
+          <button class="scenario-btn" onclick="switchScenario('consf', 'loads', this)"><span class="s-dot"></span>They confirmed: inconsistent loads / dry spells</button>
+          <button class="scenario-btn" onclick="switchScenario('consf', 'cash', this)"><span class="s-dot"></span>They confirmed: cash flow / slow payments</button>
+          <button class="scenario-btn alt" onclick="switchScenario('consf', 'doingwell', this)"><span class="s-dot"></span>They say things are fine / doing well</button>
+        </div>
+      </div>
+
+      </div><!-- end consf-section -->
+
+      <!-- GROW FLEET follow-up -->
+      <div class="scenario-panel" id="consf-grow">
+        <div class="turn">
+          <div class="turn-role" style="color:var(--purple)"><span class="role-dot" style="background:var(--purple)"></span>Prospect</div>
+          <div class="speech them">"Time and money, honestly. I'm so busy keeping <span data-token="trucks-or-fleet">[trucks]</span> running I never have a clear enough picture to pull the trigger."</div>
+        </div>
+        <div class="turn">
+          <div class="turn-role" style="color:var(--green)"><span class="role-dot" style="background:var(--green)"></span>You</div>
+          <div class="speech you" contenteditable="false"><span class="tone-tag tone-heavy">Heavy</span>"Yeah. And when you say time — how much of your week right now would you say goes into dispatching and admin instead of actually building toward that next truck?"<span class="pause-mark">…[PAUSE]</span></div>
+          <div class="tip">Stack the time consequence directly on their stated goal. WHY: They want to grow but the current workload is consuming the bandwidth needed to make that happen. Quantifying the time makes the trap visible.</div>
+        </div>
+        <div class="turn">
+          <div class="turn-role" style="color:var(--green)"><span class="role-dot" style="background:var(--green)"></span>You</div>
+          <div class="speech you" contenteditable="false"><span class="tone-tag tone-heavy">Heavy</span>"And thinking about the last few months — with <span data-token="trucks-or-fleet">[trucks]</span> running <span data-token="equipment-adj">[equipment]</span> out of <span data-token="state-short">[state]</span> — <span class="hl">if you had to put a rough number on what you've left on the table</span> in underpriced loads and slow payments while you were too busy to think about growing… what would that be?"<span class="pause-mark">…[PAUSE — they say the number]</span></div>
+          <div class="tip">Connect the financial loss directly to the growth goal. WHY: "Money you lost while too busy to grow" is more painful than generic rate loss — it ties the financial pain to the opportunity cost of their dream. Their number closes the motivation loop.</div>
+        </div>
+        <div class="turn">
+          <div class="turn-role" style="color:var(--green)"><span class="role-dot" style="background:var(--green)"></span>You</div>
+          <div class="speech you" contenteditable="false"><span class="tone-tag tone-heavy">Heavy</span>"And if nothing changes in the next 12 months — <span data-token="company">[Company]</span> is still at <span data-token="trucks-or-fleet">[trucks]</span>, still doing everything yourself… is that the picture you're okay with?"<span class="pause-mark">…[PAUSE 5s — do NOT break it]</span></div>
+          <div class="tip">The future-pace question. WHY: Zeigarnik Effect — the trailing implication forces them to complete the picture in their head. They must imagine still being stuck. If they say no, they've committed to change. Go to Commitment.</div>
+        </div>
+      </div>
+
+      <!-- RATES follow-up -->
+      <div class="scenario-panel" id="consf-rates">
+        <div class="turn">
+          <div class="turn-role" style="color:var(--purple)"><span class="role-dot" style="background:var(--purple)"></span>Prospect</div>
+          <div class="speech them">"Honestly the brokers. They always come in low and I don't always have time to push back hard."</div>
+        </div>
+        <div class="turn">
+          <div class="turn-role" style="color:var(--green)"><span class="role-dot" style="background:var(--green)"></span>You</div>
+          <div class="speech you" contenteditable="false"><span class="tone-tag tone-heavy">Heavy</span>"Yeah. And load to load — how much variance are you seeing? Like is there a range where some days you get what the lane is worth and other days you're just taking what they offer because you need to keep <span data-token="trucks-or-fleet">[trucks]</span> moving?"<span class="pause-mark">…[PAUSE]</span></div>
+          <div class="tip">Quantify the variance. WHY: Most carriers know they're getting low rates but haven't done the math per-load. Getting them to estimate the gap per load makes the annual loss feel concrete.</div>
+        </div>
+        <div class="turn">
+          <div class="turn-role" style="color:var(--green)"><span class="role-dot" style="background:var(--green)"></span>You</div>
+          <div class="speech you" contenteditable="false"><span class="tone-tag tone-heavy">Heavy</span>"And if you had to ballpark — across all <span data-token="mileage">[mileage]</span> last year on <span data-token="equipment-adj">[equipment]</span> — what do you think the difference is between what you got and what the lanes actually pay? Just a rough number."<span class="pause-mark">…[PAUSE — they calculate, they own it]</span></div>
+          <div class="tip">Ownership Effect — make them do the math. Their number is 10x more motivating than yours.</div>
+        </div>
+        <div class="turn">
+          <div class="turn-role" style="color:var(--green)"><span class="role-dot" style="background:var(--green)"></span>You</div>
+          <div class="speech you" contenteditable="false"><span class="tone-tag tone-heavy">Heavy</span>"And if that gap stays the same next year — <span data-token="company">[Company]</span> running <span data-token="trucks-or-fleet">[trucks]</span> and leaving that money on the table again… is that something you're okay with, or is it actually important to you to change it?"<span class="pause-mark">…[PAUSE — do NOT speak first]</span></div>
+          <div class="tip">The NEPQ commitment seed. Two choices — both reveal their position. If they say it's important to change → go to Commitment immediately.</div>
+        </div>
+      </div>
+
+      <!-- TIME / ADMIN follow-up -->
+      <div class="scenario-panel" id="consf-time">
+        <div class="turn">
+          <div class="turn-role" style="color:var(--purple)"><span class="role-dot" style="background:var(--purple)"></span>Prospect</div>
+          <div class="speech them">"The admin honestly. I spend half my time off the road dealing with brokers and paperwork. It's exhausting."</div>
+        </div>
+        <div class="turn">
+          <div class="turn-role" style="color:var(--green)"><span class="role-dot" style="background:var(--green)"></span>You</div>
+          <div class="speech you" contenteditable="false"><span class="tone-tag tone-heavy">Heavy</span>"Yeah. And how many hours a week would you say that is? Because <span data-token="time-cost">[time-cost]</span> on dispatch and admin — that's a full-time job on top of running <span data-token="trucks-or-fleet">[trucks]</span>."<span class="pause-mark">…[PAUSE]</span></div>
+          <div class="tip">Use the time-cost token — it's pre-calculated from their fleet size. Naming it makes the invisible cost visible.</div>
+        </div>
+        <div class="turn">
+          <div class="turn-role" style="color:var(--green)"><span class="role-dot" style="background:var(--green)"></span>You</div>
+          <div class="speech you" contenteditable="false"><span class="tone-tag tone-heavy">Heavy</span>"And what does that actually do to you personally? Like at the end of a week where you drove AND handled all the dispatch AND chased payments — how do you feel about where things are going?"<span class="pause-mark">…[PAUSE 5s — this is the emotional consequence question]</span></div>
+          <div class="tip">The personal consequence question. WHY: Business pain is cognitive — personal pain is felt. Asking how they FEEL activates the emotional brain, which is where buying decisions actually happen. Stay here. Don't rush to the solution.</div>
+        </div>
+        <div class="turn">
+          <div class="turn-role" style="color:var(--green)"><span class="role-dot" style="background:var(--green)"></span>You</div>
+          <div class="speech you" contenteditable="false"><span class="tone-tag tone-heavy">Heavy</span>"And if this is still the same a year from now — <span data-token="trucks-or-fleet">[trucks]</span>, <span data-token="time-cost">[time-cost]</span> per week on admin, running on empty — is that the version of this business you want to be running?"<span class="pause-mark">…[PAUSE — do NOT break it]</span></div>
+          <div class="tip">Future-pace the exhaustion, not the money. WHY: For time/burnout pain, the emotional future-pace hits harder than a financial one. "Is that the version of this business you want to be running?" forces identity-level reflection.</div>
+        </div>
+      </div>
+
+      <!-- CONSISTENT LOADS follow-up -->
+      <div class="scenario-panel" id="consf-loads">
+        <div class="turn">
+          <div class="turn-role" style="color:var(--purple)"><span class="role-dot" style="background:var(--purple)"></span>Prospect</div>
+          <div class="speech them">"The inconsistency. Some weeks are great, then I'll have trucks sitting for days. It messes with everything."</div>
+        </div>
+        <div class="turn">
+          <div class="turn-role" style="color:var(--green)"><span class="role-dot" style="background:var(--green)"></span>You</div>
+          <div class="speech you" contenteditable="false"><span class="tone-tag tone-heavy">Heavy</span>"Yeah — and when a truck sits, what does that actually cost you? Like <span data-token="trucks-or-fleet">[trucks]</span> idle for two or three days — insurance, payments, driver pay if applicable — what does that add up to?"<span class="pause-mark">…[PAUSE — let them calculate]</span></div>
+          <div class="tip">Make them calculate the idle cost — not just the missed revenue. WHY: Idle cost is fixed regardless of whether trucks move. It's the most visceral form of financial pain because it's money leaving even when nothing is happening.</div>
+        </div>
+        <div class="turn">
+          <div class="turn-role" style="color:var(--green)"><span class="role-dot" style="background:var(--green)"></span>You</div>
+          <div class="speech you" contenteditable="false"><span class="tone-tag tone-heavy">Heavy</span>"And across a year — with the dry spells you've described — what do you think <span data-token="company">[Company]</span> has actually lost in idle time, repositioning, and underpriced loads taken out of desperation?"<span class="pause-mark">…[PAUSE]</span></div>
+          <div class="tip">Annual framing amplifies the number. A $500 idle week becomes $15,000+ annually. Let them arrive at it.</div>
+        </div>
+        <div class="turn">
+          <div class="turn-role" style="color:var(--green)"><span class="role-dot" style="background:var(--green)"></span>You</div>
+          <div class="speech you" contenteditable="false"><span class="tone-tag tone-heavy">Heavy</span>"And if the next 12 months look the same — <span data-token="trucks-or-fleet">[trucks]</span> in <span data-token="state-short">[state]</span>, same dry spells, same scramble… is that something you're okay running, or is consistent load coverage actually important to you?"<span class="pause-mark">…[PAUSE — they choose]</span></div>
+          <div class="tip">NEPQ binary commitment seed. Both options reveal their priority. "Is that something you're okay running" is deliberately provocative — most carriers say "no" which is the commitment.</div>
+        </div>
+      </div>
+
+      <!-- CASH FLOW follow-up -->
+      <div class="scenario-panel" id="consf-cash">
+        <div class="turn">
+          <div class="turn-role" style="color:var(--purple)"><span class="role-dot" style="background:var(--purple)"></span>Prospect</div>
+          <div class="speech them">"Waiting 60-90 days to get paid is killing me. I've got bills that don't wait 60 days."</div>
+        </div>
+        <div class="turn">
+          <div class="turn-role" style="color:var(--green)"><span class="role-dot" style="background:var(--green)"></span>You</div>
+          <div class="speech you" contenteditable="false"><span class="tone-tag tone-heavy">Heavy</span>"Yeah — and what does that do operationally? Like when you're waiting on $8,000 that's 60 days out and a truck needs something — what do you end up doing?"<span class="pause-mark">…[PAUSE]</span></div>
+          <div class="tip">Downstream effects question. WHY: Cash flow pain radiates — it forces bad decisions (taking any load, using credit, delaying maintenance). Getting them to name the downstream effects stacks multiple consequences from one core problem.</div>
+        </div>
+        <div class="turn">
+          <div class="turn-role" style="color:var(--green)"><span class="role-dot" style="background:var(--green)"></span>You</div>
+          <div class="speech you" contenteditable="false"><span class="tone-tag tone-heavy">Heavy</span>"And across all of <span data-token="company">[Company]</span>'s loads last year — with <span data-token="mileage">[mileage]</span> on <span data-token="equipment-adj">[equipment]</span> — if you added up everything tied up in slow-paying brokers at any given time… what's a rough number?"<span class="pause-mark">…[PAUSE — let them calculate]</span></div>
+          <div class="tip">Quantification. For cash flow pain the number is money they already EARNED sitting in someone else's account. That framing is more activating than "lost revenue."</div>
+        </div>
+        <div class="turn">
+          <div class="turn-role" style="color:var(--green)"><span class="role-dot" style="background:var(--green)"></span>You</div>
+          <div class="speech you" contenteditable="false"><span class="tone-tag tone-heavy">Heavy</span>"And if the payment cycle stays the same next year — is <span data-token="company">[Company]</span> able to actually grow from where it is, or does the cash flow keep putting a ceiling on everything?"<span class="pause-mark">…[PAUSE 5s]</span></div>
+          <div class="tip">Future-pace the ceiling. WHY: Cash flow that prevents growth is existential — it means they're working hard but can't advance. This connects their immediate pain to their long-term aspiration. That connection is the commitment trigger.</div>
+        </div>
+      </div>
+
+      <!-- DOING WELL follow-up -->
+      <div class="scenario-panel" id="consf-doingwell">
+        <div class="turn">
+          <div class="turn-role" style="color:var(--purple)"><span class="role-dot" style="background:var(--purple)"></span>Prospect</div>
+          <div class="speech them">"Honestly things are pretty good right now. I can't complain."</div>
+        </div>
+        <div class="turn">
+          <div class="turn-role" style="color:var(--green)"><span class="role-dot" style="background:var(--green)"></span>You</div>
+          <div class="speech you" contenteditable="false"><span class="tone-tag tone-empathetic">Empathetic</span>"That's genuinely great to hear. Can I ask — when you say good, is it good compared to where you were, or good relative to what you think <span data-token="company">[Company]</span> could actually be doing with <span data-token="trucks-or-fleet">[trucks]</span> on <span data-token="equipment-adj">[equipment]</span>?"<span class="pause-mark">…[PAUSE]</span></div>
+          <div class="tip">The gap question for "I'm fine." WHY: "Good compared to what?" forces them to benchmark against potential, not just against their past. Almost everyone answers honestly that there's a gap between their current reality and their ceiling. That gap is your opening.</div>
+        </div>
+        <div class="turn">
+          <div class="turn-role" style="color:var(--green)"><span class="role-dot" style="background:var(--green)"></span>You</div>
+          <div class="speech you" contenteditable="false"><span class="tone-tag tone-curious">Curious</span>"That's fair. And just out of curiosity — if you could change one thing about how the operation is running right now, what would it be?"<span class="pause-mark">…[PAUSE — this always surfaces something]</span></div>
+          <div class="tip">The micro-gap question. WHY: Even the most satisfied carrier has something they'd change. This question is almost never met with "nothing." Whatever they say becomes your consequence anchor. If they truly can't name anything — this is a graceful exit point. Log as "Follow up in 90 days."</div>
+        </div>
+      </div>
+
       <div class="stage-bridge" data-bridge-stage="5" style="display:none;background:var(--bg2);border:1px solid #FFA726;border-radius:var(--radius);padding:12px 16px;margin:1.5rem 0 0.5rem;">
         <div style="font-size:10px;color:#F57F17;text-transform:uppercase;letter-spacing:0.1em;margin-bottom:6px;font-weight:700;">🌉 BRIDGE → Commitment</div>
         <div style="font-size:12.5px;color:var(--text2);line-height:1.6;">Closing question to transition: <em>"So based on everything you've described — is changing this actually important to you, or is it something you're okay with staying the way it is?"</em> — force a verbal position.</div>
@@ -2038,8 +2325,8 @@
 
       <div class="turn">
         <div class="turn-role" style="color:var(--green)"><span class="role-dot" style="background:var(--green)"></span>You</div>
-        <div class="speech you" contenteditable="false">"So based on everything you just shared — <span data-token="trucks-or-fleet">[trucks]</span> on <span data-token="equipment-adj">[equipment]</span>, the time you're spending, <span data-token="rate-upside">[rate-upside]</span>/yr in rate improvement sitting on the table — <span class="hl">would you say solving this is actually a priority for you right now</span>, or more of a 'someday when I get around to it' thing?"</div>
-        <div class="tip">"Priority vs someday" — makes them self-categorize. If they say someday, gracefully disqualify and move on. Don't chase maybes.</div>
+        <div class="speech you" contenteditable="false"><span class="tone-tag tone-certain">Certain</span>"So based on everything you just shared — <span data-token="trucks-or-fleet">[trucks]</span> on <span data-token="equipment-adj">[equipment]</span>, the time you're spending, <span data-token="rate-upside">[rate-upside]</span>/yr in rate improvement sitting on the table — <span class="hl">is fixing this a priority for you right now, or is it something you're okay leaving the way it is?</span>"<span class="pause-mark">…[PAUSE — do NOT speak first. Let them choose.]</span></div>
+        <div class="tip">"Priority vs someday" — forces binary self-categorization. WHY: NEPQ never asks "are you ready to move forward?" — that's a threat. Instead, it offers two choices, both of which reveal where they stand. If they say "priority" — you have explicit permission to pitch. If they say "someday" — you know not to pitch (which would be premature and damaging). You also know whether to follow up or disqualify. This single question saves hours of pursuing the wrong prospects. Don't chase maybes.</div>
       </div>
 
       <div class="scenario-group">
@@ -2059,7 +2346,7 @@
         <div class="turn">
           <div class="turn-role" style="color:var(--green)"><span class="role-dot" style="background:var(--green)"></span>You</div>
           <div class="speech you" contenteditable="false">"I appreciate you being straight with me. <span class="hl-g">Let me show you exactly what we do</span> — and you just tell me honestly if you think it fits your situation. Sound good?"</div>
-          <div class="tip">Only now do you earn the pitch. You've built full trust. The guard is down. This is the green light.</div>
+          <div class="tip">Only NOW do you earn the pitch. WHY: In traditional sales, the pitch comes early. In NEPQ, it comes last — after you've built trust, surfaced pain, got them to envision a solution, faced the consequence of inaction, and secured their verbal commitment that change is a priority. At this point, the pitch isn't a pitch — it's a delivery of what they've already decided they want. This is why NEPQ closes at 3-4x the rate of traditional scripts.</div>
         </div>
       </div>
 
@@ -2071,12 +2358,12 @@
         <div class="turn">
           <div class="turn-role" style="color:var(--green)"><span class="role-dot" style="background:var(--green)"></span>You</div>
           <div class="speech you" contenteditable="false">"That's fair. And just so I understand — <span class="hl">what would have to change</span> for the timing to feel right? Is it a money thing, a bandwidth thing, or something else?"</div>
-          <div class="tip">Never push a "maybe." Instead, get them to define what "right timing" looks like. If they can't define it, it's usually fear of change. Name that gently.</div>
+          <div class="tip">Never push a maybe — make them define "right timing." WHY: "Not right now" is usually code for "I don't see the value yet" or "I'm scared." Asking "what would need to be true for the timing to feel right?" forces them to either articulate a real condition (which you can address) or realize there isn't one (which removes the excuse). If they can't define what "right" looks like, the real objection is elsewhere.</div>
         </div>
         <div class="turn">
           <div class="turn-role" style="color:var(--green)"><span class="role-dot" style="background:var(--green)"></span>You (if they still stall)</div>
           <div class="speech you" contenteditable="false">"No worries at all. Would it be worth getting on a 15-minute call in a couple weeks when you've had a chance to think it over? No pressure — just so I can answer any questions you have."</div>
-          <div class="tip">Graceful re-schedule. Never burn a bridge on a "maybe." Follow up in 2–3 weeks.</div>
+          <div class="tip">Graceful re-schedule — never burn a bridge on "maybe." WHY: A "maybe" in NEPQ is data, not a dead end. It means they have unresolved concerns you haven't surfaced yet. If you push past a "maybe," you create resistance and likely lose them permanently. By asking what would have to change, you surface the hidden objection — which you can then address. In sales psychology this is called "negative reverse selling" — leaning away from the close actually pulls them closer.</div>
         </div>
       </div>
 
@@ -2088,7 +2375,7 @@
         <div class="turn">
           <div class="turn-role" style="color:var(--green)"><span class="role-dot" style="background:var(--green)"></span>You</div>
           <div class="speech you" contenteditable="false">"That's a real concern. Can I ask — is it more that you're not sure you'd make back what you spend, or is it genuinely a cash flow issue right now?"</div>
-          <div class="tip">Separate value doubt from cash flow. They're different problems. Value doubt can be addressed now. Cash flow might need a different structure (trial load, deferred payment).</div>
+          <div class="tip">Separate value doubt from cash flow — they need different responses. WHY: Misdiagnosing the objection is the most common close mistake. A carrier who says "I can't afford it" might mean (a) cash is actually tight — which needs a creative payment conversation, or (b) they're not convinced the ROI is real — which needs a value conversation. Treating a value problem like a cash problem (offering discounts) destroys your margin. Treating a cash problem like a value problem (more persuasion) frustrates them.</div>
         </div>
         <div class="turn">
           <div class="turn-role" style="color:var(--green)"><span class="role-dot" style="background:var(--green)"></span>You (ROI reframe)</div>
@@ -2127,13 +2414,13 @@
 
       <div class="turn">
         <div class="turn-role" style="color:var(--green)"><span class="role-dot" style="background:var(--green)"></span>You</div>
-        <div class="speech you" contenteditable="false">"So here's what we do at QuickGS — and this is relevant for <span data-token="trucks-or-fleet">[trucks]</span> running <span data-token="equipment-adj">[equipment]</span> out of <span data-token="state-short">[state]</span>. You want to <span class="hl-g">focus on the road, not the phone calls</span> — that's exactly the idea. And with We take everything off your plate: finding loads, negotiating rates with brokers, handling BOLs, invoicing, and following up on payments. You focus on operations, we handle the business side."</div>
+        <div class="speech you" contenteditable="false"><span class="tone-tag tone-certain">Certain</span>"So here's what we do at QuickGS — and this is relevant for <span data-token="trucks-or-fleet">[trucks]</span> running <span data-token="equipment-adj">[equipment]</span> out of <span data-token="state-short">[state]</span>. You want to <span class="hl-g">focus on the road, not the phone calls</span> — that's exactly the idea. And with We take everything off your plate: finding loads, negotiating rates with brokers, handling BOLs, invoicing, and following up on payments. You focus on operations, we handle the business side."</div>
         <div class="tip">Use their exact words back at them. "You said you want to just drive" — that's a mirror technique. They feel deeply understood.</div>
       </div>
 
       <div class="turn">
         <div class="turn-role" style="color:var(--green)"><span class="role-dot" style="background:var(--green)"></span>You</div>
-        <div class="speech you" contenteditable="false">"You mentioned getting lowballed on rates — <span class="hl-g">our dispatchers negotiate full-time, that's all we do</span>. We know what every lane is worth and we don't settle. Most of our carriers see their per-mile rate go up in the first two to three weeks."</div>
+        <div class="speech you" contenteditable="false"><span class="tone-tag tone-certain">Certain</span>"You mentioned getting lowballed on rates — <span class="hl-g">our dispatchers negotiate full-time, that's all we do</span>. We know what every lane is worth and we don't settle. Most of our carriers see their per-mile rate go up in the first two to three weeks."</div>
       </div>
 
       <div class="turn">
@@ -2143,7 +2430,7 @@
 
       <div class="turn">
         <div class="turn-role" style="color:var(--green)"><span class="role-dot" style="background:var(--green)"></span>You — Check-in</div>
-        <div class="speech you" contenteditable="false">"Does that sound like <span class="hl">it actually addresses what you were describing</span> — or is there something specific you'd want to know more about? And if you want to look us up while we're talking — it's <span class="hl-g">quickgslogistics.com</span> — everything's on there."</div>
+        <div class="speech you" contenteditable="false"><span class="tone-tag tone-curious">Curious</span>"Does that sound like <span class="hl">it actually addresses what you were describing</span> — or is there something specific you'd want to know more about? And if you want to look us up while we're talking — it's <span class="hl-g">quickgslogistics.com</span> — everything's on there."</div>
         <div class="tip">Check-in question every 2–3 points. If you monologue, you become every other salesperson. Stay in dialogue mode the entire time.</div>
       </div>
 
@@ -2165,7 +2452,7 @@
         </div>
         <div class="turn">
           <div class="turn-role" style="color:var(--green)"><span class="role-dot" style="background:var(--green)"></span>You</div>
-          <div class="speech you" contenteditable="false">"Simple setup — we assign you a dedicated dispatcher. They learn your lanes, your preferences, and handle everything from load search to broker negotiation to paperwork. <span class="hl-g">You focus on the road — or on growing your fleet — and we handle the rest.</span>"</div>
+          <div class="speech you" contenteditable="false">"Simple setup — we assign you a dedicated dispatcher. They learn your lanes, your preferences, and handle everything from load search to broker negotiation to paperwork for <span data-token="trucks-or-fleet">[trucks]</span>. <span class="hl-g">You focus on the road — or on growing the fleet — and we handle the rest.</span> <span class='hl'>How does that sound so far?</span>"</div>
         </div>
       </div>
 
@@ -2202,7 +2489,7 @@
         <div class="turn">
           <div class="turn-role" style="color:var(--green)"><span class="role-dot" style="background:var(--green)"></span>You</div>
           <div class="speech you" contenteditable="false">"Happy to get into that. For <span data-token="equipment-adj">[equipment]</span> carriers like you in <span data-token="state-short">[state]</span> — we work on a percentage per load — so we only make money when you make money. No monthly retainer on dispatch. Most <span data-token="equipment-adj">[equipment]</span> carriers with <span data-token="trucks-or-fleet">[trucks]</span> see a rate improvement worth <span data-token="rate-upside">[rate-upside]</span>/yr — the fee pays for itself. <span class="hl">Does that feel like it would pencil out for your situation?</span>"</div>
-          <div class="tip">Tie the fee directly to the pain they described. "We only make money when you make money" is alignment — not a sales line. Say it and mean it. Always have the plans page open before calling: quickgslogistics.com/carrier-dispatching-package</div>
+          <div class="tip">Tie the fee directly to THEIR stated pain. WHY: Generic pricing conversations feel like sales. Pain-specific pricing conversations feel like solutions. When you say "most [equipment] carriers with [trucks] find the rate improvement alone covers the fee" — you're connecting their specific numbers to the outcome. "We only make money when you make money" is alignment, not marketing — it eliminates the adversarial dynamic of buyer vs. seller.</div>
           <div class="info-callout" style="margin-top:0.75rem;cursor:pointer;" onclick="window.open('https://quickgslogistics.com/carrier-dispatching-package/','_blank')">
             💡 <strong>QuickGS Plans Reference</strong> — click to open pricing page. Review before each session so you can answer pricing questions with exact numbers and confidence.
           </div>
@@ -2261,6 +2548,9 @@
           <button class="scenario-btn alt" onclick="switchScenario('obj', '9', this)"><span class="s-dot"></span>I know brokers already</button>
           <button class="scenario-btn alt" onclick="switchScenario('obj', '10', this)"><span class="s-dot"></span>Leased to carrier</button>
           <button class="scenario-btn alt" onclick="switchScenario('obj', '11', this)"><span class="s-dot"></span>How long in business?</button>
+          <button class="scenario-btn alt" onclick="switchScenario('obj', '12', this)"><span class="s-dot"></span>I run my own loads / my own contacts</button>
+          <button class="scenario-btn alt" onclick="switchScenario('obj', '13', this)"><span class="s-dot"></span>My rates are already good</button>
+          <button class="scenario-btn alt" onclick="switchScenario('obj', '14', this)"><span class="s-dot"></span>I'm thinking about getting out of trucking</button>
         </div>
       </div>
 
@@ -2363,6 +2653,30 @@
       </div>
 
       <!-- Objection 9 — I already have my broker relationships (content follows obj-10 in DOM but panel is targeted by button) -->
+      <!-- NEPQ Stall Recovery Loop -->
+      <div class="scenario-panel" id="conn-stall">
+        <div class="section-label">🔄 NEPQ Stall Recovery — One-word answers / silence / disengaged</div>
+        <div class="turn">
+          <div class="turn-role" style="color:var(--purple)"><span class="role-dot" style="background:var(--purple)"></span>Prospect</div>
+          <div class="speech them">"Yeah." / "Uh-huh." / [silence] / "I don't know."</div>
+        </div>
+        <div class="turn">
+          <div class="turn-role" style="color:var(--green)"><span class="role-dot" style="background:var(--green)"></span>You</div>
+          <div class="speech you" contenteditable="false"><span class="tone-tag tone-curious">Curious</span>"Yeah… I want to make sure I'm understanding you right — when you say that, what do you mean exactly?"<span class="pause-mark">…[PAUSE — they must fill it]</span></div>
+          <div class="tip">The NEPQ clarification loop. Never interpret a one-word answer — always ask them to expand. "What do you mean exactly?" forces elaboration.</div>
+        </div>
+        <div class="turn">
+          <div class="turn-role" style="color:var(--green)"><span class="role-dot" style="background:var(--green)"></span>You (if still stalled)</div>
+          <div class="speech you" contenteditable="false"><span class="tone-tag tone-confused">Confused</span>"Can I ask — and I want to be direct with you — is there something about this conversation that doesn't feel right? Because I'd rather know now than waste your time."<span class="pause-mark">…[PAUSE]</span></div>
+          <div class="tip">The NEPQ disarmer. Naming the resistance removes it. Most prospects respect the directness and open up. If they confirm disinterest — exit gracefully.</div>
+        </div>
+        <div class="turn">
+          <div class="turn-role" style="color:var(--green)"><span class="role-dot" style="background:var(--green)"></span>You (re-engage attempt)</div>
+          <div class="speech you" contenteditable="false"><span class="tone-tag tone-curious">Curious</span>"Let me ask you something different — forget about what I'm calling about for a second. With <span data-token="trucks-or-fleet">[trucks]</span> running <span data-token="equipment-adj">[equipment]</span> out of <span data-token="state-short">[state]</span> right now — what's the ONE thing about the business that keeps you up at night?"<span class="pause-mark">…[PAUSE 5s]</span></div>
+          <div class="tip">The pattern reset. Take them completely off the "sales call" mental model. Ask about THEIR business concern, not yours. Uses their data to show you know their operation.</div>
+        </div>
+      </div>
+
       <!-- C3: Leased to carrier objection -->
       <div class="scenario-panel" id="obj-10">
         <div class="section-label">Objection 10 — "I'm leased to a carrier / I have a company dispatcher"</div>
@@ -2390,6 +2704,69 @@
       </div>
 
       <!-- Objection 9 merged -->
+      <div class="scenario-panel" id="obj-12">
+        <div class="section-label">Objection 12 — "I run my own loads / I have my own broker contacts"</div>
+        <div class="obj-card">
+          <div class="obj-q">I already run my own loads. I have contacts. I don't need someone else doing that.</div>
+          <div class="obj-layers">
+            <div class="obj-layer"><div class="layer-num">L1</div><div>
+              <div class="layer-text" contenteditable="false"><span class="tone-tag tone-curious">Curious</span>"Oh that's actually great — so you've built those relationships yourself. Can I ask — when you're on the road, are you able to actively work those contacts and find loads at the same time? Or does one of those end up waiting?"<span class="pause-mark">…[PAUSE]</span></div>
+              <div class="tip">Don't challenge their contacts. Acknowledge them. The question surfaces the real problem — can't drive AND dispatch simultaneously.</div>
+            </div></div>
+            <div class="obj-layer"><div class="layer-num">L2</div><div>
+              <div class="layer-text" contenteditable="false"><span class="tone-tag tone-curious">Curious</span>"And those contacts — are they consistently giving you the rates you need on <span data-token="equipment-adj">[equipment]</span> out of <span data-token="state-short">[state]</span>? Or is there some variance in what you're getting load to load?"<span class="pause-mark">…[PAUSE]</span></div>
+              <div class="tip">Probe rate consistency. Even carriers with good contacts have variance. This surfaces the problem without attacking their contacts.</div>
+            </div></div>
+            <div class="obj-layer"><div class="layer-num">L3</div><div>
+              <div class="layer-text" contenteditable="false"><span class="tone-tag tone-certain">Certain</span>"That makes sense. And I'm not suggesting you drop your contacts — I'd never suggest that. What we'd actually do is work alongside them. You keep your relationships, we bring additional brokers and lanes to the table, and your dispatcher handles the back-and-forth so you're not splitting attention between the road and the phone. Does that framing make more sense?"</div>
+              <div class="tip">Reframe: not replacement — augmentation. We add to what they have. This eliminates the perceived threat to their relationships.</div>
+            </div></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="scenario-panel" id="obj-13">
+        <div class="section-label">Objection 13 — "My rates are already good / I do fine on my own"</div>
+        <div class="obj-card">
+          <div class="obj-q">I do fine. My rates are good. I don't really have the problem you're describing.</div>
+          <div class="obj-layers">
+            <div class="obj-layer"><div class="layer-num">L1</div><div>
+              <div class="layer-text" contenteditable="false"><span class="tone-tag tone-empathetic">Empathetic</span>"That's honestly great to hear — and I believe you. Can I ask, when you say good — are you comparing to the posted rate, or to what you know the lane actually pays at the top end? Because those can be pretty different numbers on <span data-token="equipment-adj">[equipment]</span> out of <span data-token="state-short">[state]</span>."<span class="pause-mark">…[PAUSE]</span></div>
+              <div class="tip">Don't argue with "I'm fine." Introduce the concept of the ceiling vs. what they're actually getting. Most carriers don't know what the top of the market pays.</div>
+            </div></div>
+            <div class="obj-layer"><div class="layer-num">L2</div><div>
+              <div class="layer-text" contenteditable="false"><span class="tone-tag tone-curious">Curious</span>"And on the time side — you mentioned you're handling the dispatch yourself for <span data-token="trucks-or-fleet">[trucks]</span>. Even if rates are solid, how much time per week does all that coordination take? The check calls, the paperwork, following up on payments?"<span class="pause-mark">…[PAUSE]</span></div>
+              <div class="tip">Pivot from rates to time. Even if rates are "fine," time is still a cost. Opens a new pain angle.</div>
+            </div></div>
+            <div class="obj-layer"><div class="layer-num">L3</div><div>
+              <div class="layer-text" contenteditable="false"><span class="tone-tag tone-certain">Certain</span>"I respect that you're in a good spot — genuinely. The carriers I work with who say the same thing usually find one of two things: either we confirm that yes, you're already at the ceiling and we add value on the time side, or we find rate opportunities they didn't know existed. Either way it costs nothing to find out. Would it be worth a quick trial load just to see the numbers?"</div>
+              <div class="tip">For the "I'm fine" objection — the trial load close is perfect. Zero risk, immediate proof. Don't try to convince them they have a problem they don't believe in. Let the result do the talking.</div>
+            </div></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="scenario-panel" id="obj-14">
+        <div class="section-label">Objection 14 — "I'm thinking about getting out of trucking"</div>
+        <div class="obj-card">
+          <div class="obj-q">Honestly I'm thinking about getting out. This industry is rough right now.</div>
+          <div class="obj-layers">
+            <div class="obj-layer"><div class="layer-num">L1</div><div>
+              <div class="layer-text" contenteditable="false"><span class="tone-tag tone-empathetic">Empathetic</span>"I hear that — and honestly I respect you for being real with me. Can I ask what's gotten you to that point? Because that's not a decision people make lightly when they've built something like <span data-token="company">[Company]</span>."<span class="pause-mark">…[PAUSE — genuinely listen]</span></div>
+              <div class="tip">This is the most important objection to handle with empathy. Do NOT pitch. Do NOT skip to the solution. Let them talk. The reason they're thinking of quitting IS the pain. Surface it.</div>
+            </div></div>
+            <div class="obj-layer"><div class="layer-num">L2</div><div>
+              <div class="layer-text" contenteditable="false"><span class="tone-tag tone-curious">Curious</span>"And when you think about it — is it the actual trucking that's exhausting, or is it everything around the trucking? The dispatch, the brokers, the paperwork, chasing payments? Because those are two very different problems."<span class="pause-mark">…[PAUSE]</span></div>
+              <div class="tip">This question isolates the real issue. Most "I'm quitting" carriers are burned out on the ADMIN — not the driving. If they say "the admin" — you have an open door. If they say "the driving" — gracefully exit.</div>
+            </div></div>
+            <div class="obj-layer"><div class="layer-num">L3</div><div>
+              <div class="layer-text" contenteditable="false"><span class="tone-tag tone-certain">Certain</span>"Here's what I'll say — and I mean this genuinely. A lot of the carriers who almost quit came back around once the operational weight was off their plate. <span data-token="trucks-or-fleet">[trucks]</span> running <span data-token="equipment-adj">[equipment]</span> out of <span data-token="state-short">[state]</span> — that's a real operation. Would it be worth finding out if the business is actually broken, or if it just needs the right support before you make that call?"</div>
+              <div class="tip">Don't pressure. Plant a seed. If they're truly done — let them go with respect and log DNC. But most of the time this surfaces burnout, not a permanent exit. The question "is the business actually broken?" often reframes everything.</div>
+            </div></div>
+          </div>
+        </div>
+      </div>
+
       <div class="scenario-panel" id="obj-9">
         <div class="section-label">Objection 9 — "I already have my broker relationships"</div>
         <div class="obj-card">
@@ -2430,7 +2807,7 @@
       <div class="turn">
         <div class="turn-role" style="color:var(--green)"><span class="role-dot" style="background:var(--green)"></span>You — Emotional Check</div>
         <div class="speech you" contenteditable="false">"So based on everything we've talked about — <span class="hl">does this feel like something</span> that could actually move the needle for <span data-token="company">[Company]</span>?"</div>
-        <div class="tip">"Feel like" = emotional language. Not "do you want to sign up." Let them respond emotionally first before you ask for a commitment.</div>
+        <div class="tip">"Feel like" — emotional language, not transactional. WHY: "Do you want to sign up" activates the rational brain, which goes looking for reasons to say no. "Does this feel like it could move the needle" activates the emotional brain, which has already decided based on the conversation. NEPQ closes emotionally first — then the paperwork follows. People don't sign contracts; they make emotional decisions and then sign contracts to formalize them.</div>
       </div>
 
       <div class="scenario-group">
@@ -2458,7 +2835,7 @@
         <div class="turn">
           <div class="turn-role" style="color:var(--green)"><span class="role-dot" style="background:var(--green)"></span>You — Binary Choice Close</div>
           <div class="speech you" contenteditable="false">"Perfect. What I'll do right now is <span class="hl-b">send <span data-token="first-name">[Name]</span> a quick text</span> with our booking link and onboarding form — so <span data-token="company">[Company]</span> has everything in one place. What's the best number to reach you?"</div>
-          <div class="tip">Always close with the SMS. Even when they're ready — confirm their number, send the text, and let the digital trail do the follow-up work.</div>
+          <div class="tip">Always close with the SMS — even when they say yes. WHY: The Recency Effect — the last thing they receive from you is what they remember. A well-timed SMS when they're in peak positive emotion about you creates a digital anchor. It also starts the onboarding process before they have time to overthink. Studies show prospects who receive an immediate SMS after a call are 4x more likely to complete onboarding than those who wait for an email.</div>
         </div>
 
       </div>
@@ -2470,7 +2847,7 @@
         </div>
         <div class="turn">
           <div class="turn-role" style="color:var(--green)"><span class="role-dot" style="background:var(--green)"></span>You — Trial Close</div>
-          <div class="speech you" contenteditable="false">"Here's what I'd suggest — let's get <span data-token="company">[Company]</span> set up with a <span class="hl-g">no-risk trial <span data-token="equipment-adj">[equipment]</span> load</span>. We find you a load, negotiate the rate, handle all the paperwork, and you see exactly what it looks like in practice. If it goes well, we talk about working together on a regular basis. If not, no hard feelings — you owe us nothing. <span class="hl">Would you be opposed to trying that?</span>"</div>
+          <div class="speech you" contenteditable="false"><span class="tone-tag tone-certain">Certain</span>"Here's what I'd suggest — let's get <span data-token="company">[Company]</span> set up with a <span class="hl-g">no-risk trial <span data-token="equipment-adj">[equipment]</span> load</span>. We find you a load, negotiate the rate, handle all the paperwork, and you see exactly what it looks like in practice. If it goes well, we talk about working together on a regular basis. If not, no hard feelings — you owe us nothing. <span class="hl">Would you be opposed to trying that?</span>"</div>
           <div class="tip">"Would you be opposed" — closes the loop using their instinct to say no. The trial eliminates every risk objection in one sentence.</div>
         </div>
         <div class="turn">
@@ -2488,7 +2865,7 @@
         <div class="turn">
           <div class="turn-role" style="color:var(--green)"><span class="role-dot" style="background:var(--green)"></span>You</div>
           <div class="speech you" contenteditable="false">"Perfect — sending it right now. And I'll include the onboarding form in there — it takes about 5 minutes and that's actually what kicks off the whole process. <span class="hl">Would it be okay if I followed up in a day or two</span> to make sure you got it and answer any questions?"</div>
-          <div class="tip">The "send info" ask is actually a mini-yes. Use it. Include the onboarding form in the SMS — frame it as "what kicks off the process" not as commitment.</div>
+          <div class="tip">The "send info" ask is a mini-yes — use it as an entry point. WHY: The Foot-in-the-Door principle. Agreeing to receive information is a small commitment that creates consistency pressure toward the bigger commitment (signing up). Including the onboarding form frames it as part of "getting started" rather than "more sales material." Framing is everything — the same form sent as "here's a form" vs "this kicks off the process" has dramatically different conversion rates.</div>
         </div>
       </div>
 
@@ -2533,7 +2910,7 @@
         <div class="turn">
           <div class="turn-role" style="color:var(--green)"><span class="role-dot" style="background:var(--green)"></span>You — after a positive close</div>
           <div class="speech you" contenteditable="false">"Hey before I let you go — I really appreciate your time today. Can I ask you something? Is there anyone else in your network — other owner-operators, guys you know from the road — who might be dealing with the same kind of situation you described? I'm always looking to help people in the same boat."</div>
-          <div class="tip">Ask for referrals right after the positive emotion of a good call — never in the middle of a pitch. The warmer the close, the higher the referral rate.</div>
+          <div class="tip">Ask for referrals at peak positive emotion — immediately after a good close. WHY: Emotional momentum is the single biggest driver of referral behavior. When someone just said yes and feels great about the decision, their brain is flooded with positive association about you. That's the exact moment they're most willing to extend trust to someone they know. NEPQ timing rule: referral request at peak = 40%+ compliance. Mid-pitch referral request = confusion and resistance.</div>
         </div>
         <div class="turn">
           <div class="turn-role" style="color:var(--purple)"><span class="role-dot" style="background:var(--purple)"></span>Prospect</div>
@@ -2554,12 +2931,12 @@
           <span style="font-size:10px;color:var(--blue);font-family:'DM Mono',monospace;text-transform:uppercase;letter-spacing:0.1em;">SMS Template</span>
           <button onclick="copySmsTemplate()" id="smsCopyBtn" style="font-size:11px;padding:4px 10px;border-radius:4px;border:1px solid rgba(91,168,255,0.3);background:var(--blue-dim);color:var(--blue);cursor:pointer;font-family:'DM Sans',sans-serif;transition:all 0.13s;">📋 Copy</button>
         </div>
-        Hi, I'm Walter from QuickGS 🚛<br><br>
+        Hi, <span data-token="company">[Company]</span> I'm Walter from QuickGS 🚛<br><br>
         Great talking with you! Here's everything:<br><br>
         🌐 Website: <strong>https://quickgslogistics.com</strong><br>
         📅 Book a call: <strong>https://quickgslogistics.com/bookings</strong><br>
         📞 Phone: <strong>+1307-509-5759</strong><br>
-        💬 For SMS: <strong>+1800-483-1253</strong><br>
+        💬 For SMSs: <strong>+1800-483-1253</strong><br>
         💬 Telegram: <strong>https://t.me/quickgslogistics</strong><br>
         ✉️ Email: <strong>contact@quickgslogistics.com</strong><br><br>
         READY TO START? HERE IS THE FORM:<br>
@@ -2676,6 +3053,7 @@
           </div>
         </div>
       </div>
+      </div>
 
 
 
@@ -2768,6 +3146,48 @@
         <div id="historyList" style="display:none;max-height:200px;overflow-y:auto;display:none;flex-direction:column;gap:4px;margin-top:4px;"></div>
       </div>
 
+      <div class="section-label" style="margin-top:1.5rem;">From Jeremy Miner — Key Tonality Principles</div>
+
+      <div class="turn">
+        <div class="turn-role" style="color:var(--blue)"><span class="role-dot" style="background:var(--blue)"></span>Principle 1 — Fight or Flight Trigger</div>
+        <div class="speech them" style="border-left-color:var(--blue)">"Within the first 5–12 seconds, your prospect picks up on social cues subconsciously. Your tonality triggers one of two reactions in their brain: fight-or-flight (guard up) OR curiosity (guard down). You cannot control what you say as much as you can control HOW you say it."</div>
+        <div class="tip">Too excited = salesperson = threat = fight-or-flight. Calm, neutral, slightly confused = no threat = curiosity. The tone decision is made before the prospect even hears your words. WHY: The amygdala (threat detector) processes tone 200ms faster than language. You lose before you speak if your energy is wrong.</div>
+      </div>
+
+      <div class="turn">
+        <div class="turn-role" style="color:var(--blue)"><span class="role-dot" style="background:var(--blue)"></span>Principle 2 — Verbal Pacing</div>
+        <div class="speech them" style="border-left-color:var(--blue)">"Slow down your speech rate deliberately — especially when asking consequence and commitment questions. This is called verbal pacing. Slowing down signals authority and certainty. Speeding up signals anxiety and neediness."</div>
+        <div class="tip">Slow = expert who has options. Fast = salesperson who needs the deal. Every time you feel urgency, slow down MORE. The counterintuitive move always wins in NEPQ.</div>
+      </div>
+
+      <div class="turn">
+        <div class="turn-role" style="color:var(--blue)"><span class="role-dot" style="background:var(--blue)"></span>Principle 3 — Neutral / Detached Opener</div>
+        <div class="speech them" style="border-left-color:var(--blue)">"Come across as neutral, unbiased, like you're not quite sure you can even help yet. You don't know enough details. You are the expert who doesn't need the business because you have plenty of it. That triggers the prospect's brain to lower their guard and become curious."</div>
+        <div class="tip">Status framing — society views salespeople as lower status. NEPQ flips this by having you act like the trusted expert who may or may not have a solution for them. Scarcity + detachment = higher perceived status = more trust = more open conversation.</div>
+      </div>
+
+      <div class="turn">
+        <div class="turn-role" style="color:var(--blue)"><span class="role-dot" style="background:var(--blue)"></span>Principle 4 — The "Um" and "Uh" Are Intentional</div>
+        <div class="speech them" style="border-left-color:var(--blue)">"The hesitation words (um, uh, I guess, possibly) in the cold open are not errors — they are pattern interrupts. They signal: this is NOT a scripted sales call. They trigger curiosity instead of the automatic hang-up reflex."</div>
+        <div class="tip">Every other salesperson sounds sharp and rehearsed. Sounding slightly uncertain makes you different. Difference = curiosity. Curiosity = they stay on the line. This is why the confused old man opener works — it's the opposite of every call they expect.</div>
+      </div>
+
+      <div class="turn">
+        <div class="turn-role" style="color:var(--blue)"><span class="role-dot" style="background:var(--blue)"></span>Principle 5 — Tone Map by Stage</div>
+        <div class="speech them" style="border-left-color:var(--blue)">
+          Cold Open: <strong>Confused · Low energy · Trailing off</strong><br>
+          Connection: <strong>Warm · Genuine · Unhurried</strong><br>
+          Situation: <strong>Curious · Neutral · Journalist</strong><br>
+          Problem: <strong>Empathetic · Slower · Lean in</strong><br>
+          Consequence: <strong>Heavy · Measured · Long pauses</strong><br>
+          Commitment: <strong>Calm · Certain · Binary</strong><br>
+          Presentation: <strong>Confident · Conversational · Check-ins</strong><br>
+          Objections: <strong>Curious · Never defensive</strong><br>
+          Close: <strong>Calm · Zero pressure · Natural</strong>
+        </div>
+        <div class="tip">The tone shifts with each stage — it mirrors the emotional journey of the prospect. Cold = uncertain. Warm = safe. Curious = discovery. Heavy = consequence felt. Certain = decision time. Never stay in one tone the whole call — that's what makes it feel scripted.</div>
+      </div>
+
     <textarea class="notes-textarea" id="callNotes" placeholder="Notes about this call — objections, fleet info, pain points, follow-up topics…"></textarea>
   </div>
   <div class="notes-footer">
@@ -2830,6 +3250,9 @@
     // Scroll to top so bridge from previous stage is not visible
     const mc = document.getElementById('mainContent');
     if (mc) mc.scrollTop = 0; else window.scrollTo(0,0);
+    // Hide consequence follow-up when not in consequence stage
+    const consfSec = document.getElementById('consf-section');
+    if (consfSec) consfSec.style.display = (current === 5) ? consfSec.style.display : 'none';
     // Show only the bridge for the CURRENT stage, hide all others
     document.querySelectorAll('.stage-bridge').forEach(b => {
       b.style.display = parseInt(b.dataset.bridgeStage) === current ? 'block' : 'none';
@@ -2916,6 +3339,11 @@ const originalTexts = new Map(); // key = element, value = original innerHTML
  // persists active scenario per group across stage visits
 
   function switchScenario(group, id, btn) {
+    // Show consequence follow-up section when an opener is selected
+    if (group === 'cons') {
+      const s = document.getElementById('consf-section');
+      if (s) s.style.display = 'block';
+    }
     scenarioState[group] = id;
     // Track objection frequency
     if (group === 'obj') {
@@ -3293,12 +3721,13 @@ const originalTexts = new Map(); // key = element, value = original innerHTML
     const repName = localStorage.getItem('quickgs_rep_name') || 'Walter';
     const preview = document.getElementById('smsLivePreview');
     if (!preview) return;
-    preview.innerHTML = `Hi, <strong>${name}</strong>! I'm <strong>${repName}</strong> from QuickGS 🚛<br><br>
+    const company = document.getElementById('pfCompany') ? document.getElementById('pfCompany').value.trim() : '';
+    preview.innerHTML = `Hi, <strong>${company || name}</strong> I'm <strong>${repName}</strong> from QuickGS 🚛<br><br>
         Great talking with you! Here's everything:<br><br>
         🌐 Website: <strong>https://quickgslogistics.com</strong><br>
         📅 Book a call: <strong>https://quickgslogistics.com/bookings</strong><br>
         📞 Phone: <strong>+1307-509-5759</strong><br>
-        💬 For SMS: <strong>+1800-483-1253</strong><br>
+        💬 For SMSs: <strong>+1800-483-1253</strong><br>
         💬 Telegram: <strong>https://t.me/quickgslogistics</strong><br>
         ✉️ Email: <strong>contact@quickgslogistics.com</strong><br><br>
         READY TO START? HERE IS THE FORM:<br>
@@ -3840,7 +4269,20 @@ const originalTexts = new Map(); // key = element, value = original innerHTML
   function openWhatsApp() {
     const phone = document.getElementById('pfPhone').value.replace(/[^0-9]/g,'');
     if (!phone) { showToast('Enter a phone number first'); return; }
-    const msg = encodeURIComponent("Hi, I'm Walter from QuickGS Logistics 🚛\nGreat talking with you! Here's everything:\n\n🌐 https://quickgslogistics.com\n📞 +1307-509-5759\n\nReach out anytime!");
+    const company = document.getElementById('pfCompany') ? document.getElementById('pfCompany').value.trim() || 'there' : 'there';
+    const msg = encodeURIComponent(
+      "Hi, " + company + " I'm Walter from QuickGS 🚛\n\n" +
+      "Great talking with you! Here's everything:\n\n" +
+      "🌐 Website: https://quickgslogistics.com\n" +
+      "📅 Book a call: https://quickgslogistics.com/bookings\n" +
+      "📞 Phone: +1307-509-5759\n" +
+      "💬 For SMSs: +1800-483-1253\n" +
+      "💬 Telegram: https://t.me/quickgslogistics\n" +
+      "✉️ Email: contact@quickgslogistics.com\n\n" +
+      "READY TO START? HERE IS THE FORM:\n" +
+      "📋 Onboarding: https://quickgslogistics.com/carrier-dispatching-package/\n\n" +
+      "Reach out anytime we're here when you're ready! 🙎"
+    );
     window.open('https://wa.me/' + phone + '?text=' + msg, '_blank');
   }
 
@@ -4129,7 +4571,8 @@ const originalTexts = new Map(); // key = element, value = original innerHTML
   // SMS character counter
   function updateSmsCounter() {
     const repName = localStorage.getItem('quickgs_rep_name') || 'Walter';
-    const template = `Hi, I'm ${repName} from QuickGS 🚛
+    const company2 = document.getElementById('pfCompany') ? document.getElementById('pfCompany').value.trim() : '';
+    const template = `Hi, ${company2 || repName} I'm ${repName} from QuickGS 🚛
 Great talking with you! Here's everything:
 
 🌐 Website: https://quickgslogistics.com
@@ -4151,7 +4594,8 @@ Reach out anytime we're here when you're ready! 🙎`;
 
   function copySmsTemplate() {
     const repName = localStorage.getItem('quickgs_rep_name') || 'Walter';
-    const template = `Hi, I'm ${repName} from QuickGS 🚛
+    const company2 = document.getElementById('pfCompany') ? document.getElementById('pfCompany').value.trim() : '';
+    const template = `Hi, ${company2 || repName} I'm ${repName} from QuickGS 🚛
 Great talking with you! Here's everything:
 
 🌐 Website: https://quickgslogistics.com
