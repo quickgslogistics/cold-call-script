@@ -273,6 +273,10 @@
   .hl-p { background: rgba(155,143,239,0.14); color: var(--purple); padding: 1px 5px; border-radius: 3px; font-size: 13px; }
   .hl-b { background: rgba(91,168,255,0.13); color: var(--blue); padding: 1px 5px; border-radius: 3px; font-size: 13px; }
 
+  /* Dynamic carrier data tokens — distinctive color so rep knows data is loaded */
+  [data-token] { color: #4ADE80; font-weight: 600; }
+  body:not(.carrier-loaded) [data-token] { color: var(--text3); font-weight: normal; font-style: italic; }
+
   /* NEPQ Tonality badges */
   .tone-tag { display:inline-block; font-size:9px; font-weight:700; letter-spacing:0.07em;
     text-transform:uppercase; padding:1px 7px; border-radius:3px; margin-right:4px;
@@ -1710,7 +1714,7 @@
       </div>
 
       <!-- NEPQ Problem Stage — Advanced Questions -->
-      <div class="section-label" style="margin-top:1.5rem;">NEPQ Advanced — Third Party &amp; Social Proof</div>
+      <div class="section-label tip" style="margin-top:1.5rem;">NEPQ Advanced — Third Party &amp; Social Proof</div>
       <div class="turn">
         <div class="turn-role" style="color:var(--green)"><span class="role-dot" style="background:var(--green)"></span>You</div>
         <div class="speech you" contenteditable="false"><span class="tone-tag tone-curious">Curious</span>"Let me ask you something — if a friend of yours was running <span data-token="trucks-or-fleet">[trucks]</span> on <span data-token="equipment-adj">[equipment]</span>, same situation as you, same rates, same hours… what would you tell them to do?"<span class="pause-mark">…[PAUSE — they'll answer for themselves]</span></div>
@@ -2027,8 +2031,8 @@
       </div>
 
       <!-- NEPQ Consequence Stacking -->
-      <div class="section-label" style="margin-top:1.5rem;">Consequence Stacking — Layer the pain</div>
-      <div class="tip" style="margin-bottom:0.75rem;font-style:normal;color:var(--text2);">NEPQ rule: stack 3-5 consequences before asking for commitment. Each question should make the cost of inaction heavier. Go: Financial → Time → Personal → Future identity → Emotional.</div>
+      <div class="section-label tip" style="margin-top:1.5rem;">Consequence Stacking — Layer the pain</div>
+      <div class="tip" style="margin-bottom:0.75rem;color:var(--text2);">NEPQ rule: stack 3-5 consequences before asking for commitment. Each question should make the cost of inaction heavier. Go: Financial → Time → Personal → Future identity → Emotional.</div>
 
       <div class="turn">
         <div class="turn-role" style="color:var(--green)"><span class="role-dot" style="background:var(--green)"></span>You</div>
@@ -2488,11 +2492,58 @@
         </div>
         <div class="turn">
           <div class="turn-role" style="color:var(--green)"><span class="role-dot" style="background:var(--green)"></span>You</div>
-          <div class="speech you" contenteditable="false">"Happy to get into that. For <span data-token="equipment-adj">[equipment]</span> carriers like you in <span data-token="state-short">[state]</span> — we work on a percentage per load — so we only make money when you make money. No monthly retainer on dispatch. Most <span data-token="equipment-adj">[equipment]</span> carriers with <span data-token="trucks-or-fleet">[trucks]</span> see a rate improvement worth <span data-token="rate-upside">[rate-upside]</span>/yr — the fee pays for itself. <span class="hl">Does that feel like it would pencil out for your situation?</span>"</div>
-          <div class="tip">Tie the fee directly to THEIR stated pain. WHY: Generic pricing conversations feel like sales. Pain-specific pricing conversations feel like solutions. When you say "most [equipment] carriers with [trucks] find the rate improvement alone covers the fee" — you're connecting their specific numbers to the outcome. "We only make money when you make money" is alignment, not marketing — it eliminates the adversarial dynamic of buyer vs. seller.</div>
-          <div class="info-callout" style="margin-top:0.75rem;cursor:pointer;" onclick="window.open('https://quickgslogistics.com/carrier-dispatching-package/','_blank')">
-            💡 <strong>QuickGS Plans Reference</strong> — click to open pricing page. Review before each session so you can answer pricing questions with exact numbers and confidence.
+          <div class="speech you" contenteditable="false">"Great question — and it really depends on what <span data-token="company">[Company]</span> actually needs. We have three options. For <span data-token="trucks-or-fleet">[trucks]</span> running <span data-token="equipment-adj">[equipment]</span> out of <span data-token="state-short">[state]</span> — let me walk you through them real quick and you tell me which sounds like the best fit."</div>
+          <div class="tip">Always frame pricing by THEIR situation first. WHY: Jumping straight to numbers triggers price comparison. Framing it as "finding the right fit for your operation" keeps them in solution-thinking mode, not cost-defense mode.</div>
+        </div>
+
+        <!-- PLANS REFERENCE CARD -->
+        <div class="obj-card" style="margin-top:0.75rem;">
+          <div class="obj-q" style="color:var(--teal);margin-bottom:12px;">📋 QuickGS Plans — reference during pitch</div>
+          <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:10px;font-size:12px;">
+
+            <div style="background:var(--bg3);border:1px solid var(--border2);border-radius:6px;padding:10px 12px;">
+              <div style="font-weight:700;color:var(--text);margin-bottom:4px;">Solo Runner — $200/mo</div>
+              <div style="color:var(--text3);font-size:11px;margin-bottom:6px;">Entry-level · 1 truck · Owner-op</div>
+              <ul style="margin:0;padding-left:1.1rem;color:var(--text2);line-height:1.8;font-size:11.5px;">
+                <li>Unlimited load searching for 1 truck</li>
+                <li>Rate negotiation &amp; booking</li>
+                <li>Basic route optimization</li>
+              </ul>
+            </div>
+
+            <div style="background:var(--bg3);border:1px solid #26A69A44;border-radius:6px;padding:10px 12px;position:relative;">
+              <div style="position:absolute;top:-8px;right:8px;background:var(--teal);color:#fff;font-size:9px;font-weight:700;padding:1px 7px;border-radius:10px;text-transform:uppercase;letter-spacing:0.05em;">Popular</div>
+              <div style="font-weight:700;color:var(--text);margin-bottom:4px;">Full-Drive — $350/mo</div>
+              <div style="color:var(--text3);font-size:11px;margin-bottom:6px;">Premium · Stay in the cab · No paperwork</div>
+              <ul style="margin:0;padding-left:1.1rem;color:var(--text2);line-height:1.8;font-size:11.5px;">
+                <li>Dedicated load finding &amp; booking</li>
+                <li>Broker setup packets (all contracts)</li>
+                <li>COI management</li>
+                <li>Detention &amp; layover negotiation</li>
+                <li>24/7 driver support &amp; check-calls</li>
+              </ul>
+            </div>
+
+            <div style="background:var(--bg3);border:1px solid var(--border2);border-radius:6px;padding:10px 12px;">
+              <div style="font-weight:700;color:var(--text);margin-bottom:4px;">Elite Fleet — $500/mo</div>
+              <div style="color:var(--text3);font-size:11px;margin-bottom:6px;">Full back-office · Fleet-focused</div>
+              <ul style="margin:0;padding-left:1.1rem;color:var(--text2);line-height:1.8;font-size:11.5px;">
+                <li>Everything in Full-Drive</li>
+                <li>Invoicing &amp; factoring paperwork</li>
+                <li>IFTA tracking (miles, fuel, quarterly taxes)</li>
+              </ul>
+            </div>
+
           </div>
+          <div style="margin-top:10px;padding-top:8px;border-top:1px solid var(--border);font-size:11.5px;color:var(--text2);">
+            ⚡ <strong>Also available:</strong> Percentage plan — <strong>10% per load</strong>. No monthly fee. We only make money when you make money. Best for carriers who want zero upfront commitment. Rate improvement alone typically covers the fee.
+          </div>
+        </div>
+
+        <div class="turn" style="margin-top:0.75rem;">
+          <div class="turn-role" style="color:var(--green)"><span class="role-dot" style="background:var(--green)"></span>You (after presenting plans)</div>
+          <div class="speech you" contenteditable="false">"Based on what you told me — <span data-token="trucks-or-fleet">[trucks]</span> running <span data-token="equipment-adj">[equipment]</span>, handling everything yourself — honestly the <span class="hl">Full-Drive</span> is what most carriers your size go with. But the 10% option is zero risk if you want to see the results first. <span class="hl">Which of those feels like the better starting point for you?</span>"</div>
+          <div class="tip">Use their fleet profile to recommend a specific plan. WHY: Giving them a recommendation reduces decision fatigue. The binary — monthly plan vs. 10% — gives them control. The 10% option eliminates the "I can't afford it" objection before it forms. Most carriers choose the percentage first then upgrade.</div>
         </div>
       </div>
 
@@ -3146,7 +3197,7 @@
         <div id="historyList" style="display:none;max-height:200px;overflow-y:auto;display:none;flex-direction:column;gap:4px;margin-top:4px;"></div>
       </div>
 
-      <div class="section-label" style="margin-top:1.5rem;">From Jeremy Miner — Key Tonality Principles</div>
+      <div class="section-label tip" style="margin-top:1.5rem;">From Jeremy Miner — Key Tonality Principles</div>
 
       <div class="turn">
         <div class="turn-role" style="color:var(--blue)"><span class="role-dot" style="background:var(--blue)"></span>Principle 1 — Fight or Flight Trigger</div>
