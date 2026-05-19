@@ -1004,7 +1004,7 @@
     <button onclick="loadProspectPreset()" title="Load last prospect" style="background:var(--bg3);border:1px solid var(--border2);color:var(--text3);border-radius:4px;padding:4px 9px;font-size:11px;cursor:pointer;flex-shrink:0;transition:all 0.13s;" onmouseover="this.style.color='var(--blue)'" onmouseout="this.style.color='var(--text3)'">📂</button>
     <button onclick="clearProspectBar()" title="Clear all fields" style="background:var(--bg3);border:1px solid var(--border2);color:var(--text3);border-radius:4px;padding:4px 9px;font-size:11px;cursor:pointer;flex-shrink:0;transition:all 0.13s;" onmouseover="this.style.color='var(--red)'" onmouseout="this.style.color='var(--text3)'">✕ Clear</button>
   </div>
-  <div id="dynamic-insights" style="display:none;flex-wrap:wrap;gap:6px;padding:6px 16px 8px;background:var(--bg2);border-bottom:1px solid var(--border);"></div>
+  <div id="dynamic-insights" style="display:none;flex-wrap:wrap;gap:6px;padding:8px 16px 10px;background:var(--bg);border-bottom:1px solid var(--border);"></div>
 
   <div class="stage-flow-bar" id="stageFlowBar"></div>
 
@@ -4254,7 +4254,7 @@ const originalTexts = new Map(); // key = element, value = original innerHTML
       else if (fSig === 'fully active')
                   inf.push({ icon:'✅', label:'Fleet utilization', val: 'High activity — needs consistent loads', color:'#E8F5E9', border:'#2E7D32' });
       if (ageN3 >= 10 && trN3 <= 3)
-                  inf.push({ icon:'🏆', label:'Key insight', val: 'Veteran owner-op — price-sensitive, values reliability over features', color:'#F3E5F5', border:'#6A1B9A' });
+                  inf.push({ icon:'🏆', label:'Key insight', val: 'Veteran owner-op — price-sensitive, values reliability over features', color:'rgba(106,27,154,0.08)', border:'#6A1B9A' });
 
       intelInf.innerHTML = '';
       if (inf.length > 0) {
@@ -4301,18 +4301,18 @@ const originalTexts = new Map(); // key = element, value = original innerHTML
       const trN   = parseInt(d.trucks) || 0;
       const otrY  = d.otr === 'Y' || d.otr === 'YES';
 
-      if (milN >= 200000) insights.push({ text: "🔥 High-mileage carrier — actively running, needs consistent loads", color: "#E8F5E9", border: "#2E7D32" });
-      else if (milN >= 50000) insights.push({ text: "✅ Active carrier — " + Number(milN).toLocaleString() + " miles reported", color: "#F1F8E9", border: "#558B2F" });
+      if (milN >= 200000) insights.push({ text: "🔥 High-mileage carrier — actively running, needs consistent loads", color: "rgba(46,125,50,0.08)", border: "#2E7D32" });
+      else if (milN >= 50000) insights.push({ text: "✅ Active carrier — " + Number(milN).toLocaleString() + " miles reported", color: "rgba(85,139,47,0.08)", border: "#558B2F" });
 
-      if (ageN >= 10) insights.push({ text: "🏆 Established carrier — " + Math.floor(ageN) + " years in business. Respect their experience. They know what they want.", color: "#E3F2FD", border: "#1565C0" });
-      else if (ageN >= 5) insights.push({ text: "📅 " + Math.floor(ageN) + " years in business — experienced enough to know their pain points.", color: "#F3E5F5", border: "#6A1B9A" });
+      if (ageN >= 10) insights.push({ text: "🏆 Established carrier — " + Math.floor(ageN) + " years in business. Respect their experience. They know what they want.", color: "rgba(21,101,192,0.08)", border: "#1565C0" });
+      else if (ageN >= 5) insights.push({ text: "📅 " + Math.floor(ageN) + " years in business — experienced enough to know their pain points.", color: "rgba(106,27,154,0.08)", border: "#6A1B9A" });
 
-      if (d.equipment === "Reefer") insights.push({ text: "🌡️ Reefer carrier — premium rates (+15-25% over dry van). Lead with rate maximization. Mention temp control compliance, produce lanes, seasonal demand.", color: "#E0F7FA", border: "#00838F" });
-      if (d.equipment === "Tanker") insights.push({ text: "🛢️ Tanker carrier — specialized, high-demand, limited competition. Lead with lane availability and specialized broker network.", color: "#FFF8E1", border: "#F57F17" });
-      if (d.equipment === "Flatbed/Heavy") insights.push({ text: "🏗️ Flatbed/Heavy carrier — oversized permits, project freight. Lead with permit expertise and specialized load sourcing.", color: "#FCE4EC", border: "#AD1457" });
-      if (d.equipment === "Oilfield") insights.push({ text: "⛽ Oilfield carrier — energy sector freight, premium rates. Lead with oilfield broker network and consistent volume.", color: "#FFF3E0", border: "#E65100" });
+      if (d.equipment === "Reefer") insights.push({ text: "🌡️ Reefer carrier — premium rates (+15-25% over dry van). Lead with rate maximization. Mention temp control compliance, produce lanes, seasonal demand.", color: "rgba(0,131,143,0.08)", border: "#00838F" });
+      if (d.equipment === "Tanker") insights.push({ text: "🛢️ Tanker carrier — specialized, high-demand, limited competition. Lead with lane availability and specialized broker network.", color: "rgba(245,127,23,0.08)", border: "#F57F17" });
+      if (d.equipment === "Flatbed/Heavy") insights.push({ text: "🏗️ Flatbed/Heavy carrier — oversized permits, project freight. Lead with permit expertise and specialized load sourcing.", color: "rgba(173,20,87,0.08)", border: "#AD1457" });
+      if (d.equipment === "Oilfield") insights.push({ text: "⛽ Oilfield carrier — energy sector freight, premium rates. Lead with oilfield broker network and consistent volume.", color: "rgba(230,81,0,0.08)", border: "#E65100" });
 
-      if (!otrY) insights.push({ text: "📍 Intrastate/Regional carrier — adjust pitch: skip OTR lane talk. Focus on local rate optimization, backhaul efficiency, and regional broker relationships.", color: "#FFEBEE", border: "#C62828" });
+      if (!otrY) insights.push({ text: "📍 Intrastate/Regional carrier — adjust pitch: skip OTR lane talk. Focus on local rate optimization, backhaul efficiency, and regional broker relationships.", color: "rgba(198,40,40,0.08)", border: "#C62828" });
 
       if (trN === 1) insights.push({ text: "🔵 Owner-Operator — they ARE the driver. Pain = time off the road. Lead with: 'You should not be doing both — driving AND dispatching.'", color: "#E8EAF6", border: "#3949AB" });
       else if (trN >= 10) insights.push({ text: "🔴 Fleet operation — has overhead, payroll, fixed costs. Pain = load consistency & rate variance. Lead with volume and rate floor guarantees.", color: "#E8F5E9", border: "#1B5E20" });
