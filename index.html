@@ -155,7 +155,7 @@
     padding: 0.85rem 2rem; border-bottom: 1px solid var(--border);
     display: flex; align-items: center; justify-content: space-between;
     background: rgba(17,19,22,0.96); backdrop-filter: blur(12px);
-    position: sticky; top: 0; z-index: 50;
+    position: sticky; top: 0; z-index: 100;
   }
   .topbar-left {}
   .topbar-title { font-size: 13.5px; font-weight: 600; color: var(--text); letter-spacing: 0.01em; }
@@ -177,6 +177,7 @@
   .prospect-bar {
     background: var(--bg3); border-bottom: 1px solid var(--border);
     padding: 7px 2rem; display: flex; align-items: center; gap: 8px; flex-wrap: wrap;
+    position: sticky; top: 52px; z-index: 95;
   }
   .pf-label { font-size: 10px; color: var(--text3); font-family: 'DM Mono', monospace; text-transform: uppercase; letter-spacing: 0.08em; flex-shrink: 0; }
   .pf-field {
@@ -639,6 +640,8 @@
     padding: 6px 2rem; background: var(--bg2);
     border-bottom: 1px solid var(--border);
     overflow-x: auto; scrollbar-width: none;
+  
+    position: sticky; top: 96px; z-index: 90;
   }
   .stage-flow-bar::-webkit-scrollbar { display: none; }
   .sfb-step {
@@ -776,7 +779,7 @@
   ::-webkit-scrollbar-thumb:hover { background: var(--text3); }
 
   /* ── STICKY CARRIER CARDS ──────────────────────────────── */
-  #carrierCards{position:sticky;top:0;z-index:90;display:none;
+  #carrierCards{position:sticky;top:132px;z-index:88;display:none;
     background:var(--bg);border-bottom:2px solid var(--border2);}
   body.carrier-loaded #carrierCards{display:block;}
   .cc-inner{display:grid;grid-template-columns:1.1fr 1fr 1.4fr;border-top:1px solid var(--border);}
@@ -1004,7 +1007,7 @@
     <button onclick="loadProspectPreset()" title="Load last prospect" style="background:var(--bg3);border:1px solid var(--border2);color:var(--text3);border-radius:4px;padding:4px 9px;font-size:11px;cursor:pointer;flex-shrink:0;transition:all 0.13s;" onmouseover="this.style.color='var(--blue)'" onmouseout="this.style.color='var(--text3)'">📂</button>
     <button onclick="clearProspectBar()" title="Clear all fields" style="background:var(--bg3);border:1px solid var(--border2);color:var(--text3);border-radius:4px;padding:4px 9px;font-size:11px;cursor:pointer;flex-shrink:0;transition:all 0.13s;" onmouseover="this.style.color='var(--red)'" onmouseout="this.style.color='var(--text3)'">✕ Clear</button>
   </div>
-  <div id="dynamic-insights" style="display:none;flex-wrap:wrap;gap:6px;padding:8px 16px 10px;background:var(--bg);border-bottom:1px solid var(--border);"></div>
+  <div id="dynamic-insights" style="display:none;flex-wrap:wrap;gap:6px;padding:8px 16px 10px;background:var(--bg);border-bottom:1px solid var(--border);position:sticky;top:176px;z-index:86;"></div>
 
   <div class="stage-flow-bar" id="stageFlowBar"></div>
 
