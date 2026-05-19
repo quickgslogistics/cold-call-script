@@ -779,18 +779,20 @@
   #carrierCards{position:sticky;top:0;z-index:90;display:none;
     background:var(--bg);border-bottom:2px solid var(--border2);}
   body.carrier-loaded #carrierCards{display:block;}
-  .cc-inner{display:grid;grid-template-columns:1fr 1fr;}
-  .cc-card{padding:8px 14px;border-right:1px solid var(--border);font-size:11px;}
+  .cc-inner{display:grid;grid-template-columns:1.1fr 1fr 1.4fr;border-top:1px solid var(--border);}
+  .cc-card{padding:7px 13px;border-right:1px solid var(--border);font-size:11px;}
   .cc-card:last-child{border-right:none;}
-  .cc-lbl{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;
-    color:var(--text3);font-family:'DM Mono',monospace;margin-bottom:5px;}
-  .cc-row{display:flex;flex-wrap:wrap;gap:3px 12px;line-height:1.8;}
+  .cc-lbl{font-size:8.5px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;
+    color:var(--text3);font-family:'DM Mono',monospace;margin-bottom:4px;}
+  .cc-row{display:flex;flex-wrap:wrap;gap:2px 11px;line-height:1.75;}
   .cc-f{color:var(--text3);font-size:10px;}
   .cc-v{color:#4ADE80;font-weight:600;}
   .cc-d{color:var(--text2);}
+  .cc-link{color:#38BDF8;font-weight:500;text-decoration:none;}
+  .cc-link:hover{text-decoration:underline;}
   .cc-badge{display:inline-block;padding:0 6px;border-radius:8px;font-size:9.5px;
     font-weight:600;border:1px solid;margin:1px;}
-  @media(max-width:650px){.cc-inner{grid-template-columns:1fr;}
+  @media(max-width:750px){.cc-inner{grid-template-columns:1fr;}
     .cc-card{border-right:none;border-bottom:1px solid var(--border);}}
   /* ──────────────────────────────────────────────────────── */
 </style>
@@ -1009,34 +1011,48 @@
   <!-- ══ STICKY CARRIER CARDS ════════════════════════════ -->
   <div id="carrierCards">
     <div class="cc-inner">
+
+      <!-- CARD 1: Who am I calling -->
       <div class="cc-card">
-        <div class="cc-lbl">📋 Identity &amp; Contact</div>
+        <div class="cc-lbl">👤 Who</div>
         <div class="cc-row">
-          <span><span class="cc-f">Name:</span> <span class="cc-v" id="cc-name">—</span></span>
-          <span><span class="cc-f">Co:</span> <span class="cc-v" id="cc-company">—</span></span>
-          <span><span class="cc-f">DOT:</span> <span class="cc-d" id="cc-dot">—</span></span>
-          <span><span class="cc-f">MC:</span> <span class="cc-d" id="cc-mc">—</span></span>
-          <span><span class="cc-f">📞</span> <span class="cc-d" id="cc-phone">—</span></span>
-          <span id="cc-cell-wrap" style="display:none"><span class="cc-f">📱</span> <span class="cc-d" id="cc-cell">—</span></span>
-          <span><span class="cc-f">✉️</span> <span class="cc-d" id="cc-email">—</span></span>
-          <span><span class="cc-f">📍</span> <span class="cc-d" id="cc-addr">—</span></span>
+          <span><span class="cc-v" id="cc-name">—</span></span>
+          <span style="width:100%"><span class="cc-f">Co: </span><span class="cc-v" id="cc-company">—</span></span>
+          <span><span class="cc-f">DOT </span><span class="cc-d" id="cc-dot">—</span></span>
+          <span><span class="cc-f">MC </span><span class="cc-d" id="cc-mc">—</span></span>
+          <span><span class="cc-f">📍 </span><span class="cc-d" id="cc-addr">—</span></span>
+          <span><span class="cc-f">Stage: </span><span class="cc-d" id="cc-stage">—</span></span>
         </div>
       </div>
+
+      <!-- CARD 2: How to reach them (clickable) -->
       <div class="cc-card">
-        <div class="cc-lbl">🚛 Operation</div>
-        <div class="cc-row" style="margin-bottom:4px;">
-          <span><span class="cc-f">Trucks:</span> <span class="cc-v" id="cc-trucks">—</span></span>
-          <span><span class="cc-f">Equip:</span> <span class="cc-v" id="cc-equip">—</span></span>
-          <span><span class="cc-f">Miles:</span> <span class="cc-d" id="cc-miles">—</span></span>
-          <span><span class="cc-f">Age:</span> <span class="cc-d" id="cc-age">—</span></span>
-          <span><span class="cc-f">Score:</span> <span class="cc-v" id="cc-score">—</span></span>
-          <span><span class="cc-f">Crash:</span> <span class="cc-d" id="cc-crash">—</span></span>
-          <span><span class="cc-f">Drivers:</span> <span class="cc-d" id="cc-drivers">—</span></span>
-          <span><span class="cc-f">Type:</span> <span class="cc-d" id="cc-optype">—</span></span>
+        <div class="cc-lbl">📞 Reach</div>
+        <div class="cc-row">
+          <span style="width:100%"><a id="cc-phone-link" href="#" class="cc-link">📞 <span id="cc-phone">—</span></a></span>
+          <span id="cc-cell-wrap" style="display:none;width:100%"><a id="cc-cell-link" href="#" class="cc-link">📱 <span id="cc-cell">—</span></a></span>
+          <span style="width:100%"><a id="cc-email-link" href="#" class="cc-link">✉️ <span id="cc-email">—</span></a></span>
+          <span id="cc-sms-wrap" style="display:none;width:100%"><a id="cc-sms-link" href="#" class="cc-link" style="color:#4ADE80;">💬 SMS: <span id="cc-sms">—</span></a></span>
         </div>
-        <div id="cc-routes" style="display:flex;flex-wrap:wrap;gap:2px;"></div>
+      </div>
+
+      <!-- CARD 3: Fleet & lanes intel -->
+      <div class="cc-card">
+        <div class="cc-lbl">🚛 Operation Intel</div>
+        <div class="cc-row" style="margin-bottom:3px;">
+          <span><span class="cc-v" id="cc-trucks">—</span> <span class="cc-f" id="cc-trucks-label">unit(s)</span></span>
+          <span><span class="cc-v" id="cc-equip">—</span></span>
+          <span><span class="cc-d" id="cc-miles">—</span> <span class="cc-f">mi/yr</span></span>
+          <span><span class="cc-f">In biz: </span><span class="cc-d" id="cc-age">—</span></span>
+          <span><span class="cc-f">Score: </span><span class="cc-v" id="cc-score">—</span></span>
+          <span><span class="cc-f">OTR: </span><span class="cc-d" id="cc-otr">—</span></span>
+          <span><span class="cc-f">Drivers: </span><span class="cc-d" id="cc-drivers">—</span></span>
+          <span><span class="cc-f">Crash: </span><span class="cc-d" id="cc-crash">—</span></span>
+        </div>
+        <div id="cc-routes" style="display:flex;flex-wrap:wrap;gap:2px;margin-top:2px;"></div>
         <div id="cc-cargo" style="display:flex;flex-wrap:wrap;gap:2px;margin-top:2px;"></div>
       </div>
+
     </div>
   </div>
   <!-- ════════════════════════════════════════════════════ -->
@@ -3971,29 +3987,52 @@ const originalTexts = new Map(); // key = element, value = original innerHTML
     const d = getProspectData();
     const g = id => { const e=document.getElementById(id); return e?e.value.trim():''; };
     const s = (id,v) => { const e=document.getElementById(id); if(e) e.textContent=v||'—'; };
+    const lnk = (id,href) => { const e=document.getElementById(id); if(e) e.href=href; };
     const isY = v => v && v.toString().toLowerCase() === 'yes';
 
+    // Card 1: Who
     s('cc-name',    d.name);
     s('cc-company', d.company);
     s('cc-dot',     d.dot);
     s('cc-mc',      g('pfMC'));
-    s('cc-phone',   g('pfPhone'));
-    s('cc-email',   g('pfEmail') || g('pfEmail2'));
-    const cell = g('pfCell');
-    s('cc-cell', cell);
-    const cw = document.getElementById('cc-cell-wrap');
-    if (cw) cw.style.display = cell ? 'inline' : 'none';
     const addr = [g('pfStreet'), d['state-short']||d.state, g('pfZip')].filter(Boolean).join(', ');
-    s('cc-addr',    addr||'—');
+    s('cc-addr', addr||'—');
+    s('cc-stage',   g('pfStage')||'—');
+
+    // Card 2: Reach — clickable tel/mailto
+    const phone = g('pfPhone');
+    const cell  = g('pfCell');
+    const email = g('pfEmail2') || g('pfEmail');
+    s('cc-phone', phone); lnk('cc-phone-link', phone ? 'tel:'+phone.replace(/\D/g,'') : '#');
+    s('cc-email', email); lnk('cc-email-link', email ? 'mailto:'+email : '#');
+    const cw = document.getElementById('cc-cell-wrap');
+    if (cw) { cw.style.display = cell ? 'block' : 'none'; }
+    if (cell) { s('cc-cell', cell); lnk('cc-cell-link', 'tel:'+cell.replace(/\D/g,'')); }
+    // SMS link
+    const smsWrap = document.getElementById('cc-sms-wrap');
+    const smsTxt = '+18004831253';
+    if (smsWrap && phone) {
+      smsWrap.style.display = 'block';
+      s('cc-sms', smsTxt);
+      lnk('cc-sms-link', 'sms:'+smsTxt);
+    }
+
+    // Card 3: Fleet Intel
     s('cc-trucks',  d['trucks-label']||d.trucks);
+    const tlEl = document.getElementById('cc-trucks-label');
+    if (tlEl) {
+      const n = parseInt(d.trucks)||1;
+      tlEl.textContent = n === 1 ? 'truck' : 'trucks';
+    }
     s('cc-equip',   d.equipment);
     s('cc-miles',   d.mileage);
     s('cc-age',     d.age);
     s('cc-score',   g('pfScore'));
-    s('cc-crash',   g('pfCrash'));
-    s('cc-drivers', g('pfDrivers'));
-    s('cc-optype',  g('pfOpType'));
+    s('cc-otr',     d.otr||'—');
+    s('cc-crash',   g('pfCrash')||'—');
+    s('cc-drivers', g('pfDrivers')||'—');
 
+    // Route badges
     const routeEl = document.getElementById('cc-routes');
     if (routeEl) {
       routeEl.innerHTML = '';
@@ -4006,11 +4045,13 @@ const originalTexts = new Map(); // key = element, value = original innerHTML
         b.textContent=r.label; routeEl.appendChild(b);
       });
     }
+
+    // Cargo badges (top 6 only to save space)
     const cargoEl = document.getElementById('cc-cargo');
     if (cargoEl) {
       cargoEl.innerHTML = '';
       [{label:'General',id:'pfCargoGeneral'},{label:'Reefer',id:'pfCargoReefer'},
-       {label:'Hazmat',id:'pfCargoHazmat'},{label:'Heavy',id:'pfCargoHeavy'},
+       {label:'Hazmat ☢️',id:'pfCargoHazmat'},{label:'Heavy',id:'pfCargoHeavy'},
        {label:'Chemicals',id:'pfCargoChem'},{label:'Liquid',id:'pfCargoLiquid'},
        {label:'Produce',id:'pfCargoProduce'},{label:'Livestock',id:'pfCargoLivestock'},
        {label:'Grain',id:'pfCargoGrain'},{label:'Auto',id:'pfCargoAuto'},
@@ -4020,7 +4061,7 @@ const originalTexts = new Map(); // key = element, value = original innerHTML
       ].forEach(cargo => {
         if (!isY(g(cargo.id))) return;
         const b=document.createElement('span'); b.className='cc-badge';
-        b.style.cssText='color:var(--text2);background:var(--bg3);border-color:var(--border2);';
+        b.style.cssText='color:var(--text2);background:var(--bg3);border-color:var(--border2);font-size:9px;';
         b.textContent=cargo.label; cargoEl.appendChild(b);
       });
     }
