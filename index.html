@@ -1119,7 +1119,7 @@
       <div class="turn">
         <div class="turn-role" style="color:var(--green)"><span class="role-dot" style="background:var(--green)"></span>You</div>
         <div class="speech you" contenteditable="false"><span class="tone-tag tone-confused">Confused</span>"Well… and I'm not sure if you're the right person I should be talking to… but I called to see who would be responsible for… overseeing any <span class="hl">possible hidden gaps</span> in like your dispatching — like finding loads and negotiating rates with brokers — that could be causing you guys to <span class="hl">keep leaving money on the table</span> every month… uh… who should I be talking to about that?"</div>
-        <div class="tip">Works for both owner-ops and fleets. WHY: "Your area" is vague enough to not be threatening, specific enough to feel personal. Using their state/equipment instead makes it even more powerful — they feel singled out (in a good way). People respond to specificity because it signals you're talking TO them, not AT them.</div>
+        <div class="tip">Works for owner-ops AND fleets. WHY: "Your area" is vague enough to not be threatening, specific enough to feel personal. Using their state/equipment instead makes it even more powerful — they feel singled out (in a good way). People respond to specificity because it signals you're talking TO them, not AT them.</div>
         <div class="tip"><strong>"Possible"</strong> = neutral word — they can't say "we don't have that" because you said possible. <strong>"Could be"</strong> = neutral, not "is." <strong>"Who should I be talking to"</strong> = if they ARE the owner, they can't say "that's not me" without looking bad. They say "that's me."</div>
       </div>
 
@@ -1158,7 +1158,7 @@
         </div>
         <div class="turn">
           <div class="turn-role" style="color:var(--green)"><span class="role-dot" style="background:var(--green)"></span>You</div>
-          <div class="speech you" contenteditable="false"><span class="tone-tag tone-confused">Confused</span>"Yeah good question… so what I mean is like… most owner-operators I talk to are spending a lot of hours every week finding loads on DAT or Truckstop, negotiating with brokers, chasing invoices… and they don't always realize how much that's costing them in rates they're not getting and time they're not driving… uh… is any of that something you're dealing with?"</div>
+          <div class="speech you" contenteditable="false"><span class="tone-tag tone-confused">Confused</span>"Yeah good question… so what I mean is like… most carriers I work with — whether they're running one truck or a whole fleet — they're spending a lot of hours every week finding loads, negotiating with brokers, chasing invoices… and they don't always realize how much that's costing them in rates they're not getting and time they're not putting toward the operation… uh… is any of that something you're dealing with?"</div>
           <div class="tip">Curiosity triggered ✅ — they asked YOU a question. Now describe their problem in their language. End with a yes/no question to confirm fit. → Move to Stage 1.</div>
         </div>
       </div>
@@ -1681,7 +1681,7 @@
       <div class="scenario-panel" id="sit-solo">
         <div class="turn">
           <div class="turn-role" style="color:var(--purple)"><span class="role-dot" style="background:var(--purple)"></span>Prospect</div>
-          <div class="speech them">"Just me. One truck. I'm an owner-operator."</div>
+          <div class="speech them">"Just me. One truck. I'm an owner-operator." / "We've got [X] trucks — I handle most of the dispatch myself."</div>
         </div>
         <div class="turn">
           <div class="turn-role" style="color:var(--green)"><span class="role-dot" style="background:var(--green)"></span>You</div>
@@ -1694,7 +1694,7 @@
         <div class="turn">
           <div class="turn-role" style="color:var(--green)"><span class="role-dot" style="background:var(--green)"></span>You</div>
           <div class="speech you" contenteditable="false">"I bet. And when you're on the road — are you able to be actively looking for loads at the same time, or does one always take a backseat to the other?"</div>
-          <div class="tip">For owner-ops: time/driving conflict is the core pain. WHY: An owner-operator physically cannot drive and dispatch simultaneously. This is a structural impossibility — not a preference problem. When you make them articulate this conflict, they realize they're choosing between earning (driving) and finding future earnings (dispatching). That's an unsolvable problem without help.</div>
+          <div class="tip">For owner-ops AND small fleets: time/operations conflict is the core pain. WHY: An owner-operator cannot drive and dispatch simultaneously — and a small fleet owner managing 2-5 trucks has the same problem multiplied. The more trucks, the more dispatch hours. Either way, they're choosing between earning (driving/managing ops) and finding future earnings (dispatching). That's an unsolvable problem without help. This is a structural impossibility — not a preference problem. When you make them articulate this conflict, they realize they're choosing between earning (driving) and finding future earnings (dispatching). That's an unsolvable problem without help.</div>
         </div>
       </div>
 
@@ -2559,11 +2559,58 @@
         </div>
         <div class="turn">
           <div class="turn-role" style="color:var(--green)"><span class="role-dot" style="background:var(--green)"></span>You</div>
-          <div class="speech you" contenteditable="false">"Happy to get into that. For <span data-token="equipment-adj">[equipment]</span> carriers like you in <span data-token="state-short">[state]</span> — we work on a percentage per load — so we only make money when you make money. No monthly retainer on dispatch. Most <span data-token="equipment-adj">[equipment]</span> carriers with <span data-token="trucks-or-fleet">[trucks]</span> see a rate improvement worth <span data-token="rate-upside">[rate-upside]</span>/yr — the fee pays for itself. <span class="hl">Does that feel like it would pencil out for your situation?</span>"</div>
-          <div class="tip">Tie the fee directly to THEIR stated pain. WHY: Generic pricing conversations feel like sales. Pain-specific pricing conversations feel like solutions. When you say "most [equipment] carriers with [trucks] find the rate improvement alone covers the fee" — you're connecting their specific numbers to the outcome. "We only make money when you make money" is alignment, not marketing — it eliminates the adversarial dynamic of buyer vs. seller.</div>
-          <div class="info-callout" style="margin-top:0.75rem;cursor:pointer;" onclick="window.open('https://quickgslogistics.com/carrier-dispatching-package/','_blank')">
-            💡 <strong>QuickGS Plans Reference</strong> — click to open pricing page. Review before each session so you can answer pricing questions with exact numbers and confidence.
+          <div class="speech you" contenteditable="false">"Great question — and it depends on what <span data-token="company">[Company]</span> actually needs. We have three plans, all billed weekly per truck — let me walk you through them real quick and you tell me which sounds like the right fit."</div>
+          <div class="tip">Frame pricing around their operation first. WHY: Jumping straight to numbers triggers price comparison. "Per truck, billed weekly" immediately signals flexibility — they're not locked into a big contract.</div>
+        </div>
+
+        <!-- PLANS CARD -->
+        <div class="obj-card" style="margin-top:0.75rem;">
+          <div class="obj-q" style="color:var(--teal);margin-bottom:12px;">📋 QuickGS Plans — $USD/week per truck</div>
+          <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:10px;font-size:12px;">
+
+            <div style="background:var(--bg3);border:1px solid var(--border2);border-radius:6px;padding:10px 12px;">
+              <div style="font-weight:700;color:var(--text);margin-bottom:2px;">Solo Runner — $500/wk</div>
+              <div style="color:var(--text3);font-size:11px;margin-bottom:6px;">Owner-operators · 1 truck · Consistent loads</div>
+              <ul style="margin:0;padding-left:1.1rem;color:var(--text2);line-height:1.8;font-size:11.5px;">
+                <li>Unlimited load searching for one truck</li>
+                <li>Rate negotiation &amp; booking</li>
+                <li>Basic route optimization</li>
+              </ul>
+            </div>
+
+            <div style="background:var(--bg3);border:1px solid #26A69A44;border-radius:6px;padding:10px 12px;position:relative;">
+              <div style="position:absolute;top:-8px;right:8px;background:var(--teal);color:#fff;font-size:9px;font-weight:700;padding:1px 7px;border-radius:10px;text-transform:uppercase;letter-spacing:0.05em;">Popular</div>
+              <div style="font-weight:700;color:var(--text);margin-bottom:2px;">Full-Drive — $650/wk</div>
+              <div style="color:var(--text3);font-size:11px;margin-bottom:6px;">Stay in the cab · Zero paperwork · Per truck</div>
+              <ul style="margin:0;padding-left:1.1rem;color:var(--text2);line-height:1.8;font-size:11.5px;">
+                <li>Dedicated load finding &amp; booking</li>
+                <li>Broker setup packets (all contracts)</li>
+                <li>COI management</li>
+                <li>Detention &amp; layover negotiation</li>
+                <li>24/7 driver support &amp; check-calls</li>
+              </ul>
+            </div>
+
+            <div style="background:var(--bg3);border:1px solid var(--border2);border-radius:6px;padding:10px 12px;">
+              <div style="font-weight:700;color:var(--text);margin-bottom:2px;">Elite Fleet — $700/wk</div>
+              <div style="color:var(--text3);font-size:11px;margin-bottom:6px;">Fleets ready to scale · Full back-office · Per truck</div>
+              <ul style="margin:0;padding-left:1.1rem;color:var(--text2);line-height:1.8;font-size:11.5px;">
+                <li>Everything in Full-Drive</li>
+                <li>Invoicing &amp; factoring paperwork</li>
+                <li>IFTA tracking (miles, fuel, quarterly taxes)</li>
+              </ul>
+            </div>
+
           </div>
+          <div style="margin-top:10px;padding-top:8px;border-top:1px solid var(--border);font-size:11.5px;color:var(--text2);">
+            ⚡ <strong>Also available:</strong> <strong>10% per load</strong> — no weekly fee, percentage only. Zero commitment. We only make money when you make money.
+          </div>
+        </div>
+
+        <div class="turn" style="margin-top:0.75rem;">
+          <div class="turn-role" style="color:var(--green)"><span class="role-dot" style="background:var(--green)"></span>You (recommend based on profile)</div>
+          <div class="speech you" contenteditable="false">"Based on what you told me — <span data-token="trucks-or-fleet">[trucks]</span> running <span data-token="equipment-adj">[equipment]</span> — the <span class="hl">Full-Drive at $650/week per truck</span> is what most carriers your size go with. But if you want zero commitment to start, the 10% option means you pay nothing until we make you money. <span class="hl">Which of those feels like the better starting point?</span>"</div>
+          <div class="tip">Recommend a specific plan using their data. WHY: Giving a recommendation reduces decision fatigue. The 10% option eliminates the "I can't afford it" objection before it forms — $0 upfront, they only pay when they earn.</div>
         </div>
       </div>
 
@@ -4254,7 +4301,7 @@ const originalTexts = new Map(); // key = element, value = original innerHTML
       else if (fSig === 'fully active')
                   inf.push({ icon:'✅', label:'Fleet utilization', val: 'High activity — needs consistent loads', color:'rgba(46,125,50,0.08)', border:'#2E7D32' });
       if (ageN3 >= 10 && trN3 <= 3)
-                  inf.push({ icon:'🏆', label:'Key insight', val: 'Veteran owner-op — price-sensitive, values reliability over features', color:'rgba(106,27,154,0.08)', border:'#6A1B9A' });
+                  inf.push({ icon:'🏆', label:'Key insight', val: 'Veteran carrier — price-sensitive, values reliability and track record over features. Lead with results.', color:'rgba(106,27,154,0.08)', border:'#6A1B9A' });
 
       intelInf.innerHTML = '';
       if (inf.length > 0) {
@@ -4314,7 +4361,7 @@ const originalTexts = new Map(); // key = element, value = original innerHTML
 
       if (!otrY) insights.push({ text: "📍 Intrastate/Regional carrier — adjust pitch: skip OTR lane talk. Focus on local rate optimization, backhaul efficiency, and regional broker relationships.", color: "rgba(198,40,40,0.08)", border: "#C62828" });
 
-      if (trN === 1) insights.push({ text: "🔵 Owner-Operator — they ARE the driver. Pain = time off the road. Lead with: 'You should not be doing both — driving AND dispatching.'", color: "#E8EAF6", border: "#3949AB" });
+      if (trN === 1) insights.push({ text: "🔵 Solo carrier — they drive AND manage the operation. Lead with: 'You should not have to choose between the road and the phone.'", color: "rgba(21,101,192,0.08)", border: "#3949AB" });
       else if (trN >= 10) insights.push({ text: "🔴 Fleet operation — has overhead, payroll, fixed costs. Pain = load consistency & rate variance. Lead with volume and rate floor guarantees.", color: "#E8F5E9", border: "#1B5E20" });
 
       insightBar.innerHTML = '';
