@@ -273,10 +273,6 @@
   .hl-p { background: rgba(155,143,239,0.14); color: var(--purple); padding: 1px 5px; border-radius: 3px; font-size: 13px; }
   .hl-b { background: rgba(91,168,255,0.13); color: var(--blue); padding: 1px 5px; border-radius: 3px; font-size: 13px; }
 
-  /* Dynamic carrier data tokens — distinctive color so rep knows data is loaded */
-  [data-token] { color: #4ADE80; font-weight: 600; }
-  body:not(.carrier-loaded) [data-token] { color: var(--text3); font-weight: normal; font-style: italic; }
-
   /* NEPQ Tonality badges */
   .tone-tag { display:inline-block; font-size:9px; font-weight:700; letter-spacing:0.07em;
     text-transform:uppercase; padding:1px 7px; border-radius:3px; margin-right:4px;
@@ -778,6 +774,25 @@
   ::-webkit-scrollbar-track { background: transparent; }
   ::-webkit-scrollbar-thumb { background: var(--border2); border-radius: 4px; }
   ::-webkit-scrollbar-thumb:hover { background: var(--text3); }
+
+  /* ── STICKY CARRIER CARDS ──────────────────────────────── */
+  #carrierCards{position:sticky;top:0;z-index:90;display:none;
+    background:var(--bg);border-bottom:2px solid var(--border2);}
+  body.carrier-loaded #carrierCards{display:block;}
+  .cc-inner{display:grid;grid-template-columns:1fr 1fr;}
+  .cc-card{padding:8px 14px;border-right:1px solid var(--border);font-size:11px;}
+  .cc-card:last-child{border-right:none;}
+  .cc-lbl{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;
+    color:var(--text3);font-family:'DM Mono',monospace;margin-bottom:5px;}
+  .cc-row{display:flex;flex-wrap:wrap;gap:3px 12px;line-height:1.8;}
+  .cc-f{color:var(--text3);font-size:10px;}
+  .cc-v{color:#4ADE80;font-weight:600;}
+  .cc-d{color:var(--text2);}
+  .cc-badge{display:inline-block;padding:0 6px;border-radius:8px;font-size:9.5px;
+    font-weight:600;border:1px solid;margin:1px;}
+  @media(max-width:650px){.cc-inner{grid-template-columns:1fr;}
+    .cc-card{border-right:none;border-bottom:1px solid var(--border);}}
+  /* ──────────────────────────────────────────────────────── */
 </style>
 </head>
 <body>
@@ -990,6 +1005,42 @@
   <div id="dynamic-insights" style="display:none;flex-wrap:wrap;gap:6px;padding:6px 16px 8px;background:var(--bg2);border-bottom:1px solid var(--border);"></div>
 
   <div class="stage-flow-bar" id="stageFlowBar"></div>
+
+  <!-- ══ STICKY CARRIER CARDS ════════════════════════════ -->
+  <div id="carrierCards">
+    <div class="cc-inner">
+      <div class="cc-card">
+        <div class="cc-lbl">📋 Identity &amp; Contact</div>
+        <div class="cc-row">
+          <span><span class="cc-f">Name:</span> <span class="cc-v" id="cc-name">—</span></span>
+          <span><span class="cc-f">Co:</span> <span class="cc-v" id="cc-company">—</span></span>
+          <span><span class="cc-f">DOT:</span> <span class="cc-d" id="cc-dot">—</span></span>
+          <span><span class="cc-f">MC:</span> <span class="cc-d" id="cc-mc">—</span></span>
+          <span><span class="cc-f">📞</span> <span class="cc-d" id="cc-phone">—</span></span>
+          <span id="cc-cell-wrap" style="display:none"><span class="cc-f">📱</span> <span class="cc-d" id="cc-cell">—</span></span>
+          <span><span class="cc-f">✉️</span> <span class="cc-d" id="cc-email">—</span></span>
+          <span><span class="cc-f">📍</span> <span class="cc-d" id="cc-addr">—</span></span>
+        </div>
+      </div>
+      <div class="cc-card">
+        <div class="cc-lbl">🚛 Operation</div>
+        <div class="cc-row" style="margin-bottom:4px;">
+          <span><span class="cc-f">Trucks:</span> <span class="cc-v" id="cc-trucks">—</span></span>
+          <span><span class="cc-f">Equip:</span> <span class="cc-v" id="cc-equip">—</span></span>
+          <span><span class="cc-f">Miles:</span> <span class="cc-d" id="cc-miles">—</span></span>
+          <span><span class="cc-f">Age:</span> <span class="cc-d" id="cc-age">—</span></span>
+          <span><span class="cc-f">Score:</span> <span class="cc-v" id="cc-score">—</span></span>
+          <span><span class="cc-f">Crash:</span> <span class="cc-d" id="cc-crash">—</span></span>
+          <span><span class="cc-f">Drivers:</span> <span class="cc-d" id="cc-drivers">—</span></span>
+          <span><span class="cc-f">Type:</span> <span class="cc-d" id="cc-optype">—</span></span>
+        </div>
+        <div id="cc-routes" style="display:flex;flex-wrap:wrap;gap:2px;"></div>
+        <div id="cc-cargo" style="display:flex;flex-wrap:wrap;gap:2px;margin-top:2px;"></div>
+      </div>
+    </div>
+  </div>
+  <!-- ════════════════════════════════════════════════════ -->
+
   <!-- CONTENT -->
   <div class="content" id="mainContent">
 
@@ -1714,7 +1765,7 @@
       </div>
 
       <!-- NEPQ Problem Stage — Advanced Questions -->
-      <div class="section-label tip" style="margin-top:1.5rem;">NEPQ Advanced — Third Party &amp; Social Proof</div>
+      <div class="section-label" style="margin-top:1.5rem;">NEPQ Advanced — Third Party &amp; Social Proof</div>
       <div class="turn">
         <div class="turn-role" style="color:var(--green)"><span class="role-dot" style="background:var(--green)"></span>You</div>
         <div class="speech you" contenteditable="false"><span class="tone-tag tone-curious">Curious</span>"Let me ask you something — if a friend of yours was running <span data-token="trucks-or-fleet">[trucks]</span> on <span data-token="equipment-adj">[equipment]</span>, same situation as you, same rates, same hours… what would you tell them to do?"<span class="pause-mark">…[PAUSE — they'll answer for themselves]</span></div>
@@ -2031,8 +2082,8 @@
       </div>
 
       <!-- NEPQ Consequence Stacking -->
-      <div class="section-label tip" style="margin-top:1.5rem;">Consequence Stacking — Layer the pain</div>
-      <div class="tip" style="margin-bottom:0.75rem;color:var(--text2);">NEPQ rule: stack 3-5 consequences before asking for commitment. Each question should make the cost of inaction heavier. Go: Financial → Time → Personal → Future identity → Emotional.</div>
+      <div class="section-label" style="margin-top:1.5rem;">Consequence Stacking — Layer the pain</div>
+      <div class="tip" style="margin-bottom:0.75rem;font-style:normal;color:var(--text2);">NEPQ rule: stack 3-5 consequences before asking for commitment. Each question should make the cost of inaction heavier. Go: Financial → Time → Personal → Future identity → Emotional.</div>
 
       <div class="turn">
         <div class="turn-role" style="color:var(--green)"><span class="role-dot" style="background:var(--green)"></span>You</div>
@@ -2492,58 +2543,11 @@
         </div>
         <div class="turn">
           <div class="turn-role" style="color:var(--green)"><span class="role-dot" style="background:var(--green)"></span>You</div>
-          <div class="speech you" contenteditable="false">"Great question — and it really depends on what <span data-token="company">[Company]</span> actually needs. We have three options. For <span data-token="trucks-or-fleet">[trucks]</span> running <span data-token="equipment-adj">[equipment]</span> out of <span data-token="state-short">[state]</span> — let me walk you through them real quick and you tell me which sounds like the best fit."</div>
-          <div class="tip">Always frame pricing by THEIR situation first. WHY: Jumping straight to numbers triggers price comparison. Framing it as "finding the right fit for your operation" keeps them in solution-thinking mode, not cost-defense mode.</div>
-        </div>
-
-        <!-- PLANS REFERENCE CARD -->
-        <div class="obj-card" style="margin-top:0.75rem;">
-          <div class="obj-q" style="color:var(--teal);margin-bottom:12px;">📋 QuickGS Plans — reference during pitch</div>
-          <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:10px;font-size:12px;">
-
-            <div style="background:var(--bg3);border:1px solid var(--border2);border-radius:6px;padding:10px 12px;">
-              <div style="font-weight:700;color:var(--text);margin-bottom:4px;">Solo Runner — $200/mo</div>
-              <div style="color:var(--text3);font-size:11px;margin-bottom:6px;">Entry-level · 1 truck · Owner-op</div>
-              <ul style="margin:0;padding-left:1.1rem;color:var(--text2);line-height:1.8;font-size:11.5px;">
-                <li>Unlimited load searching for 1 truck</li>
-                <li>Rate negotiation &amp; booking</li>
-                <li>Basic route optimization</li>
-              </ul>
-            </div>
-
-            <div style="background:var(--bg3);border:1px solid #26A69A44;border-radius:6px;padding:10px 12px;position:relative;">
-              <div style="position:absolute;top:-8px;right:8px;background:var(--teal);color:#fff;font-size:9px;font-weight:700;padding:1px 7px;border-radius:10px;text-transform:uppercase;letter-spacing:0.05em;">Popular</div>
-              <div style="font-weight:700;color:var(--text);margin-bottom:4px;">Full-Drive — $350/mo</div>
-              <div style="color:var(--text3);font-size:11px;margin-bottom:6px;">Premium · Stay in the cab · No paperwork</div>
-              <ul style="margin:0;padding-left:1.1rem;color:var(--text2);line-height:1.8;font-size:11.5px;">
-                <li>Dedicated load finding &amp; booking</li>
-                <li>Broker setup packets (all contracts)</li>
-                <li>COI management</li>
-                <li>Detention &amp; layover negotiation</li>
-                <li>24/7 driver support &amp; check-calls</li>
-              </ul>
-            </div>
-
-            <div style="background:var(--bg3);border:1px solid var(--border2);border-radius:6px;padding:10px 12px;">
-              <div style="font-weight:700;color:var(--text);margin-bottom:4px;">Elite Fleet — $500/mo</div>
-              <div style="color:var(--text3);font-size:11px;margin-bottom:6px;">Full back-office · Fleet-focused</div>
-              <ul style="margin:0;padding-left:1.1rem;color:var(--text2);line-height:1.8;font-size:11.5px;">
-                <li>Everything in Full-Drive</li>
-                <li>Invoicing &amp; factoring paperwork</li>
-                <li>IFTA tracking (miles, fuel, quarterly taxes)</li>
-              </ul>
-            </div>
-
+          <div class="speech you" contenteditable="false">"Happy to get into that. For <span data-token="equipment-adj">[equipment]</span> carriers like you in <span data-token="state-short">[state]</span> — we work on a percentage per load — so we only make money when you make money. No monthly retainer on dispatch. Most <span data-token="equipment-adj">[equipment]</span> carriers with <span data-token="trucks-or-fleet">[trucks]</span> see a rate improvement worth <span data-token="rate-upside">[rate-upside]</span>/yr — the fee pays for itself. <span class="hl">Does that feel like it would pencil out for your situation?</span>"</div>
+          <div class="tip">Tie the fee directly to THEIR stated pain. WHY: Generic pricing conversations feel like sales. Pain-specific pricing conversations feel like solutions. When you say "most [equipment] carriers with [trucks] find the rate improvement alone covers the fee" — you're connecting their specific numbers to the outcome. "We only make money when you make money" is alignment, not marketing — it eliminates the adversarial dynamic of buyer vs. seller.</div>
+          <div class="info-callout" style="margin-top:0.75rem;cursor:pointer;" onclick="window.open('https://quickgslogistics.com/carrier-dispatching-package/','_blank')">
+            💡 <strong>QuickGS Plans Reference</strong> — click to open pricing page. Review before each session so you can answer pricing questions with exact numbers and confidence.
           </div>
-          <div style="margin-top:10px;padding-top:8px;border-top:1px solid var(--border);font-size:11.5px;color:var(--text2);">
-            ⚡ <strong>Also available:</strong> Percentage plan — <strong>10% per load</strong>. No monthly fee. We only make money when you make money. Best for carriers who want zero upfront commitment. Rate improvement alone typically covers the fee.
-          </div>
-        </div>
-
-        <div class="turn" style="margin-top:0.75rem;">
-          <div class="turn-role" style="color:var(--green)"><span class="role-dot" style="background:var(--green)"></span>You (after presenting plans)</div>
-          <div class="speech you" contenteditable="false">"Based on what you told me — <span data-token="trucks-or-fleet">[trucks]</span> running <span data-token="equipment-adj">[equipment]</span>, handling everything yourself — honestly the <span class="hl">Full-Drive</span> is what most carriers your size go with. But the 10% option is zero risk if you want to see the results first. <span class="hl">Which of those feels like the better starting point for you?</span>"</div>
-          <div class="tip">Use their fleet profile to recommend a specific plan. WHY: Giving them a recommendation reduces decision fatigue. The binary — monthly plan vs. 10% — gives them control. The 10% option eliminates the "I can't afford it" objection before it forms. Most carriers choose the percentage first then upgrade.</div>
         </div>
       </div>
 
@@ -3197,7 +3201,7 @@
         <div id="historyList" style="display:none;max-height:200px;overflow-y:auto;display:none;flex-direction:column;gap:4px;margin-top:4px;"></div>
       </div>
 
-      <div class="section-label tip" style="margin-top:1.5rem;">From Jeremy Miner — Key Tonality Principles</div>
+      <div class="section-label" style="margin-top:1.5rem;">From Jeremy Miner — Key Tonality Principles</div>
 
       <div class="turn">
         <div class="turn-role" style="color:var(--blue)"><span class="role-dot" style="background:var(--blue)"></span>Principle 1 — Fight or Flight Trigger</div>
@@ -3605,6 +3609,13 @@ const originalTexts = new Map(); // key = element, value = original innerHTML
     selectedTrucks = null;
     document.querySelectorAll('.truck-btn').forEach(b => b.classList.remove('on'));
     updateDynamicSpeeches();
+    document.body.classList.remove('carrier-loaded');
+    document.getElementById('carrierCards').style.display='none';
+    ['cc-name','cc-company','cc-dot','cc-mc','cc-phone','cc-cell','cc-email',
+     'cc-addr','cc-trucks','cc-equip','cc-miles','cc-age','cc-score',
+     'cc-crash','cc-drivers','cc-optype'].forEach(id=>{
+      const e=document.getElementById(id);if(e)e.textContent='—';});
+    ['cc-routes','cc-cargo'].forEach(id=>{const e=document.getElementById(id);if(e)e.innerHTML='';});
   }
 
   function loadCallCount() {
@@ -3955,6 +3966,66 @@ const originalTexts = new Map(); // key = element, value = original innerHTML
     };
   }
 
+
+  function updateCarrierCards() {
+    const d = getProspectData();
+    const g = id => { const e=document.getElementById(id); return e?e.value.trim():''; };
+    const s = (id,v) => { const e=document.getElementById(id); if(e) e.textContent=v||'—'; };
+    const isY = v => v && v.toString().toLowerCase() === 'yes';
+
+    s('cc-name',    d.name);
+    s('cc-company', d.company);
+    s('cc-dot',     d.dot);
+    s('cc-mc',      g('pfMC'));
+    s('cc-phone',   g('pfPhone'));
+    s('cc-email',   g('pfEmail') || g('pfEmail2'));
+    const cell = g('pfCell');
+    s('cc-cell', cell);
+    const cw = document.getElementById('cc-cell-wrap');
+    if (cw) cw.style.display = cell ? 'inline' : 'none';
+    const addr = [g('pfStreet'), d['state-short']||d.state, g('pfZip')].filter(Boolean).join(', ');
+    s('cc-addr',    addr||'—');
+    s('cc-trucks',  d['trucks-label']||d.trucks);
+    s('cc-equip',   d.equipment);
+    s('cc-miles',   d.mileage);
+    s('cc-age',     d.age);
+    s('cc-score',   g('pfScore'));
+    s('cc-crash',   g('pfCrash'));
+    s('cc-drivers', g('pfDrivers'));
+    s('cc-optype',  g('pfOpType'));
+
+    const routeEl = document.getElementById('cc-routes');
+    if (routeEl) {
+      routeEl.innerHTML = '';
+      [{label:'OTR 100+',id:'pfRouteOTR',c:'#1B5E20'},{label:'Interstate',id:'pfRouteInter',c:'#0D47A1'},
+       {label:'Intrastate OTR',id:'pfRouteIntraOTR',c:'#E65100'},{label:'Local',id:'pfRouteIntraLocal',c:'#6A1B9A'}
+      ].forEach(r => {
+        if (!isY(g(r.id))) return;
+        const b=document.createElement('span'); b.className='cc-badge';
+        b.style.cssText=`color:${r.c};background:${r.c}22;border-color:${r.c}55;`;
+        b.textContent=r.label; routeEl.appendChild(b);
+      });
+    }
+    const cargoEl = document.getElementById('cc-cargo');
+    if (cargoEl) {
+      cargoEl.innerHTML = '';
+      [{label:'General',id:'pfCargoGeneral'},{label:'Reefer',id:'pfCargoReefer'},
+       {label:'Hazmat',id:'pfCargoHazmat'},{label:'Heavy',id:'pfCargoHeavy'},
+       {label:'Chemicals',id:'pfCargoChem'},{label:'Liquid',id:'pfCargoLiquid'},
+       {label:'Produce',id:'pfCargoProduce'},{label:'Livestock',id:'pfCargoLivestock'},
+       {label:'Grain',id:'pfCargoGrain'},{label:'Auto',id:'pfCargoAuto'},
+       {label:'Intermodal',id:'pfCargoIntermodal'},{label:'Oilfield',id:'pfCargoOilfield'},
+       {label:'Construction',id:'pfCargoConstruct'},{label:'Dry Bulk',id:'pfCargoDrybulk'},
+       {label:'HHG',id:'pfCargoHHG'}
+      ].forEach(cargo => {
+        if (!isY(g(cargo.id))) return;
+        const b=document.createElement('span'); b.className='cc-badge';
+        b.style.cssText='color:var(--text2);background:var(--bg3);border-color:var(--border2);';
+        b.textContent=cargo.label; cargoEl.appendChild(b);
+      });
+    }
+  }
+
   function updateDynamicSpeeches() {
     const d = getProspectData();
 
@@ -4260,6 +4331,7 @@ const originalTexts = new Map(); // key = element, value = original innerHTML
         mileageBadge.style.display = 'none';
       }
     }
+    updateCarrierCards();
   }
 
   function updateTopbarSub() {
@@ -4782,6 +4854,7 @@ Reach out anytime we're here when you're ready! 🙎`;
       const banner = document.createElement('div');
       banner.style.cssText = 'position:fixed;top:0;left:0;right:0;z-index:9999;background:var(--green);color:#000;font-size:12px;font-weight:600;padding:7px 16px;text-align:center;font-family:DM Sans,sans-serif;';
       banner.textContent = '✅ Carrier loaded: ' + (p.get('name') || '') + (p.get('company') ? ' — ' + p.get('company') : '') + (p.get('dot') ? ' | DOT: ' + p.get('dot') : '');
+      document.body.classList.add('carrier-loaded'); updateCarrierCards();
       document.body.appendChild(banner);
       setTimeout(() => banner.style.opacity = '0', 3500);
       setTimeout(() => banner.remove(), 4000);
