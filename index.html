@@ -1007,7 +1007,7 @@
     <button onclick="loadProspectPreset()" title="Load last prospect" style="background:var(--bg3);border:1px solid var(--border2);color:var(--text3);border-radius:4px;padding:4px 9px;font-size:11px;cursor:pointer;flex-shrink:0;transition:all 0.13s;" onmouseover="this.style.color='var(--blue)'" onmouseout="this.style.color='var(--text3)'">📂</button>
     <button onclick="clearProspectBar()" title="Clear all fields" style="background:var(--bg3);border:1px solid var(--border2);color:var(--text3);border-radius:4px;padding:4px 9px;font-size:11px;cursor:pointer;flex-shrink:0;transition:all 0.13s;" onmouseover="this.style.color='var(--red)'" onmouseout="this.style.color='var(--text3)'">✕ Clear</button>
   </div>
-  <div id="dynamic-insights" style="display:none;flex-wrap:wrap;gap:6px;padding:8px 16px 10px;background:var(--bg);border-bottom:1px solid var(--border);position:sticky;top:176px;z-index:86;"></div>
+  <div id="dynamic-insights" style="display:none;flex-wrap:wrap;gap:6px;padding:8px 16px 10px;background:var(--bg);border-bottom:1px solid var(--border);position:sticky;top:176px;z-index:86;;transition:all 0.25s ease;"></div>
 
   <div class="stage-flow-bar" id="stageFlowBar"></div>
 
@@ -1066,7 +1066,7 @@
     <!-- ===================== STAGE 10: COLD OPEN ===================== -->
     <div class="stage active" id="stage-10">
       
-      <div id="precall-intel" style="background:var(--bg3);border:1.5px solid var(--border2);border-radius:var(--radius);padding:12px 16px;margin-bottom:1.25rem;display:none;">
+      <div id="precall-intel" class="tip" style="background:var(--bg3);border:1.5px solid var(--border2);border-radius:var(--radius);padding:12px 16px;margin-bottom:1.25rem;display:none;">
         <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;">
           <span style="font-size:10px;color:var(--text3);text-transform:uppercase;letter-spacing:0.1em;font-family:'DM Mono',monospace;">📋 Pre-Call Intel — from FMCSA record</span>
           <span id="score-badge" style="display:none;font-size:11px;font-weight:700;padding:2px 8px;border-radius:20px;"></span>
@@ -1203,13 +1203,13 @@
         </div>
         <div class="turn">
           <div class="turn-role" style="color:var(--green)"><span class="role-dot" style="background:var(--green)"></span>You (if they transfer)</div>
-          <div class="speech you" contenteditable="false">"Hey [Owner Name]… yeah it's uh… [Your Name] from QuickGS… [first name] mentioned you'd be the right person… uh, I was just wondering if you could possibly help me out for a moment…"</div>
+          <div class="speech you" contenteditable="false">"Hey <span data-token="first-name">[First Name]</span>… yeah it's uh… [Your Name] from QuickGS… [first name] mentioned you'd be the right person… uh, I was just wondering if you could possibly help me out for a moment…"</div>
 
       <div class="section-label" style="margin-top:1.25rem;">Voicemail — if they're unavailable</div>
 
       <div class="turn">
         <div class="turn-role" style="color:var(--green)"><span class="role-dot" style="background:var(--green)"></span>You</div>
-        <div class="speech you" contenteditable="false">"Hey [Owner Name]… this is [Your Name] from QuickGS. [first name] mentioned you're the one running the operation at <span data-token="company">[Company]</span>. I had a specific question — not a sales pitch — about how <span data-token="trucks-or-fleet">[trucks]</span> on <span data-token="equipment-adj">[equipment]</span> out of <span data-token="state-short">[state]</span> are currently getting their loads covered. Takes 2 minutes. My number is (307) 509-5759 — again, (307) 509-5759. I'll try you back. No pressure."</div>
+        <div class="speech you" contenteditable="false">"Hey <span data-token="first-name">[First Name]</span>… this is [Your Name] from QuickGS. [first name] mentioned you're the one running the operation at <span data-token="company">[Company]</span>. I had a specific question — not a sales pitch — about how <span data-token="trucks-or-fleet">[trucks]</span> on <span data-token="equipment-adj">[equipment]</span> out of <span data-token="state-short">[state]</span> are currently getting their loads covered. Takes 2 minutes. My number is (307) 509-5759 — again, (307) 509-5759. I'll try you back. No pressure."</div>
         <div class="tip">
           Voicemail: under 20 seconds, never reveal what you sell. WHY: Voicemails that mention the product/service get deleted before they're finished. The brain hears "dispatcher" and thinks "sales call" — delete. A curiosity gap ("specific idea for your operation") forces them to wonder what it is. Curiosity is the only emotion that makes people call strangers back.
           The double number repetition is intentional — they're usually driving. Key elements: their name twice, colleague reference for credibility, specific but vague hook ("dispatching side"), number twice, promise to call back so they know this isn't a one-shot robocall.
@@ -1236,7 +1236,7 @@
         </div>
         <div class="turn">
           <div class="turn-role" style="color:var(--green)"><span class="role-dot" style="background:var(--green)"></span>You</div>
-          <div class="speech you" contenteditable="false">"Oh hey yeah… this is [Your Name]… uh… is [Owner Name] around by any chance?"</div>
+          <div class="speech you" contenteditable="false">"Oh hey yeah… this is [Your Name]… uh… is <span data-token="first-name">[First Name]</span> around by any chance?"</div>
           <div class="tip">Name the owner directly. Don't explain why you're calling — that gives the gatekeeper a reason to screen you. Be casual, not formal.</div>
         </div>
         <div class="turn">
@@ -1266,7 +1266,7 @@
         </div>
         <div class="turn">
           <div class="turn-role" style="color:var(--green)"><span class="role-dot" style="background:var(--green)"></span>You</div>
-          <div class="speech you" contenteditable="false">"Hey [Name]… yeah it's [Your Name] from QuickGS… we spoke [last week / a few days ago] and you mentioned this was a better time to connect… uh… still okay to chat for a few minutes?"</div>
+          <div class="speech you" contenteditable="false">"Hey <span data-token="first-name">[First Name]</span>… yeah it's [Your Name] from QuickGS… we spoke recently and you mentioned this was a better time to connect… uh… still okay to chat for a few minutes?"</div>
           <div class="tip">Reference the previous conversation immediately — it establishes credibility and reminds them who you are. They agreed to this call, so the guard is already lower.</div>
         </div>
         <div class="turn">
@@ -1287,7 +1287,7 @@
         </div>
         <div class="turn">
           <div class="turn-role" style="color:var(--green)"><span class="role-dot" style="background:var(--green)"></span>You</div>
-          <div class="speech you" contenteditable="false">"Oh yeah — yeah I did try to reach you… uh… this is [Name] from QuickGS Logistics… and uh… I'm glad you called back actually. I was wondering if you could help me out for a moment — I'm not sure if you're the right person I should be speaking with, but I was looking into dispatching-related stuff for owner-operators in your area… uh… are you the one running the trucking side?"</div>
+          <div class="speech you" contenteditable="false">"Oh yeah — yeah I did try to reach you… uh… this is [Name] from QuickGS Logistics… and uh… I'm glad you called back actually. I was wondering if you could help me out for a moment — I'm not sure if you're the right person I should be speaking with, but I was looking into dispatching for <span data-token="trucks-or-fleet">[carriers]</span> in <span data-token="state-short">[state]</span>… uh… are you the one running the trucking side?"</div>
           <div class="tip">Returned call = much warmer than a cold call. They called YOU back. Stay slightly uncertain but you can be more direct. Their calling back is an implicit signal of curiosity.</div>
         </div>
       </div>
@@ -1367,7 +1367,7 @@
 
       <div class="stage-bridge" data-bridge-stage="0" style="display:none;background:var(--bg2);border:1px solid #1E88E5;border-radius:var(--radius);padding:12px 16px;margin:1.5rem 0 0.5rem;">
         <div style="font-size:10px;color:#1565C0;text-transform:uppercase;letter-spacing:0.1em;margin-bottom:6px;font-weight:700;">🌉 BRIDGE → Connection</div>
-        <div style="font-size:12.5px;color:var(--text2);line-height:1.6;">Closing question to open the connection: <em>"Would you be opposed to me asking you just a couple questions to see if what we do even applies to you?"</em> — low threat, gives them control.</div>
+        <div style="font-size:12.5px;font-weight:700;color:#FFFFFF;line-height:1.6;">Closing question to open the connection: <em>"Would you be opposed to me asking you just a couple questions to see if what we do even applies to you?"</em> — low threat, gives them control.</div>
       </div>
     </div><!-- end stage-10 -->
 
@@ -1526,7 +1526,7 @@
         <div class="section-label">If transferred — restart with the owner</div>
         <div class="turn">
           <div class="turn-role" style="color:var(--green)"><span class="role-dot" style="background:var(--green)"></span>You (when transferred)</div>
-          <div class="speech you" contenteditable="false">"Hey [Name]… yeah it's uh… [Your Name] from QuickGS Logistics… I was just talking to [their colleague] and they mentioned you'd be the right person to speak with… I'm not even sure if what we do applies to you at all, but I was hoping maybe you could just point me in the right direction?"</div>
+          <div class="speech you" contenteditable="false">"Hey <span data-token="first-name">[First Name]</span>… yeah it's uh… [Your Name] from QuickGS Logistics… I was just talking to [their colleague] and they mentioned you'd be the right person to speak with… I'm not even sure if what we do applies to you at all, but I was hoping maybe you could just point me in the right direction?"</div>
           <div class="tip">Fresh start with the owner. Mention the colleague's name for instant social proof. Then go right back into the warm-up script.</div>
         </div>
 
@@ -1588,9 +1588,104 @@
         </div>
       </div>
     
-      <div class="stage-bridge" data-bridge-stage="1" style="display:none;background:var(--bg2);border:1px solid #AB47BC;border-radius:var(--radius);padding:12px 16px;margin:1.5rem 0 0.5rem;">
+      
+      <div class="scenario-panel" id="conn-stall">
+        <div class="section-label">🔄 Stall Recovery — NEPQ responses for dry/one-word carriers</div>
+        <div class="scenario-group" style="margin-top:0.5rem;">
+          <div class="scenario-group-label">What type of stall? Pick the response</div>
+          <div class="scenario-btns">
+            <button class="scenario-btn" onclick="switchScenario('stall','break',this)"><span class="s-dot"></span>Break Pattern</button>
+            <button class="scenario-btn" onclick="switchScenario('stall','reengage',this)"><span class="s-dot"></span>Re-engage Interest</button>
+            <button class="scenario-btn" onclick="switchScenario('stall','soft',this)"><span class="s-dot"></span>Soft Pressure</button>
+            <button class="scenario-btn" onclick="switchScenario('stall','emotional',this)"><span class="s-dot"></span>Emotional Labeling</button>
+            <button class="scenario-btn" onclick="switchScenario('stall','qualify',this)"><span class="s-dot"></span>Quick Qualification</button>
+            <button class="scenario-btn alt" onclick="switchScenario('stall','exit',this)"><span class="s-dot"></span>Smooth Exit</button>
+          </div>
+        </div>
+        <div class="scenario-panel" id="stall-break">
+          <div class="turn"><div class="turn-role" style="color:var(--green)"><span class="role-dot" style="background:var(--green)"></span>You</div>
+          <div class="speech you" contenteditable="false"><span class="tone-tag tone-curious">Curious</span>"Let me ask you something different — forget what I called about for a second. With <span data-token="trucks-or-fleet">[trucks]</span> running <span data-token="equipment-adj">[equipment]</span> right now… what's the one thing about the operation that keeps you up at night?"<span class="pause-mark">…[PAUSE]</span></div>
+          <div class="tip">Pattern interrupt. WHY: When someone gives you one-word answers they've put you in the "sales call" box. Asking about THEIR business breaks the script they expect. It's disarming because it's genuinely curious, not transactional.</div></div>
+        </div>
+        <div class="scenario-panel" id="stall-reengage">
+          <div class="turn"><div class="turn-role" style="color:var(--green)"><span class="role-dot" style="background:var(--green)"></span>You</div>
+          <div class="speech you" contenteditable="false"><span class="tone-tag tone-confused">Confused</span>"Yeah… I get the sense I might be catching you at a bad time — or maybe what I'm describing just doesn't apply to you. Can I ask which one it is?"<span class="pause-mark">…[PAUSE — they must answer]</span></div>
+          <div class="tip">Naming the resistance removes it. WHY: Forcing them to choose between "bad time" and "doesn't apply" makes them clarify. Either answer gives you information and re-engages them in the conversation.</div></div>
+        </div>
+        <div class="scenario-panel" id="stall-soft">
+          <div class="turn"><div class="turn-role" style="color:var(--green)"><span class="role-dot" style="background:var(--green)"></span>You</div>
+          <div class="speech you" contenteditable="false"><span class="tone-tag tone-curious">Curious</span>"And I'm not trying to push anything here — I'm genuinely just trying to understand if what we do even makes sense for <span data-token="company">[Company]</span>. Most carriers I talk to in <span data-token="state-short">[state]</span> either say it's exactly what they needed or it's not the right time. Which side are you on?"<span class="pause-mark">…[PAUSE]</span></div>
+          <div class="tip">Soft binary. WHY: "Which side are you on" forces a position without pressure. The social proof ("most carriers") normalizes both outcomes — they don't feel like they're failing by saying no.</div></div>
+        </div>
+        <div class="scenario-panel" id="stall-emotional">
+          <div class="turn"><div class="turn-role" style="color:var(--green)"><span class="role-dot" style="background:var(--green)"></span>You</div>
+          <div class="speech you" contenteditable="false"><span class="tone-tag tone-empathetic">Empathetic</span>"It sounds like you might be pretty slammed right now — like you've got a lot going on just keeping things moving."<span class="pause-mark">…[PAUSE — don't fill it]</span></div>
+          <div class="tip">Emotional labeling. WHY: Naming what they're feeling makes them feel understood, not sold to. If you're right, they open up. If you're wrong, they correct you — both outcomes re-engage the conversation.</div></div>
+        </div>
+        <div class="scenario-panel" id="stall-qualify">
+          <div class="turn"><div class="turn-role" style="color:var(--green)"><span class="role-dot" style="background:var(--green)"></span>You</div>
+          <div class="speech you" contenteditable="false"><span class="tone-tag tone-curious">Curious</span>"Real quick — and I'll get out of your hair — are you currently handling all your own dispatch and load booking, or do you have someone helping with that side?"<span class="pause-mark">…[PAUSE]</span></div>
+          <div class="tip">Quick qualification. WHY: A simple factual question is easy to answer even for disengaged prospects. It also gets you the intel you need to decide if it's worth continuing.</div></div>
+        </div>
+        <div class="scenario-panel" id="stall-exit">
+          <div class="turn"><div class="turn-role" style="color:var(--green)"><span class="role-dot" style="background:var(--green)"></span>You</div>
+          <div class="speech you" contenteditable="false"><span class="tone-tag tone-neutral">Neutral</span>"You know what — I can tell this isn't a great time. I'll let you go. I might try you again in a few weeks — and if it makes sense then, great. If not, no pressure at all."</div>
+          <div class="tip">Graceful exit. WHY: Leaving without pressure often triggers the prospect to re-engage ("wait, actually…"). And if not — you preserve the relationship for a future call when timing is better.</div></div>
+        </div>
+      </div>
+
+      <!-- C3: Leased to carrier objection -->
+      <div class="scenario-panel" id="obj-10">
+        <div class="section-label">Objection 10 — "I'm leased to a carrier / I have a company dispatcher"</div>
+        <div class="obj-card">
+          <div class="obj-q">I'm leased to a carrier — they handle all my dispatch.</div>
+          <div class="obj-layers">
+            <div class="obj-layer"><div class="layer-num">L1</div><div><div class="layer-text" contenteditable="false">"That makes sense — leasing is a solid setup for a lot of guys. Can I ask — are you locked in with them or is it more of an at-will arrangement?"</div><div class="layer-note">↳ Understand the flexibility. If they're locked in, there may be nothing to do. If at-will, there's a gap to explore.</div></div></div>
+            <div class="obj-layer"><div class="layer-num">L2</div><div><div class="layer-text" contenteditable="false">"And with that arrangement — do you feel like you have full visibility into what each load actually pays, or does the carrier handle the rate side completely?"</div><div class="layer-note">↳ The pain with leasing is often lack of rate transparency. Surface it with a question, not an accusation.</div></div></div>
+            <div class="obj-layer"><div class="layer-num">L3</div><div><div class="layer-text" contenteditable="false">"What would have to change in that arrangement for you to want to look at other options?"</div><div class="layer-note">↳ Future-pacing. They may not be ready now, but they'll remember this question when the lease situation gets frustrating.</div></div></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- C4: Track record / how long in business objection -->
+      <div class="scenario-panel" id="obj-11">
+        <div class="section-label">Objection 11 — "How long have you been around? / Do you have references?"</div>
+        <div class="obj-card">
+          <div class="obj-q">How long have you guys been in business? Do you have references I can check?</div>
+          <div class="obj-layers">
+            <div class="obj-layer"><div class="layer-num">L1</div><div><div class="layer-text" contenteditable="false">"That's a completely fair question — you should absolutely know who you're working with. We've been [X years] in the industry and we work with [N] active carriers right now."</div><div class="layer-note">↳ Answer it directly first. Don't deflect. Specificity builds credibility even if the numbers are modest.</div></div></div>
+            <div class="obj-layer"><div class="layer-num">L2</div><div><div class="layer-text" contenteditable="false">"And yes — I can connect you with a couple of carriers we work with who'd be happy to talk about their experience. Would that be helpful before you decide?"</div><div class="layer-note">↳ Offer references proactively. If you have them, this closes the objection entirely. If you don't, this is a gap to fix.</div></div></div>
+            <div class="obj-layer"><div class="layer-num">L3</div><div><div class="layer-text" contenteditable="false">"And honestly — the best reference is running one load with us. You'd see the rate we get, how we handle the broker, the paperwork. That tells you more than any testimonial. Would you be open to that?"</div><div class="layer-note">↳ Trial offer as the ultimate proof. Bypasses the need for references entirely.</div></div></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Objection 9 merged -->
+      <div class="scenario-panel" id="obj-12">
+        <div class="section-label">Objection 12 — "I run my own loads / I have my own broker contacts"</div>
+        <div class="obj-card">
+          <div class="obj-q">I already run my own loads. I have contacts. I don't need someone else doing that.</div>
+          <div class="obj-layers">
+            <div class="obj-layer"><div class="layer-num">L1</div><div>
+              <div class="layer-text" contenteditable="false"><span class="tone-tag tone-curious">Curious</span>"Oh that's actually great — so you've built those relationships yourself. Can I ask — when you're on the road, are you able to actively work those contacts and find loads at the same time? Or does one of those end up waiting?"<span class="pause-mark">…[PAUSE]</span></div>
+              <div class="tip">Don't challenge their contacts. Acknowledge them. The question surfaces the real problem — can't drive AND dispatch simultaneously.</div>
+            </div></div>
+            <div class="obj-layer"><div class="layer-num">L2</div><div>
+              <div class="layer-text" contenteditable="false"><span class="tone-tag tone-curious">Curious</span>"And those contacts — are they consistently giving you the rates you need on <span data-token="equipment-adj">[equipment]</span> out of <span data-token="state-short">[state]</span>? Or is there some variance in what you're getting load to load?"<span class="pause-mark">…[PAUSE]</span></div>
+              <div class="tip">Probe rate consistency. Even carriers with good contacts have variance. This surfaces the problem without attacking their contacts.</div>
+            </div></div>
+            <div class="obj-layer"><div class="layer-num">L3</div><div>
+              <div class="layer-text" contenteditable="false"><span class="tone-tag tone-certain">Certain</span>"That makes sense. And I'm not suggesting you drop your contacts — I'd never suggest that. What we'd actually do is work alongside them. You keep your relationships, we bring additional brokers and lanes to the table, and your dispatcher handles the back-and-forth so you're not splitting attention between the road and the phone. Does that framing make more sense?"</div>
+              <div class="tip">Reframe: not replacement — augmentation. We add to what they have. This eliminates the perceived threat to their relationships.</div>
+            </div></div>
+          </div>
+        </div>
+      </div>
+
+            
+<div class="stage-bridge" data-bridge-stage="1" style="display:none;background:var(--bg2);border:1px solid #AB47BC;border-radius:var(--radius);padding:12px 16px;margin:1.5rem 0 0.5rem;">
         <div style="font-size:10px;color:#6A1B9A;text-transform:uppercase;letter-spacing:0.1em;margin-bottom:6px;font-weight:700;">🌉 BRIDGE → Situation</div>
-        <div style="font-size:12.5px;color:var(--text2);line-height:1.6;">Transition line: <em>"So let me ask you — just so I understand your situation better…"</em> — signals a shift from rapport to discovery without breaking the flow.</div>
+        <div style="font-size:12.5px;font-weight:700;color:#FFFFFF;line-height:1.6;">Transition line: <em>"So let me ask you — just so I understand your situation better…"</em> — signals a shift from rapport to discovery without breaking the flow.</div>
       </div>
 </div>
 
@@ -1615,7 +1710,7 @@
 
       <div class="turn">
         <div class="turn-role" style="color:var(--green)"><span class="role-dot" style="background:var(--green)"></span>You</div>
-        <div class="speech you" contenteditable="false"><span class="tone-tag tone-curious">Curious</span>"So just to get a better picture — <span class="hl">how many trucks are you running right now?</span>"</div>
+        <div class="speech you" contenteditable="false"><span class="tone-tag tone-curious">Curious</span>"And just to confirm I'm working with the right picture — you're still running around <span class="hl" data-token="trucks-label">[X trucks]</span> out of <span data-token="state-short">[state]</span>, right? Or has that shifted at all?"</div>
       <div id="mileage-insight" style="display:none;font-size:11.5px;color:var(--text3);padding:4px 0 4px 3px;font-style:italic;border-left:2px solid var(--orange);padding-left:8px;margin:4px 0;"></div>
       <div class="tip" id="trucks-prefill-tip" style="display:none">You already know: <strong><span data-token="trucks-label">[X trucks]</span></strong> — <span data-token="fleet-signal">[utilization]</span>. Skip this question — instead say: <em>"I see you're running <span data-token="trucks-or-fleet">[X trucks]</span> out of <span data-token="state-short">[state]</span> — is that still the case?"</em> This signals you did your homework.</div>
       </div>
@@ -1758,7 +1853,7 @@
     </div>
       <div class="stage-bridge" data-bridge-stage="2" style="display:none;background:var(--bg2);border:1px solid #FF7043;border-radius:var(--radius);padding:12px 16px;margin:1.5rem 0 0.5rem;">
         <div style="font-size:10px;color:#E65100;text-transform:uppercase;letter-spacing:0.1em;margin-bottom:6px;font-weight:700;">🌉 BRIDGE → Problem Awareness</div>
-        <div style="font-size:12.5px;color:var(--text2);line-height:1.6;">Closing question to transition: <em>"And with everything you just described — the dispatching, finding loads, handling brokers — how's that been working out for you overall?"</em> — this opens the door to the pain.</div>
+        <div style="font-size:12.5px;font-weight:700;color:#FFFFFF;line-height:1.6;">Closing question to transition: <em>"And with everything you just described — the dispatching, finding loads, handling brokers — how's that been working out for you overall?"</em> — this opens the door to the pain.</div>
       </div>
 
 
@@ -1929,7 +2024,7 @@
 
       <div class="stage-bridge" data-bridge-stage="3" style="display:none;background:var(--bg2);border:1px solid #26A69A;border-radius:var(--radius);padding:12px 16px;margin:1.5rem 0 0.5rem;">
         <div style="font-size:10px;color:#00695C;text-transform:uppercase;letter-spacing:0.1em;margin-bottom:6px;font-weight:700;">🌉 BRIDGE → Solution Awareness</div>
-        <div style="font-size:12.5px;color:var(--text2);line-height:1.6;">Closing question to transition: <em>"So based on what you're describing — if you had someone handling all of that for <span data-token="trucks-or-fleet">[trucks]</span>, what would that actually change for you?"</em></div>
+        <div style="font-size:12.5px;font-weight:700;color:#FFFFFF;line-height:1.6;">Closing question to transition: <em>"So based on what you're describing — if you had someone handling all of that for <span data-token="trucks-or-fleet">[trucks]</span>, what would that actually change for you?"</em></div>
       </div>
 
 
@@ -2075,7 +2170,7 @@
     </div>
       <div class="stage-bridge" data-bridge-stage="4" style="display:none;background:var(--bg2);border:1px solid #EF5350;border-radius:var(--radius);padding:12px 16px;margin:1.5rem 0 0.5rem;">
         <div style="font-size:10px;color:#BF360C;text-transform:uppercase;letter-spacing:0.1em;margin-bottom:6px;font-weight:700;">🌉 BRIDGE → Consequence</div>
-        <div style="font-size:12.5px;color:var(--text2);line-height:1.6;">Closing question to transition: <em>"And how long has it been like this — running <span data-token="equipment-adj">[equipment]</span> out of <span data-token="state-short">[state]</span> and handling all of this yourself?"</em></div>
+        <div style="font-size:12.5px;font-weight:700;color:#FFFFFF;line-height:1.6;">Closing question to transition: <em>"And how long has it been like this — running <span data-token="equipment-adj">[equipment]</span> out of <span data-token="state-short">[state]</span> and handling all of this yourself?"</em></div>
       </div>
 
 
@@ -2106,25 +2201,25 @@
 
       <div class="turn">
         <div class="turn-role" style="color:var(--green)"><span class="role-dot" style="background:var(--green)"></span>You</div>
-        <div class="speech you" contenteditable="false"><span class="tone-tag tone-heavy">Heavy</span>"And beyond the rate side — how much time per week would you say is going into all the dispatch work for <span data-token="trucks-or-fleet">[trucks]</span>? Because that time has a cost too, right?"<span class="pause-mark">…[PAUSE]</span></div>
+        <div class="speech you" contenteditable="false"><span class="tone-tag tone-heavy">Heavy</span>"Beyond the rate side — how much time per week goes into all the dispatch work for <span data-token="trucks-or-fleet">[trucks]</span>? Because that time has a cost too, right?"<span class="pause-mark">…[PAUSE]</span></div>
         <div class="tip">Stack #2 — Time consequence. Pile on after financial pain. Don't rush to the next question.</div>
       </div>
 
       <div class="turn">
         <div class="turn-role" style="color:var(--green)"><span class="role-dot" style="background:var(--green)"></span>You</div>
-        <div class="speech you" contenteditable="false"><span class="tone-tag tone-heavy">Heavy</span>"And what does that do to you personally — like when you're sitting at the end of a long week and you've been running <span data-token="equipment-adj">[equipment]</span> AND doing all the admin work… how do you feel about where the business is heading?"<span class="pause-mark">…[PAUSE 4s]</span></div>
+        <div class="speech you" contenteditable="false"><span class="tone-tag tone-heavy">Heavy</span>"What does that actually do to you personally — like when you're sitting at the end of a long week and you've been running <span data-token="equipment-adj">[equipment]</span> AND doing all the admin work… how do you feel about where the business is heading?"<span class="pause-mark">…[PAUSE 4s]</span></div>
         <div class="tip">Stack #3 — Personal/emotional consequence. The NEPQ emotional consequence question. This one hits hardest. Let silence work.</div>
       </div>
 
       <div class="turn">
         <div class="turn-role" style="color:var(--green)"><span class="role-dot" style="background:var(--green)"></span>You</div>
-        <div class="speech you" contenteditable="false"><span class="tone-tag tone-heavy">Heavy</span>"And when you think about where you want <span data-token="company">[Company]</span> to be in 3 years — does this current situation move you toward that, or does it keep you stuck in the same place?"<span class="pause-mark">…[PAUSE — do NOT break it]</span></div>
+        <div class="speech you" contenteditable="false"><span class="tone-tag tone-heavy">Heavy</span>"When you picture where you want <span data-token="company">[Company]</span> to be in 3 years — does this current situation move you toward that, or does it keep you stuck in the same place?"<span class="pause-mark">…[PAUSE — do NOT break it]</span></div>
         <div class="tip">Stack #4 — Future identity. The NEPQ future-self question. They must verbalize the gap between where they are and where they want to be. This is the most powerful moment in the call.</div>
       </div>
 
       <div class="turn">
         <div class="turn-role" style="color:var(--green)"><span class="role-dot" style="background:var(--green)"></span>You</div>
-        <div class="speech you" contenteditable="false"><span class="tone-tag tone-heavy">Heavy</span>"I have to ask — and I'm asking because I genuinely want to understand — if you're <span data-token="age">[X years]</span> into this, and the situation is still the same… does that ever get to you? Like is there a moment where you think 'something needs to change'?"<span class="pause-mark">…[LONGEST PAUSE — 5-7s]</span></div>
+        <div class="speech you" contenteditable="false"><span class="tone-tag tone-heavy">Heavy</span>"I have to ask — and I'm asking because I genuinely want to understand — if a year or two from now nothing has changed for <span data-token="company">[Company]</span>… does that sit okay with you? Or is there a point where you feel something has to give?"<span class="pause-mark">…[LONGEST PAUSE — 5-7s]</span></div>
         <div class="tip">Stack #5 — Emotional consequence. The NEPQ "gut punch" question. Only use if they're deeply engaged. This forces them to connect emotionally with the cost of staying stuck. After their answer → go to Commitment immediately.</div>
       </div>
 
@@ -2182,7 +2277,11 @@
       </div>
 
       <div class="scenario-group">
-        <div class="scenario-group-label">Their response to future-pacing ("where do you see yourself in 12 months?")</div>
+        <div class="turn">
+          <div class="turn-role" style="color:var(--green)"><span class="role-dot" style="background:var(--green)"></span>You</div>
+          <div class="speech you" contenteditable="false"><span class="tone-tag tone-heavy">Heavy</span>"Let me ask you something — where do you see <span data-token="company">[Company]</span> in 12 months if nothing changes from where you are right now?"<span class="pause-mark">…[PAUSE — 4-5s]</span></div>
+          <div class="tip">Future-pacing question. WHY: Forces them to visualize staying stuck. The discomfort of that image — not your pitch — is what motivates change. Silence after this question is the strategy.</div>
+        </div>
         <div class="scenario-btns">
           <button class="scenario-btn active" onclick="switchScenario('cons', 'painstayed', this)"><span class="s-dot"></span>Same spot / want to change</button>
           <button class="scenario-btn alt" onclick="switchScenario('cons', 'doingwell', this)"><span class="s-dot"></span>"Actually doing well"</button>
@@ -2225,26 +2324,7 @@
 
       <!-- PER-SCENARIO FOLLOW-UP FLOWS -->
       <!-- After the opener, the prospect responds — select what you hear -->
-      <div class="scenario-group" id="consf-section" style="display:none;">
-        <div class="scenario-group-label">What do they say after your opener? Select to continue.</div>
-        <div class="scenario-btns">
-          <button class="scenario-btn" onclick="switchScenario('consf', 'grow', this)"><span class="s-dot"></span>They confirmed: want to grow / more trucks</button>
-          <button class="scenario-btn" onclick="switchScenario('consf', 'rates', this)"><span class="s-dot"></span>They confirmed: rates / money is the pain</button>
-          <button class="scenario-btn" onclick="switchScenario('consf', 'time', this)"><span class="s-dot"></span>They confirmed: time / admin is the pain</button>
-          <button class="scenario-btn" onclick="switchScenario('consf', 'loads', this)"><span class="s-dot"></span>They confirmed: inconsistent loads / dry spells</button>
-          <button class="scenario-btn" onclick="switchScenario('consf', 'cash', this)"><span class="s-dot"></span>They confirmed: cash flow / slow payments</button>
-          <button class="scenario-btn alt" onclick="switchScenario('consf', 'doingwell', this)"><span class="s-dot"></span>They say things are fine / doing well</button>
-        </div>
-      </div>
-
-      </div><!-- end consf-section -->
-
-      <!-- GROW FLEET follow-up -->
-      <div class="scenario-panel" id="consf-grow">
-        <div class="turn">
-          <div class="turn-role" style="color:var(--purple)"><span class="role-dot" style="background:var(--purple)"></span>Prospect</div>
-          <div class="speech them">"Time and money, honestly. I'm so busy keeping <span data-token="trucks-or-fleet">[trucks]</span> running I never have a clear enough picture to pull the trigger."</div>
-        </div>
+      >
         <div class="turn">
           <div class="turn-role" style="color:var(--green)"><span class="role-dot" style="background:var(--green)"></span>You</div>
           <div class="speech you" contenteditable="false"><span class="tone-tag tone-heavy">Heavy</span>"Yeah. And when you say time — how much of your week right now would you say goes into dispatching and admin instead of actually building toward that next truck?"<span class="pause-mark">…[PAUSE]</span></div>
@@ -2257,7 +2337,7 @@
         </div>
         <div class="turn">
           <div class="turn-role" style="color:var(--green)"><span class="role-dot" style="background:var(--green)"></span>You</div>
-          <div class="speech you" contenteditable="false"><span class="tone-tag tone-heavy">Heavy</span>"And if nothing changes in the next 12 months — <span data-token="company">[Company]</span> is still at <span data-token="trucks-or-fleet">[trucks]</span>, still doing everything yourself… is that the picture you're okay with?"<span class="pause-mark">…[PAUSE 5s — do NOT break it]</span></div>
+          <div class="speech you" contenteditable="false"><span class="tone-tag tone-heavy">Heavy</span>"If nothing changes in the next 12 months — <span data-token="company">[Company]</span> is still at <span data-token="trucks-or-fleet">[trucks]</span>, still doing everything yourself… is that the picture you're okay with?"<span class="pause-mark">…[PAUSE 5s — do NOT break it]</span></div>
           <div class="tip">The future-pace question. WHY: Zeigarnik Effect — the trailing implication forces them to complete the picture in their head. They must imagine still being stuck. If they say no, they've committed to change. Go to Commitment.</div>
         </div>
       </div>
@@ -2321,7 +2401,7 @@
         </div>
         <div class="turn">
           <div class="turn-role" style="color:var(--green)"><span class="role-dot" style="background:var(--green)"></span>You</div>
-          <div class="speech you" contenteditable="false"><span class="tone-tag tone-heavy">Heavy</span>"And across a year — with the dry spells you've described — what do you think <span data-token="company">[Company]</span> has actually lost in idle time, repositioning, and underpriced loads taken out of desperation?"<span class="pause-mark">…[PAUSE]</span></div>
+          <div class="speech you" contenteditable="false"><span class="tone-tag tone-heavy">Heavy</span>"Across a year — with the dry spells you've described — what do you think <span data-token="company">[Company]</span> has actually lost in idle time, repositioning, and underpriced loads taken out of desperation?"<span class="pause-mark">…[PAUSE]</span></div>
           <div class="tip">Annual framing amplifies the number. A $500 idle week becomes $15,000+ annually. Let them arrive at it.</div>
         </div>
         <div class="turn">
@@ -2374,7 +2454,7 @@
 
       <div class="stage-bridge" data-bridge-stage="5" style="display:none;background:var(--bg2);border:1px solid #FFA726;border-radius:var(--radius);padding:12px 16px;margin:1.5rem 0 0.5rem;">
         <div style="font-size:10px;color:#F57F17;text-transform:uppercase;letter-spacing:0.1em;margin-bottom:6px;font-weight:700;">🌉 BRIDGE → Commitment</div>
-        <div style="font-size:12.5px;color:var(--text2);line-height:1.6;">Closing question to transition: <em>"So based on everything you've described — is changing this actually important to you, or is it something you're okay with staying the way it is?"</em> — force a verbal position.</div>
+        <div style="font-size:12.5px;font-weight:700;color:#FFFFFF;line-height:1.6;">Closing question to transition: <em>"With everything you've shared — is changing this actually important to you, or is it something you're okay with staying the way it is?"</em> — force a verbal position.</div>
       </div>
 
 
@@ -2399,7 +2479,7 @@
 
       <div class="turn">
         <div class="turn-role" style="color:var(--green)"><span class="role-dot" style="background:var(--green)"></span>You</div>
-        <div class="speech you" contenteditable="false"><span class="tone-tag tone-certain">Certain</span>"So based on everything you just shared — <span data-token="trucks-or-fleet">[trucks]</span> on <span data-token="equipment-adj">[equipment]</span>, the time you're spending, <span data-token="rate-upside">[rate-upside]</span>/yr in rate improvement sitting on the table — <span class="hl">is fixing this a priority for you right now, or is it something you're okay leaving the way it is?</span>"<span class="pause-mark">…[PAUSE — do NOT speak first. Let them choose.]</span></div>
+        <div class="speech you" contenteditable="false"><span class="tone-tag tone-certain">Certain</span>"Here's what I'm hearing — <span data-token="trucks-or-fleet">[trucks]</span> on <span data-token="equipment-adj">[equipment]</span>, the time you're spending, <span data-token="rate-upside">[rate-upside]</span>/yr in rate improvement sitting on the table — <span class="hl">is fixing this a priority for you right now, or is it something you're okay leaving the way it is?</span>"<span class="pause-mark">…[PAUSE — do NOT speak first. Let them choose.]</span></div>
         <div class="tip">"Priority vs someday" — forces binary self-categorization. WHY: NEPQ never asks "are you ready to move forward?" — that's a threat. Instead, it offers two choices, both of which reveal where they stand. If they say "priority" — you have explicit permission to pitch. If they say "someday" — you know not to pitch (which would be premature and damaging). You also know whether to follow up or disqualify. This single question saves hours of pursuing the wrong prospects. Don't chase maybes.</div>
       </div>
 
@@ -2520,7 +2600,7 @@
     </div>
       <div class="stage-bridge" data-bridge-stage="6" style="display:none;background:var(--bg2);border:1px solid #66BB6A;border-radius:var(--radius);padding:12px 16px;margin:1.5rem 0 0.5rem;">
         <div style="font-size:10px;color:var(--text3);text-transform:uppercase;letter-spacing:0.1em;margin-bottom:6px;">🌉 BRIDGE → Presentation</div>
-        <div style="font-size:12.5px;color:var(--text2);line-height:1.6;">Transition line: <em>"Okay — so let me tell you exactly how we'd handle that for <span data-token="company">[Company]</span>…"</em> — short, direct, no fanfare.</div>
+        <div style="font-size:12.5px;font-weight:700;color:#FFFFFF;line-height:1.6;">Transition line: <em>"Okay — so let me tell you exactly how we'd handle that for <span data-token="company">[Company]</span>…"</em> — short, direct, no fanfare.</div>
       </div>
 
 
@@ -2565,7 +2645,7 @@
 
       <div class="turn">
         <div class="turn-role" style="color:var(--green)"><span class="role-dot" style="background:var(--green)"></span>You — Check-in</div>
-        <div class="speech you" contenteditable="false"><span class="tone-tag tone-curious">Curious</span>"Does that sound like <span class="hl">it actually addresses what you were describing</span> — or is there something specific you'd want to know more about? And if you want to look us up while we're talking — it's <span class="hl-g">quickgslogistics.com</span> — everything's on there."</div>
+        <div class="speech you" contenteditable="false"><span class="tone-tag tone-curious">Curious</span>"Does that sound like <span class="hl">it actually addresses what you were describing</span> — or is there something specific you'd want to know more about? And if you want to look us up while we're talking — it's <span class="hl-g">quickgslogistics.com</span> — everything's on there. I'll send you a text message right now with the link."</div>
         <div class="tip">Check-in question every 2–3 points. If you monologue, you become every other salesperson. Stay in dialogue mode the entire time.</div>
       </div>
 
@@ -2594,15 +2674,49 @@
       <div class="scenario-panel" id="pres-question">
         <div class="turn">
           <div class="turn-role" style="color:var(--purple)"><span class="role-dot" style="background:var(--purple)"></span>Prospect</div>
-          <div class="speech them">"What kind of lanes do you cover? I'm mainly running the Midwest."</div>
+          <div class="speech them">"Yeah I actually have a question."</div>
         </div>
         <div class="turn">
           <div class="turn-role" style="color:var(--green)"><span class="role-dot" style="background:var(--green)"></span>You</div>
-          <div class="speech you" contenteditable="false">"We cover all 48 states, but your dispatcher would specialize in <span data-token="equipment-adj">[equipment]</span> loads specifically — so if you're running <span data-token="otr">OTR long-haul</span> out of <span data-token="state">[State]</span>, we know exactly what those lanes should pay and we push for it. <span class="hl">Is Midwest mainly where your trucks run, or do you go further out sometimes?</span>"</div>
-          <div class="tip">Answer the question directly, then bounce back with a question. Keeps the dialogue going and shows you actually know the market.</div>
+          <div class="speech you" contenteditable="false"><span class="tone-tag tone-curious">Curious</span>"Of course — go ahead, what's on your mind?"<span class="pause-mark">…[PAUSE — let them ask fully]</span></div>
+          <div class="tip">Don't anticipate or fill the silence. Their question reveals the real blocker. Listen completely before responding.</div>
         </div>
-      </div>
-
+        <div class="scenario-group" style="margin-top:0.75rem;">
+          <div class="scenario-group-label">Common questions at this stage — pick what they ask</div>
+          <div class="scenario-btns">
+            <button class="scenario-btn" onclick="switchScenario('presq','contract',this)"><span class="s-dot"></span>Is there a contract / commitment?</button>
+            <button class="scenario-btn" onclick="switchScenario('presq','results',this)"><span class="s-dot"></span>How fast do you find loads / what results?</button>
+            <button class="scenario-btn" onclick="switchScenario('presq','control',this)"><span class="s-dot"></span>Do I still control what loads I take?</button>
+            <button class="scenario-btn" onclick="switchScenario('presq','difference',this)"><span class="s-dot"></span>What makes you different from other dispatchers?</button>
+            <button class="scenario-btn alt" onclick="switchScenario('presq','generic',this)"><span class="s-dot"></span>Something else / generic question</button>
+          </div>
+        </div>
+        <div class="scenario-panel" id="presq-contract">
+          <div class="turn"><div class="turn-role" style="color:var(--green)"><span class="role-dot" style="background:var(--green)"></span>You</div>
+          <div class="speech you" contenteditable="false"><span class="tone-tag tone-certain">Certain</span>"No long-term contract. Week to week — if we're not delivering value, you're not locked in. The only thing we ask is giving it a real shot so we can actually show you the results. Does that answer it?"</div>
+          <div class="tip">No contract = zero risk objection eliminated before it forms. Week-to-week signals confidence in the service.</div></div>
+        </div>
+        <div class="scenario-panel" id="presq-results">
+          <div class="turn"><div class="turn-role" style="color:var(--green)"><span class="role-dot" style="background:var(--green)"></span>You</div>
+          <div class="speech you" contenteditable="false"><span class="tone-tag tone-certain">Certain</span>"Typically within the first week we've already found better rates than what you're currently seeing on <span data-token="equipment-adj">[equipment]</span> out of <span data-token="state-short">[state]</span>. Some carriers see it on day one. The goal is simple — move the needle on what <span data-token="company">[Company]</span> earns per mile, fast. Make sense?"</div>
+          <div class="tip">Specific to their equipment and state = credibility. "Day one" creates urgency without pressure.</div></div>
+        </div>
+        <div class="scenario-panel" id="presq-control">
+          <div class="turn"><div class="turn-role" style="color:var(--green)"><span class="role-dot" style="background:var(--green)"></span>You</div>
+          <div class="speech you" contenteditable="false"><span class="tone-tag tone-certain">Certain</span>"100% — you always have final say. We find the load, negotiate the rate, and bring it to you. Nothing gets booked without your approval. We add capacity to your operation — we're not replacing your judgment."</div>
+          <div class="tip">Control objection = fear of losing autonomy. "Nothing gets booked without your approval" is the key phrase.</div></div>
+        </div>
+        <div class="scenario-panel" id="presq-difference">
+          <div class="turn"><div class="turn-role" style="color:var(--green)"><span class="role-dot" style="background:var(--green)"></span>You</div>
+          <div class="speech you" contenteditable="false"><span class="tone-tag tone-certain">Certain</span>"Most dispatchers find loads. We negotiate rates, manage broker relationships, handle the paperwork, and stay on payments so you're not chasing invoices 60 days out. For <span data-token="trucks-or-fleet">[trucks]</span> on <span data-token="equipment-adj">[equipment]</span> — the difference usually shows up in the rate per mile within the first load."</div>
+          <div class="tip">Describe outcomes, not features. Tie it to their specific operation.</div></div>
+        </div>
+        <div class="scenario-panel" id="presq-generic">
+          <div class="turn"><div class="turn-role" style="color:var(--green)"><span class="role-dot" style="background:var(--green)"></span>You</div>
+          <div class="speech you" contenteditable="false"><span class="tone-tag tone-curious">Curious</span>"Good question. Let me make sure I'm answering exactly what you're asking — can you give me a bit more on what specifically you're wondering about?"<span class="pause-mark">…[PAUSE]</span></div>
+          <div class="tip">Never assume you know the question. Clarify first — their elaboration reveals the real concern.</div></div>
+        </div>
+      
       <div class="scenario-panel" id="pres-skeptical">
         <div class="turn">
           <div class="turn-role" style="color:var(--purple)"><span class="role-dot" style="background:var(--purple)"></span>Prospect</div>
@@ -2676,7 +2790,6 @@
           <div class="speech you" contenteditable="false">"Based on what you told me — <span data-token="trucks-or-fleet">[trucks]</span> running <span data-token="equipment-adj">[equipment]</span> — the <span class="hl">Full-Drive at $650/week per truck</span> is what most carriers your size go with. But if you want zero commitment to start, the 10% option means you pay nothing until we make you money. <span class="hl">Which of those feels like the better starting point?</span>"</div>
           <div class="tip">Recommend a specific plan using their data. WHY: Giving a recommendation reduces decision fatigue. The 10% option eliminates the "I can't afford it" objection before it forms — $0 upfront, they only pay when they earn.</div>
         </div>
-      </div>
 
       <!-- NEW: How fast -->
       <div class="scenario-panel" id="pres-howfast">
@@ -2686,17 +2799,14 @@
         </div>
         <div class="turn">
           <div class="turn-role" style="color:var(--green)"><span class="role-dot" style="background:var(--green)"></span>You</div>
-          <div class="speech you" contenteditable="false">"Fast — honestly we can have a dispatcher assigned to you within 24 to 48 hours of your onboarding form being submitted. The whole setup is done digitally. By the time your truck is ready to move again, we can already have loads lined up. <span class="hl">Would you want to at least get the process started this week?</span>"</div>
-          <div class="tip">Momentum close. They asked about speed — use that energy. The onboarding form ask is natural here.</div>
+          <div class="speech you" contenteditable="false"><span class="tone-tag tone-certain">Certain</span>"Fast — honestly we can have a dispatcher assigned to <span data-token="company">[Company]</span> within 24-48 hours. First load could be booked the same week. The onboarding is simple — we get your carrier packet, your lanes, your preferences, and we're off. I'll send you a text message right now with the form. What's your best email?"</div>
+          <div class="tip">Speed closes deals. WHY: "How fast" questions signal buying intent — they're already visualizing working with you. Give a specific timeline (24-48 hours, same week) and immediately move to onboarding. The text message + form request is the close.</div>
         </div>
       </div>
-    
-      <div class="stage-bridge" data-bridge-stage="7" style="display:none;background:var(--bg2);border:1px solid #5C6BC0;border-radius:var(--radius);padding:12px 16px;margin:1.5rem 0 0.5rem;">
-        <div style="font-size:10px;color:#283593;text-transform:uppercase;letter-spacing:0.1em;margin-bottom:6px;font-weight:700;">🌉 BRIDGE → Objection Handling</div>
-        <div style="font-size:12.5px;color:var(--text2);line-height:1.6;">Check-in before closing: <em>"Does that sound like it actually addresses what you were describing with <span data-token='trucks-or-fleet'>[trucks]</span> in <span data-token='state-short'>[state]</span>? Or is there something you'd want to think through first?"</em> — invite objections proactively. It's safer to surface them now.</div>
+      
       </div>
-</div>
-
+      </div>
+      </div>
     <!-- ===================== STAGE 7: OBJECTIONS ===================== -->
     <div class="stage" id="stage-7">
       <div style="background:var(--bg3);border:1px solid var(--border);border-radius:var(--radius-sm);padding:6px 12px;margin-bottom:1rem;font-size:11px;display:flex;flex-wrap:wrap;gap:10px;align-items:center;color:var(--text3);">
@@ -2733,8 +2843,8 @@
           <button class="scenario-btn alt" onclick="switchScenario('obj', '12', this)"><span class="s-dot"></span>I run my own loads / my own contacts</button>
           <button class="scenario-btn alt" onclick="switchScenario('obj', '13', this)"><span class="s-dot"></span>My rates are already good</button>
           <button class="scenario-btn alt" onclick="switchScenario('obj', '14', this)"><span class="s-dot"></span>I'm thinking about getting out of trucking</button>
+          <button class="scenario-btn alt" onclick="switchScenario('obj', 'toohigh', this)"><span class="s-dot"></span>💰 Price is too high / too expensive</button>
         </div>
-      </div>
 
       <div class="scenario-panel active" id="obj-1">
         <div class="section-label">Objection 1 — "I already have a dispatcher / I'm good right now"</div>
@@ -2746,7 +2856,6 @@
             <div class="obj-layer"><div class="layer-num">L3</div><div><div class="layer-text" contenteditable="false">"What would have to be different about what you have now for you to feel like it was working at the level you actually want?"</div><div class="layer-note">↳ Let them define the gap. If they describe it, they own it.</div></div></div>
           </div>
         </div>
-      </div>
 
       <div class="scenario-panel" id="obj-2">
         <div class="section-label">Objection 2 — "What's your percentage / How much do you charge?"</div>
@@ -2958,76 +3067,6 @@
 
       <!-- Objection 9 — I already have my broker relationships (content follows obj-10 in DOM but panel is targeted by button) -->
       <!-- NEPQ Stall Recovery Loop -->
-      <div class="scenario-panel" id="conn-stall">
-        <div class="section-label">🔄 NEPQ Stall Recovery — One-word answers / silence / disengaged</div>
-        <div class="turn">
-          <div class="turn-role" style="color:var(--purple)"><span class="role-dot" style="background:var(--purple)"></span>Prospect</div>
-          <div class="speech them">"Yeah." / "Uh-huh." / [silence] / "I don't know."</div>
-        </div>
-        <div class="turn">
-          <div class="turn-role" style="color:var(--green)"><span class="role-dot" style="background:var(--green)"></span>You</div>
-          <div class="speech you" contenteditable="false"><span class="tone-tag tone-curious">Curious</span>"Yeah… I want to make sure I'm understanding you right — when you say that, what do you mean exactly?"<span class="pause-mark">…[PAUSE — they must fill it]</span></div>
-          <div class="tip">The NEPQ clarification loop. Never interpret a one-word answer — always ask them to expand. "What do you mean exactly?" forces elaboration.</div>
-        </div>
-        <div class="turn">
-          <div class="turn-role" style="color:var(--green)"><span class="role-dot" style="background:var(--green)"></span>You (if still stalled)</div>
-          <div class="speech you" contenteditable="false"><span class="tone-tag tone-confused">Confused</span>"Can I ask — and I want to be direct with you — is there something about this conversation that doesn't feel right? Because I'd rather know now than waste your time."<span class="pause-mark">…[PAUSE]</span></div>
-          <div class="tip">The NEPQ disarmer. Naming the resistance removes it. Most prospects respect the directness and open up. If they confirm disinterest — exit gracefully.</div>
-        </div>
-        <div class="turn">
-          <div class="turn-role" style="color:var(--green)"><span class="role-dot" style="background:var(--green)"></span>You (re-engage attempt)</div>
-          <div class="speech you" contenteditable="false"><span class="tone-tag tone-curious">Curious</span>"Let me ask you something different — forget about what I'm calling about for a second. With <span data-token="trucks-or-fleet">[trucks]</span> running <span data-token="equipment-adj">[equipment]</span> out of <span data-token="state-short">[state]</span> right now — what's the ONE thing about the business that keeps you up at night?"<span class="pause-mark">…[PAUSE 5s]</span></div>
-          <div class="tip">The pattern reset. Take them completely off the "sales call" mental model. Ask about THEIR business concern, not yours. Uses their data to show you know their operation.</div>
-        </div>
-      </div>
-
-      <!-- C3: Leased to carrier objection -->
-      <div class="scenario-panel" id="obj-10">
-        <div class="section-label">Objection 10 — "I'm leased to a carrier / I have a company dispatcher"</div>
-        <div class="obj-card">
-          <div class="obj-q">I'm leased to a carrier — they handle all my dispatch.</div>
-          <div class="obj-layers">
-            <div class="obj-layer"><div class="layer-num">L1</div><div><div class="layer-text" contenteditable="false">"That makes sense — leasing is a solid setup for a lot of guys. Can I ask — are you locked in with them or is it more of an at-will arrangement?"</div><div class="layer-note">↳ Understand the flexibility. If they're locked in, there may be nothing to do. If at-will, there's a gap to explore.</div></div></div>
-            <div class="obj-layer"><div class="layer-num">L2</div><div><div class="layer-text" contenteditable="false">"And with that arrangement — do you feel like you have full visibility into what each load actually pays, or does the carrier handle the rate side completely?"</div><div class="layer-note">↳ The pain with leasing is often lack of rate transparency. Surface it with a question, not an accusation.</div></div></div>
-            <div class="obj-layer"><div class="layer-num">L3</div><div><div class="layer-text" contenteditable="false">"What would have to change in that arrangement for you to want to look at other options?"</div><div class="layer-note">↳ Future-pacing. They may not be ready now, but they'll remember this question when the lease situation gets frustrating.</div></div></div>
-          </div>
-        </div>
-      </div>
-
-      <!-- C4: Track record / how long in business objection -->
-      <div class="scenario-panel" id="obj-11">
-        <div class="section-label">Objection 11 — "How long have you been around? / Do you have references?"</div>
-        <div class="obj-card">
-          <div class="obj-q">How long have you guys been in business? Do you have references I can check?</div>
-          <div class="obj-layers">
-            <div class="obj-layer"><div class="layer-num">L1</div><div><div class="layer-text" contenteditable="false">"That's a completely fair question — you should absolutely know who you're working with. We've been [X years] in the industry and we work with [N] active carriers right now."</div><div class="layer-note">↳ Answer it directly first. Don't deflect. Specificity builds credibility even if the numbers are modest.</div></div></div>
-            <div class="obj-layer"><div class="layer-num">L2</div><div><div class="layer-text" contenteditable="false">"And yes — I can connect you with a couple of carriers we work with who'd be happy to talk about their experience. Would that be helpful before you decide?"</div><div class="layer-note">↳ Offer references proactively. If you have them, this closes the objection entirely. If you don't, this is a gap to fix.</div></div></div>
-            <div class="obj-layer"><div class="layer-num">L3</div><div><div class="layer-text" contenteditable="false">"And honestly — the best reference is running one load with us. You'd see the rate we get, how we handle the broker, the paperwork. That tells you more than any testimonial. Would you be open to that?"</div><div class="layer-note">↳ Trial offer as the ultimate proof. Bypasses the need for references entirely.</div></div></div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Objection 9 merged -->
-      <div class="scenario-panel" id="obj-12">
-        <div class="section-label">Objection 12 — "I run my own loads / I have my own broker contacts"</div>
-        <div class="obj-card">
-          <div class="obj-q">I already run my own loads. I have contacts. I don't need someone else doing that.</div>
-          <div class="obj-layers">
-            <div class="obj-layer"><div class="layer-num">L1</div><div>
-              <div class="layer-text" contenteditable="false"><span class="tone-tag tone-curious">Curious</span>"Oh that's actually great — so you've built those relationships yourself. Can I ask — when you're on the road, are you able to actively work those contacts and find loads at the same time? Or does one of those end up waiting?"<span class="pause-mark">…[PAUSE]</span></div>
-              <div class="tip">Don't challenge their contacts. Acknowledge them. The question surfaces the real problem — can't drive AND dispatch simultaneously.</div>
-            </div></div>
-            <div class="obj-layer"><div class="layer-num">L2</div><div>
-              <div class="layer-text" contenteditable="false"><span class="tone-tag tone-curious">Curious</span>"And those contacts — are they consistently giving you the rates you need on <span data-token="equipment-adj">[equipment]</span> out of <span data-token="state-short">[state]</span>? Or is there some variance in what you're getting load to load?"<span class="pause-mark">…[PAUSE]</span></div>
-              <div class="tip">Probe rate consistency. Even carriers with good contacts have variance. This surfaces the problem without attacking their contacts.</div>
-            </div></div>
-            <div class="obj-layer"><div class="layer-num">L3</div><div>
-              <div class="layer-text" contenteditable="false"><span class="tone-tag tone-certain">Certain</span>"That makes sense. And I'm not suggesting you drop your contacts — I'd never suggest that. What we'd actually do is work alongside them. You keep your relationships, we bring additional brokers and lanes to the table, and your dispatcher handles the back-and-forth so you're not splitting attention between the road and the phone. Does that framing make more sense?"</div>
-              <div class="tip">Reframe: not replacement — augmentation. We add to what they have. This eliminates the perceived threat to their relationships.</div>
-            </div></div>
-          </div>
-        </div>
-      </div>
 
       <div class="scenario-panel" id="obj-13">
         <div class="section-label">Objection 13 — "My rates are already good / I do fine on my own"</div>
@@ -3083,12 +3122,70 @@
         </div>
       </div>
     </div>
+      
+      <div class="scenario-panel" id="obj-toohigh">
+        <div class="section-label">Objection — "Price is too high / too expensive"</div>
+        <div class="obj-card">
+          <div class="obj-q">That's more than I was expecting. / It's too expensive right now.</div>
+          <div class="obj-layers">
+            <div class="obj-layer"><div class="layer-num">L1</div><div>
+              <div class="layer-text" contenteditable="false"><span class="tone-tag tone-empathetic">Empathetic</span>"That's fair — and I want to make sure we find something that actually works. Can I ask — is it the weekly fee that feels like a stretch, or is it more about not being certain you'd see the return on it?"<span class="pause-mark">…[PAUSE]</span></div>
+              <div class="tip">Isolate first. "Can't afford" and "don't trust the ROI" need completely different responses. Never solve before you know which one you're dealing with.</div>
+            </div></div>
+            <div class="obj-layer"><div class="layer-num">L2</div><div>
+              <div class="layer-text" contenteditable="false"><span class="tone-tag tone-certain">Certain</span>"Here's what I'll say — we don't lower our rates. Not because we're rigid, but because our pricing reflects what it costs to do this right. A dispatcher cutting corners on price cuts corners on your freight. What we CAN do is match you to the option that fits where you're at right now."</div>
+              <div class="tip">Never discount. It signals low value and sets a bad precedent. Redirect to plan options — that's right-sizing, not discounting. The key line: "match you to the option that fits."</div>
+            </div></div>
+            <div class="obj-layer"><div class="layer-num">L3</div><div>
+              <div class="layer-text" contenteditable="false"><span class="tone-tag tone-certain">Certain</span>"Let me walk you through the four ways we work — one of them is going to make a lot more sense for where <span data-token="company">[Company]</span> is right now."</div>
+              <div class="tip">Transition to plans. If they can't fit any of the four options, they're not the right client — and that's okay to know now.</div>
+            </div></div>
+          </div>
+        </div>
+        <div class="obj-card" style="margin-top:0.75rem;">
+          <div class="obj-q" style="color:var(--teal);margin-bottom:10px;">📋 Four ways to work with QuickGS</div>
+          <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(185px,1fr));gap:8px;font-size:11.5px;">
+            <div style="background:var(--bg3);border:1px solid #E6510044;border-radius:6px;padding:9px 11px;position:relative;">
+              <div style="position:absolute;top:-7px;right:6px;background:#E65100;color:#fff;font-size:8.5px;font-weight:700;padding:1px 6px;border-radius:8px;text-transform:uppercase;">Zero Risk</div>
+              <div style="font-weight:700;color:var(--text);margin-bottom:2px;">10% Per Load</div>
+              <div style="color:var(--text3);font-size:10.5px;margin-bottom:4px;">No weekly fee · Pay when you earn</div>
+              <div style="color:var(--text2);font-size:11px;">Full dispatch service. Zero upfront. You pay nothing until we move freight.</div>
+            </div>
+            <div style="background:var(--bg3);border:1px solid var(--border2);border-radius:6px;padding:9px 11px;">
+              <div style="font-weight:700;color:var(--text);margin-bottom:2px;">Solo Runner — $500/wk</div>
+              <div style="color:var(--text3);font-size:10.5px;margin-bottom:4px;">1 truck · Owner-ops · Per truck/week</div>
+              <div style="color:var(--text2);font-size:11px;">Load search, rate negotiation, basic routing.</div>
+            </div>
+            <div style="background:var(--bg3);border:1px solid #26A69A44;border-radius:6px;padding:9px 11px;position:relative;">
+              <div style="position:absolute;top:-7px;right:6px;background:var(--teal);color:#fff;font-size:8.5px;font-weight:700;padding:1px 6px;border-radius:8px;text-transform:uppercase;">Popular</div>
+              <div style="font-weight:700;color:var(--text);margin-bottom:2px;">Full-Drive — $650/wk</div>
+              <div style="color:var(--text3);font-size:10.5px;margin-bottom:4px;">Stay in the cab · Zero paperwork</div>
+              <div style="color:var(--text2);font-size:11px;">Load booking, broker setup, COI, detention, 24/7 support. Per truck.</div>
+            </div>
+            <div style="background:var(--bg3);border:1px solid var(--border2);border-radius:6px;padding:9px 11px;">
+              <div style="font-weight:700;color:var(--text);margin-bottom:2px;">Elite Fleet — $700/wk</div>
+              <div style="color:var(--text3);font-size:10.5px;margin-bottom:4px;">Fleets · Full back-office · Per truck</div>
+              <div style="color:var(--text2);font-size:11px;">Full-Drive + invoicing, factoring, IFTA tracking.</div>
+            </div>
+          </div>
+          <div style="margin-top:8px;padding-top:7px;border-top:1px solid var(--border);font-size:11px;color:var(--text2);">
+            <strong style="color:var(--text);">Key point:</strong> We don't lower our rates — quality has a cost. We match you to the right option. Start with 10% — zero risk, and once you see results you can always move to a plan.
+          </div>
+        </div>
+        <div class="turn" style="margin-top:0.75rem;">
+          <div class="turn-role" style="color:var(--green)"><span class="role-dot" style="background:var(--green)"></span>You (after showing plans)</div>
+          <div class="speech you" contenteditable="false"><span class="tone-tag tone-curious">Curious</span>"Of those four — which one feels like the right starting point for <span data-token="company">[Company]</span> right now?"<span class="pause-mark">…[PAUSE — let them choose]</span></div>
+          <div class="tip">Binary or plan-choice close. Don't pitch further. The 10% option almost always wins the hesitant carrier — once they see results they upgrade. Silence after this question is the strategy.</div>
+        </div>
+      </div>
       <div class="stage-bridge" data-bridge-stage="8" style="display:none;background:var(--bg2);border:1px solid #43A047;border-radius:var(--radius);padding:12px 16px;margin:1.5rem 0 0.5rem;">
         <div style="font-size:10px;color:#1B5E20;text-transform:uppercase;letter-spacing:0.1em;margin-bottom:6px;font-weight:700;">🌉 BRIDGE → Close</div>
-        <div style="font-size:12.5px;color:var(--text2);line-height:1.6;">Closing check-in: <em>"Does that sound like it actually addresses what you were describing with <span data-token="trucks-or-fleet">[trucks]</span> in <span data-token="state-short">[state]</span>?"</em> — get a yes before asking for the close.</div>
+        <div style="font-size:12.5px;font-weight:700;color:#FFFFFF;line-height:1.6;">Closing check-in: <em>"Does that sound like it actually addresses what you were describing with <span data-token="trucks-or-fleet">[trucks]</span> in <span data-token="state-short">[state]</span>?"</em> — get a yes before asking for the close.</div>
       </div>
 
 
+      </div>
+      </div>
     <!-- ===================== STAGE 8: CLOSE + SMS ===================== -->
     <div class="stage" id="stage-8">
       <div style="background:var(--bg3);border:1px solid var(--border);border-radius:var(--radius-sm);padding:6px 12px;margin-bottom:1rem;font-size:11px;display:flex;flex-wrap:wrap;gap:10px;align-items:center;color:var(--text3);">
@@ -3110,7 +3207,7 @@
 
       <div class="turn">
         <div class="turn-role" style="color:var(--green)"><span class="role-dot" style="background:var(--green)"></span>You — Emotional Check</div>
-        <div class="speech you" contenteditable="false">"So based on everything we've talked about — <span class="hl">does this feel like something</span> that could actually move the needle for <span data-token="company">[Company]</span>?"</div>
+        <div class="speech you" contenteditable="false">"Thinking about all of this — <span class="hl">does this feel like something</span> that could actually move the needle for <span data-token="company">[Company]</span>?"</div>
         <div class="tip">"Feel like" — emotional language, not transactional. WHY: "Do you want to sign up" activates the rational brain, which goes looking for reasons to say no. "Does this feel like it could move the needle" activates the emotional brain, which has already decided based on the conversation. NEPQ closes emotionally first — then the paperwork follows. People don't sign contracts; they make emotional decisions and then sign contracts to formalize them.</div>
       </div>
 
@@ -3228,7 +3325,7 @@
       </div>
 
       <!-- ===== SMS CLOSE — always send at end of every call ===== -->
-      <div class="section-label" style="margin-top:2rem">📱 End of every call — send this SMS</div>
+      <div class="section-label" style="margin-top:2rem">📱 End of every call — send this text message</div>
       <div style="font-size:11px;color:var(--text3);margin-bottom:6px;padding-left:2px;">📱 Sending to: <strong><span data-token="phone">[(307) 509-5759]</span></strong></div>
       <div class="speech sms-preview" id="smsLivePreview" style="margin-bottom:0.5rem">
         <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;">
@@ -3326,7 +3423,7 @@
           <div class="tp-item">
             <div class="tp-stage">CLOSE + SMS (Stage 9)</div>
             <div class="tp-tone">Light · Easy · No pressure</div>
-            <div class="tp-desc">The close should feel like a natural next step, not a moment of tension. "I'll send you a text right now" removes all friction. The SMS does the heavy lifting after the call.</div>
+            <div class="tp-desc">The close should feel like a natural next step, not a moment of tension. "I'll send you a text message right now" removes all friction. The SMS does the heavy lifting after the call.</div>
             <div class="tp-meter"><div class="tp-dot on"></div><div class="tp-dot on"></div><div class="tp-dot on"></div><div class="tp-dot"></div><div class="tp-dot"></div></div>
           </div>
         </div>
@@ -3356,7 +3453,6 @@
             "Would you be opposed to…"
           </div>
         </div>
-      </div>
       </div>
 
 
@@ -3643,6 +3739,16 @@ const originalTexts = new Map(); // key = element, value = original innerHTML
  // persists active scenario per group across stage visits
 
   function switchScenario(group, id, btn) {
+    if (group === 'sit') {
+      const truckMap = {'solo':'1','3truck':'3','5truck':'5','bigfleet':'10','newcarrier':'1'};
+      const trk = truckMap[id];
+      if (trk) {
+        const el = document.getElementById('pfTrucks');
+        if (el) el.value = trk;
+        document.querySelectorAll('.truck-btn').forEach(b => b.classList.toggle('on', b.dataset.val === trk));
+        setTimeout(updateDynamicSpeeches, 50);
+      }
+    }
     // Show consequence follow-up section when an opener is selected
     if (group === 'cons') {
       const s = document.getElementById('consf-section');
@@ -4142,7 +4248,7 @@ const originalTexts = new Map(); // key = element, value = original innerHTML
     const milLabel = milN > 0 ? Number(milN).toLocaleString() + ' miles/yr' : '';
 
     return {
-      name          : rawName      || '[Owner Name]',
+      name          : rawName      || '<span data-token="first-name">[First Name]</span>',
       'first-name'  : firstName,
       company       : document.getElementById('pfCompany').value.trim() || '[Company]',
       state         : rawState     || 'your area',
@@ -4312,7 +4418,11 @@ const originalTexts = new Map(); // key = element, value = original innerHTML
         case 'first-name':      val = d['first-name']; break;
         case 'company':         val = d.company; break;
         case 'state':           val = d.state; break;
-        case 'state-short':     val = d['state-short']; break;
+        case 'state-short':
+          if (d['state-short'] && d.state && d['state-short'] !== d.state) {
+            val = d['state-short'] + '-' + d.state;
+          } else { val = d['state-short'] || d.state || ''; }
+          break;
         case 'city':            val = d.city; break;
         case 'trucks':          val = d.trucks; break;
         case 'trucks-label':    val = d['trucks-label']; break;
@@ -4349,7 +4459,7 @@ const originalTexts = new Map(); // key = element, value = original innerHTML
 
     // Show pre-call intel box when carrier data is loaded
     const intelBox = document.getElementById('precall-intel');
-    const hasData = d.name !== '[Owner Name]' || d.company !== '[Company]' || d.dot !== '';
+    const hasData = d.name !== '<span data-token="first-name">[First Name]</span>' || d.company !== '[Company]' || d.dot !== '';
     if (intelBox) intelBox.style.display = hasData ? 'block' : 'none';
 
     // ── CONTACT REFERENCE BLOCK ─────────────────────────────
