@@ -701,7 +701,7 @@
     .stage-header { break-after: avoid; border-bottom: 1pt solid #ccc; padding-bottom: 8pt; margin-bottom: 12pt; }
     .speech { break-inside: avoid; border-left: 2pt solid #999 !important; padding: 6pt 10pt; margin-bottom: 6pt; background: none !important; border-radius: 0 !important; }
     .speech.them { border-left-color: #bbb !important; }
-    .scenario-panel { display: block !important; }
+    
     .scenario-group { display: none; }
     .tip { font-size: 9pt; color: #666; border-top: 0.5pt solid #ddd; padding-top: 4pt; margin-top: 4pt; }
     h2 { font-size: 14pt; }
@@ -954,6 +954,7 @@
   <div class="prospect-bar">
     <span class="pf-label">Prospect:</span>
     <input class="pf-field" id="pfName" placeholder="Name" oninput="updateDynamicSpeeches(); updateTopbarSub(); updateSmsPreview();" style="width:clamp(80px,115px,18vw)">
+    <input type="hidden" id="pfTrucks" value="">
     <input class="pf-field" id="pfCompany" placeholder="Company" oninput="updateDynamicSpeeches(); updateTopbarSub()" style="width:clamp(90px,135px,20vw)">
     <input class="pf-field" id="pfPhone" placeholder="Phone" style="width:clamp(80px,115px,18vw)"><button onclick="openWhatsApp()" title="Open WhatsApp with this number" style="background:var(--bg3);border:1px solid var(--border2);color:#25D366;border-radius:4px;padding:3px 8px;font-size:12px;cursor:pointer;flex-shrink:0;">WA</button>
     <span class="pf-label" style="margin-left:4px">Trucks:</span>
@@ -1635,52 +1636,10 @@
       </div>
 
       <!-- C3: Leased to carrier objection -->
-      <div class="scenario-panel" id="obj-10">
-        <div class="section-label">Objection 10 — "I'm leased to a carrier / I have a company dispatcher"</div>
-        <div class="obj-card">
-          <div class="obj-q">I'm leased to a carrier — they handle all my dispatch.</div>
-          <div class="obj-layers">
-            <div class="obj-layer"><div class="layer-num">L1</div><div><div class="layer-text" contenteditable="false">"That makes sense — leasing is a solid setup for a lot of guys. Can I ask — are you locked in with them or is it more of an at-will arrangement?"</div><div class="layer-note">↳ Understand the flexibility. If they're locked in, there may be nothing to do. If at-will, there's a gap to explore.</div></div></div>
-            <div class="obj-layer"><div class="layer-num">L2</div><div><div class="layer-text" contenteditable="false">"And with that arrangement — do you feel like you have full visibility into what each load actually pays, or does the carrier handle the rate side completely?"</div><div class="layer-note">↳ The pain with leasing is often lack of rate transparency. Surface it with a question, not an accusation.</div></div></div>
-            <div class="obj-layer"><div class="layer-num">L3</div><div><div class="layer-text" contenteditable="false">"What would have to change in that arrangement for you to want to look at other options?"</div><div class="layer-note">↳ Future-pacing. They may not be ready now, but they'll remember this question when the lease situation gets frustrating.</div></div></div>
-          </div>
-        </div>
-      </div>
 
       <!-- C4: Track record / how long in business objection -->
-      <div class="scenario-panel" id="obj-11">
-        <div class="section-label">Objection 11 — "How long have you been around? / Do you have references?"</div>
-        <div class="obj-card">
-          <div class="obj-q">How long have you guys been in business? Do you have references I can check?</div>
-          <div class="obj-layers">
-            <div class="obj-layer"><div class="layer-num">L1</div><div><div class="layer-text" contenteditable="false">"That's a completely fair question — you should absolutely know who you're working with. We've been [X years] in the industry and we work with [N] active carriers right now."</div><div class="layer-note">↳ Answer it directly first. Don't deflect. Specificity builds credibility even if the numbers are modest.</div></div></div>
-            <div class="obj-layer"><div class="layer-num">L2</div><div><div class="layer-text" contenteditable="false">"And yes — I can connect you with a couple of carriers we work with who'd be happy to talk about their experience. Would that be helpful before you decide?"</div><div class="layer-note">↳ Offer references proactively. If you have them, this closes the objection entirely. If you don't, this is a gap to fix.</div></div></div>
-            <div class="obj-layer"><div class="layer-num">L3</div><div><div class="layer-text" contenteditable="false">"And honestly — the best reference is running one load with us. You'd see the rate we get, how we handle the broker, the paperwork. That tells you more than any testimonial. Would you be open to that?"</div><div class="layer-note">↳ Trial offer as the ultimate proof. Bypasses the need for references entirely.</div></div></div>
-          </div>
-        </div>
-      </div>
 
       <!-- Objection 9 merged -->
-      <div class="scenario-panel" id="obj-12">
-        <div class="section-label">Objection 12 — "I run my own loads / I have my own broker contacts"</div>
-        <div class="obj-card">
-          <div class="obj-q">I already run my own loads. I have contacts. I don't need someone else doing that.</div>
-          <div class="obj-layers">
-            <div class="obj-layer"><div class="layer-num">L1</div><div>
-              <div class="layer-text" contenteditable="false"><span class="tone-tag tone-curious">Curious</span>"Oh that's actually great — so you've built those relationships yourself. Can I ask — when you're on the road, are you able to actively work those contacts and find loads at the same time? Or does one of those end up waiting?"<span class="pause-mark">…[PAUSE]</span></div>
-              <div class="tip">Don't challenge their contacts. Acknowledge them. The question surfaces the real problem — can't drive AND dispatch simultaneously.</div>
-            </div></div>
-            <div class="obj-layer"><div class="layer-num">L2</div><div>
-              <div class="layer-text" contenteditable="false"><span class="tone-tag tone-curious">Curious</span>"And those contacts — are they consistently giving you the rates you need on <span data-token="equipment-adj">[equipment]</span> out of <span data-token="state-short">[state]</span>? Or is there some variance in what you're getting load to load?"<span class="pause-mark">…[PAUSE]</span></div>
-              <div class="tip">Probe rate consistency. Even carriers with good contacts have variance. This surfaces the problem without attacking their contacts.</div>
-            </div></div>
-            <div class="obj-layer"><div class="layer-num">L3</div><div>
-              <div class="layer-text" contenteditable="false"><span class="tone-tag tone-certain">Certain</span>"That makes sense. And I'm not suggesting you drop your contacts — I'd never suggest that. What we'd actually do is work alongside them. You keep your relationships, we bring additional brokers and lanes to the table, and your dispatcher handles the back-and-forth so you're not splitting attention between the road and the phone. Does that framing make more sense?"</div>
-              <div class="tip">Reframe: not replacement — augmentation. We add to what they have. This eliminates the perceived threat to their relationships.</div>
-            </div></div>
-          </div>
-        </div>
-      </div>
 
             
 <div class="stage-bridge" data-bridge-stage="1" style="display:none;background:var(--bg2);border:1px solid #AB47BC;border-radius:var(--radius);padding:12px 16px;margin:1.5rem 0 0.5rem;">
@@ -2452,6 +2411,8 @@
         </div>
       </div>
 
+            <div id="consf-section" style="display:none;"></div>
+
       <div class="stage-bridge" data-bridge-stage="5" style="display:none;background:var(--bg2);border:1px solid #FFA726;border-radius:var(--radius);padding:12px 16px;margin:1.5rem 0 0.5rem;">
         <div style="font-size:10px;color:#F57F17;text-transform:uppercase;letter-spacing:0.1em;margin-bottom:6px;font-weight:700;">🌉 BRIDGE → Commitment</div>
         <div style="font-size:12.5px;font-weight:700;color:#FFFFFF;line-height:1.6;">Closing question to transition: <em>"With everything you've shared — is changing this actually important to you, or is it something you're okay with staying the way it is?"</em> — force a verbal position.</div>
@@ -2816,7 +2777,55 @@
         <span>📍 <span data-token="state">[state]</span></span>
         <span><span data-token="otr">[route]</span></span>
         <span><span data-token="age">[age]</span></span>
+      
+
+      <div class="scenario-panel" id="obj-10">
+        <div class="section-label">Objection 10 — "I'm leased to a carrier / I have a company dispatcher"</div>
+        <div class="obj-card">
+          <div class="obj-q">I'm leased to a carrier — they handle all my dispatch.</div>
+          <div class="obj-layers">
+            <div class="obj-layer"><div class="layer-num">L1</div><div><div class="layer-text" contenteditable="false">"That makes sense — leasing is a solid setup for a lot of guys. Can I ask — are you locked in with them or is it more of an at-will arrangement?"</div><div class="layer-note">↳ Understand the flexibility. If they're locked in, there may be nothing to do. If at-will, there's a gap to explore.</div></div></div>
+            <div class="obj-layer"><div class="layer-num">L2</div><div><div class="layer-text" contenteditable="false">"And with that arrangement — do you feel like you have full visibility into what each load actually pays, or does the carrier handle the rate side completely?"</div><div class="layer-note">↳ The pain with leasing is often lack of rate transparency. Surface it with a question, not an accusation.</div></div></div>
+            <div class="obj-layer"><div class="layer-num">L3</div><div><div class="layer-text" contenteditable="false">"What would have to change in that arrangement for you to want to look at other options?"</div><div class="layer-note">↳ Future-pacing. They may not be ready now, but they'll remember this question when the lease situation gets frustrating.</div></div></div>
+          </div>
+        </div>
       </div>
+    
+
+      <div class="scenario-panel" id="obj-11">
+        <div class="section-label">Objection 11 — "How long have you been around? / Do you have references?"</div>
+        <div class="obj-card">
+          <div class="obj-q">How long have you guys been in business? Do you have references I can check?</div>
+          <div class="obj-layers">
+            <div class="obj-layer"><div class="layer-num">L1</div><div><div class="layer-text" contenteditable="false">"That's a completely fair question — you should absolutely know who you're working with. We've been [X years] in the industry and we work with [N] active carriers right now."</div><div class="layer-note">↳ Answer it directly first. Don't deflect. Specificity builds credibility even if the numbers are modest.</div></div></div>
+            <div class="obj-layer"><div class="layer-num">L2</div><div><div class="layer-text" contenteditable="false">"And yes — I can connect you with a couple of carriers we work with who'd be happy to talk about their experience. Would that be helpful before you decide?"</div><div class="layer-note">↳ Offer references proactively. If you have them, this closes the objection entirely. If you don't, this is a gap to fix.</div></div></div>
+            <div class="obj-layer"><div class="layer-num">L3</div><div><div class="layer-text" contenteditable="false">"And honestly — the best reference is running one load with us. You'd see the rate we get, how we handle the broker, the paperwork. That tells you more than any testimonial. Would you be open to that?"</div><div class="layer-note">↳ Trial offer as the ultimate proof. Bypasses the need for references entirely.</div></div></div>
+          </div>
+        </div>
+      </div>
+    
+
+      <div class="scenario-panel" id="obj-12">
+        <div class="section-label">Objection 12 — "I run my own loads / I have my own broker contacts"</div>
+        <div class="obj-card">
+          <div class="obj-q">I already run my own loads. I have contacts. I don't need someone else doing that.</div>
+          <div class="obj-layers">
+            <div class="obj-layer"><div class="layer-num">L1</div><div>
+              <div class="layer-text" contenteditable="false"><span class="tone-tag tone-curious">Curious</span>"Oh that's actually great — so you've built those relationships yourself. Can I ask — when you're on the road, are you able to actively work those contacts and find loads at the same time? Or does one of those end up waiting?"<span class="pause-mark">…[PAUSE]</span></div>
+              <div class="tip">Don't challenge their contacts. Acknowledge them. The question surfaces the real problem — can't drive AND dispatch simultaneously.</div>
+            </div></div>
+            <div class="obj-layer"><div class="layer-num">L2</div><div>
+              <div class="layer-text" contenteditable="false"><span class="tone-tag tone-curious">Curious</span>"And those contacts — are they consistently giving you the rates you need on <span data-token="equipment-adj">[equipment]</span> out of <span data-token="state-short">[state]</span>? Or is there some variance in what you're getting load to load?"<span class="pause-mark">…[PAUSE]</span></div>
+              <div class="tip">Probe rate consistency. Even carriers with good contacts have variance. This surfaces the problem without attacking their contacts.</div>
+            </div></div>
+            <div class="obj-layer"><div class="layer-num">L3</div><div>
+              <div class="layer-text" contenteditable="false"><span class="tone-tag tone-certain">Certain</span>"That makes sense. And I'm not suggesting you drop your contacts — I'd never suggest that. What we'd actually do is work alongside them. You keep your relationships, we bring additional brokers and lanes to the table, and your dispatcher handles the back-and-forth so you're not splitting attention between the road and the phone. Does that framing make more sense?"</div>
+              <div class="tip">Reframe: not replacement — augmentation. We add to what they have. This eliminates the perceived threat to their relationships.</div>
+            </div></div>
+          </div>
+        </div>
+      </div>
+    </div>
       <div class="stage-header">
         <div class="stage-badge" style="background:var(--orange-dim);color:var(--orange)">08</div>
         <div class="stage-info">
@@ -3764,7 +3773,7 @@ const originalTexts = new Map(); // key = element, value = original innerHTML
     const srAnnounce = document.getElementById('sr-announce');
     if (srAnnounce) srAnnounce.textContent = 'Scenario changed to: ' + btn.textContent.trim();
     const container = btn.closest('.scenario-btns');
-    container.querySelectorAll('.scenario-btn').forEach(b => b.classList.remove('active'));
+    if (container) container.querySelectorAll('.scenario-btn').forEach(b => b.classList.remove('active'));
     btn.classList.add('active');
     const stage = document.getElementById(stageIds[current]);
     const panels = stage.querySelectorAll('.scenario-panel');
@@ -3845,7 +3854,7 @@ const originalTexts = new Map(); // key = element, value = original innerHTML
       const targetBtn = document.querySelector(`#stage-1 .scenario-btn[onclick*="'${targetScenario}'"]`);
       if (targetBtn) {
         const container = targetBtn.closest('.scenario-btns');
-        container.querySelectorAll('.scenario-btn').forEach(b => b.classList.remove('active'));
+        if (container) container.querySelectorAll('.scenario-btn').forEach(b => b.classList.remove('active'));
         targetBtn.classList.add('active');
         const panels = document.querySelectorAll('#stage-1 .scenario-panel');
         panels.forEach(p => p.classList.remove('active'));
